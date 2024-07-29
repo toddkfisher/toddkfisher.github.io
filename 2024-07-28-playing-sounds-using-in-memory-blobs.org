@@ -1,0 +1,91 @@
+#+title: Playing Sounds Using In-Memory BLOBS
+#+date: <2024-07-28 21:34>
+#+description:
+#+filetags: C Lisp Sound Region-Based-Memory-Management.
+
+*Summary:* I briefly describe how thread-based resource management
+is used in ~sound.c~ and how it will be modified to play preloaded sound files
+residing in memory.
+
+* SOUND PLAYBACK AND RESOURCE MANAGEMENT.
+  ~Miniaudio~ has a simple way of playing a sound file:
+  ~ma_engine_play_sound()~ which is adequate for asynchronously loading and
+  playing sounds.  We would like to preload sounds and play them from memory but
+  there is no simple high-level function for this.  We must resort to ~Miniaudio~'s
+  "low-level" API.
+
+  To play sounds through the low-level API we must:
+  1. Create an ~ma_decoder~ from a file or block of memory.  The decoder must
+     be configured for sample format, channel count, and sample rate.
+  2. An ~ma_device~ must be configured and initialized.  The device contains references
+     to the decoder created in step 1 as well as a callback function which uses the decoder to
+     provide ~Miniaudio~ with frames (a frame is a set of samples: one per channel).
+  3. Finally, we must start the device. This begins playing the sound.
+
+  Sound playback can be cancelled with ~ma_device_uninit()~ and ~ma_decoder_uninit()~ but
+  this /must not happen/ in the data callback, it must occur in another thread.
+  To overcome this restriction we have a seperate thread function, ~snd_cancel_thread()~:
+  which calls ~ma_(device|decoder)_uninit()~ when a condition ~g_cnd_cancel~ is
+  signalled.
+
+  In ~sound.c~,  devices and decoders  are stored in an  array: ~g_sound_list[]~.
+  Each entry  in ~g_sound_list[]~ is a  structure which holds an  "is available"
+  flag:
+
+ #+begin_example
+  typedef struct
+  {
+    ma_device        s_device;
+    ma_device_config s_device_config;
+    ma_decoder       s_decoder;
+    atomic_bool      s_cancel_sent;
+    atomic_bool      s_is_available;
+    int              s_idx_sound_list;
+  } sound_t;
+
+  // Array of sound resources.
+  // IF g_sound_list[i].s_is_available && !g_sound_list[i].s_cancel_sent THEN:
+  //   slot i may be used as a decoder and device to play a sound.
+  // NOTE that there is no free list of available slots.  The list must be scanned to find
+  // a free slot i.
+  #define MAX_SOUNDS 25
+  sound_t g_sound_list[MAX_SOUNDS];
+#+end_example
+
+  Sound playback is achieved  with ~snd_play_file_async()~ which finds an
+  index of an available device/decoder and then proceeds with steps 1-3 above.  And
+  the resources in ~g_sound_list[~ /<index>/ ~]~ are made unvailable.
+
+  Cancellation of a sound can occur when a sound has completed playing or during
+  playback.  ~snd_cancel_async()~ places the an index of an entry in ~g_sound_list[]~
+  onto ~g_cancel_list[]~ and signals ~g_cnd_cancel~ waking up the ~snd_cancel_thread()~.
+  A mutex, ~g_mtx_sound_list~, is used to synchronize access to ~g_sound_list[]~
+
+#+begin_example
+  // Indices into g_sound_list[] of sounds/resources to be cancelled & freed.
+  // Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
+  // are valid.
+  int g_cancel_list_end = 0;
+  int g_cancel_list[MAX_SOUNDS];
+
+  // Synchronize access to g_sound_list[] and g_cancel_list[].
+  pthread_mutex_t g_mtx_sound_list = PTHREAD_MUTEX_INITIALIZER;
+#+end_example
+
+  All of this functionality will eventually be used in LISP through ~CFFI~.
+
+* REGION-BASED MEMORY MANAGEMENT
+  We would prefer that our LISP code not call ~malloc()~ and ~free()~.  It is expected that
+  sounds will be loaded into memory when our program starts.
+
+  ~stk-alloc.c~ allocates memory blocks by simply advancing a pointer ~g_p_next~ when a
+  block is requested (~stkalloc_get_mem()~).  Calling ~stkalloc_free(p)~ adjusts ~g_p_next~
+  to ~p~ and so everything allocated after ~p~ is released as well.
+
+* PLAYING SOUNDS PRELOADED IN MEMORY
+  So far all of the code for sound playback lives in a test program, ~simple-playback.c~.
+  In today's livestream, we will:
+  1. Load several sound files into memory using ~libstackalloc~.
+  2. Provide some sort of UI for playing and cancelling sounds.
+
+----------

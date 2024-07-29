@@ -9,9 +9,135 @@
 <title>Writing a Game in Common Lisp and C</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">Writing a Game in Common Lisp and C</h1><p style="font-family: sans-serif;font-size: 225%; font-weight: bold; color: RebeccaPurple; text-align: left"><i>Notes to accompany livestreams.</i></p><style>body {       margin-right: 80px;       margin-left: 80px;       font-size: 18px;       font-family: sans-serif;}img {      border-style: solid;      border-color: grey;       border-width: 1px;      filter: drop-shadow(5px 5px 5px gray);}p {     width: 65%;    text-align: justify;     text-justify: inter-word; }pre {      border-style: solid;      border-color: grey;       border-width: 1px;       background-color: Lavender;      font-size: 75%;      max-width: 65%; }table, th, td {        border: 2px solid lightgrey;        border-collapse: collapse;}table { text-align: right; }th {      padding: 15px;     font-size: 105%;     border-bottom: 1px solid grey;}td {      font-family : monospace;     font-size: 100%;}.post-date {             font-weight: bold;             font-size: 110%;             color: RebeccaPurple;}</style><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script></div>
+<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">Writing a Game in Common Lisp and C</h1><p style="font-family: sans-serif;font-size: 225%; font-weight: bold; color: RebeccaPurple; text-align: left"><i>Notes to accompany livestreams.</i></p><style>body {       margin-right: 80px;       margin-left: 80px;       font-size: 18px;       font-family: sans-serif;}img {      border-style: solid;      border-color: grey;       border-width: 1px;      filter: drop-shadow(5px 5px 5px gray);}li {     width: 65%;     text-justify: inter-word;}p {     width: 65%;    text-align: justify;     text-justify: inter-word; }pre {      border-style: solid;      border-color: grey;       border-width: 1px;       background-color: Lavender;      font-size: 75%;      max-width: 65%; }table, th, td {        border: 2px solid lightgrey;        border-collapse: collapse;}table { text-align: right; }th {      padding: 15px;     font-size: 105%;     border-bottom: 1px solid grey;}td {      font-family : monospace;     font-size: 100%;}.post-date {             font-weight: bold;             font-size: 110%;             color: RebeccaPurple;}</style><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script></div>
 <div id="content">
 
+<div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-playing-sounds-using-in-memory-blobs.html">Playing Sounds Using In-Memory BLOBS</a></h1>
+<p>
+<b>Summary:</b> I briefly describe how thread-based resource management
+is used in <code>sound.c</code> and how it will be modified to play preloaded sound files
+residing in memory.
+</p>
+
+<div id="outline-container-orge891134" class="outline-2">
+<h2 id="orge891134"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<code>Miniaudio</code> has a simple way of playing a sound file:
+<code>ma_engine_play_sound()</code> which is adequate for asynchronously loading and
+playing sounds.  We would like to preload sounds and play them from memory but
+there is no simple high-level function for this.  We must resort to <code>Miniaudio</code>'s
+"low-level" API.
+</p>
+
+<p>
+To play sounds through the low-level API we must:
+</p>
+<ol class="org-ol">
+<li>Create an <code>ma_decoder</code> from a file or block of memory.  The decoder must
+be configured for sample format, channel count, and sample rate.</li>
+<li>An <code>ma_device</code> must be configured and initialized.  The device contains references
+to the decoder created in step 1 as well as a callback function which uses the decoder to
+provide <code>Miniaudio</code> with frames (a frame is a set of samples: one per channel).</li>
+<li>Finally, we must start the device. This begins playing the sound.</li>
+</ol>
+
+<p>
+Sound playback can be cancelled with <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> but
+this <i>must not happen</i> in the data callback, it must occur in another thread.
+To overcome this restriction we have a seperate thread function, <code>snd_cancel_thread()</code>:
+which calls <code>ma_(device|decoder)_uninit()</code> when a condition <code>g_cnd_cancel</code> is
+signalled.
+</p>
+
+<p>
+In <code>sound.c</code>,  devices and decoders  are stored in an  array: <code>g_sound_list[]</code>.
+Each entry  in <code>g_sound_list[]</code> is a  structure which holds an  "is available"
+flag:
+</p>
+
+<pre class="example" id="org563f461">
+typedef struct
+{
+  ma_device        s_device;
+  ma_device_config s_device_config;
+  ma_decoder       s_decoder;
+  atomic_bool      s_cancel_sent;
+  atomic_bool      s_is_available;
+  int              s_idx_sound_list;
+} sound_t;
+
+// Array of sound resources.
+// IF g_sound_list[i].s_is_available &amp;&amp; !g_sound_list[i].s_cancel_sent THEN:
+//   slot i may be used as a decoder and device to play a sound.
+// NOTE that there is no free list of available slots.  The list must be scanned to find
+// a free slot i.
+#define MAX_SOUNDS 25
+sound_t g_sound_list[MAX_SOUNDS];
+</pre>
+
+<p>
+Sound playback is achieved  with <code>snd_play_file_async()</code> which finds an
+index of an available device/decoder and then proceeds with steps 1-3 above.  And
+the resources in <code>g_sound_list[</code> <i>&lt;index&gt;</i> <code>]</code> are made unvailable.
+</p>
+
+<p>
+Cancellation of a sound can occur when a sound has completed playing or during
+playback.  <code>snd_cancel_async()</code> places the an index of an entry in <code>g_sound_list[]</code>
+onto <code>g_cancel_list[]</code> and signals <code>g_cnd_cancel</code> waking up the <code>snd_cancel_thread()</code>.
+A mutex, <code>g_mtx_sound_list</code>, is used to synchronize access to <code>g_sound_list[]</code>
+</p>
+
+<pre class="example" id="orgecd4287">
+// Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.
+// Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
+// are valid.
+int g_cancel_list_end = 0;
+int g_cancel_list[MAX_SOUNDS];
+
+// Synchronize access to g_sound_list[] and g_cancel_list[].
+pthread_mutex_t g_mtx_sound_list = PTHREAD_MUTEX_INITIALIZER;
+</pre>
+
+<p>
+All of this functionality will eventually be used in LISP through <code>CFFI</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3596f37" class="outline-2">
+<h2 id="org3596f37"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
+sounds will be loaded into memory when our program starts.
+</p>
+
+<p>
+<code>stk-alloc.c</code> allocates memory blocks by simply advancing a pointer <code>g_p_next</code> when a
+block is requested (<code>stkalloc_get_mem()</code>).  Calling <code>stkalloc_free(p)</code> adjusts <code>g_p_next</code>
+to <code>p</code> and so everything allocated after <code>p</code> is released as well.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org90162e1" class="outline-2">
+<h2 id="org90162e1"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
+In today's livestream, we will:
+</p>
+<ol class="org-ol">
+<li>Load several sound files into memory using <code>libstackalloc</code>.</li>
+<li>Provide some sort of UI for playing and cancelling sounds.</li>
+</ol>
+
+<hr>
+</div>
+</div>
+<div class="taglist"></div>
 <div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-first-blog-post.html">First Blog Post</a></h1>
 <p>
 <b>Summary:</b> This is a first test-post.  In the future each of my livestreams

@@ -1,13 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title><![CDATA[Writing a Game in Common Lisp and C]]></title>
-<description><![CDATA[Writing a Game in Common Lisp and C]]></description>
-<link>./</link>
-<lastBuildDate>Mon, 29 Jul 2024 14:03:58 -0700</lastBuildDate>
-<item>
-  <title><![CDATA[Playing Sounds Using In-Memory BLOBS]]></title>
-  <description><![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="./rss.xml"
+      title="RSS feed for ./">
+<title>Playing Sounds Using In-Memory BLOBS</title>
+</head>
+<body>
+<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">Writing a Game in Common Lisp and C</h1><p style="font-family: sans-serif;font-size: 225%; font-weight: bold; color: RebeccaPurple; text-align: left"><i>Notes to accompany livestreams.</i></p><style>body {       margin-right: 80px;       margin-left: 80px;       font-size: 18px;       font-family: sans-serif;}img {      border-style: solid;      border-color: grey;       border-width: 1px;      filter: drop-shadow(5px 5px 5px gray);}li {     width: 65%;}p {     width: 65%;    text-align: justify;     text-justify: inter-word; }pre {      border-style: solid;      border-color: grey;       border-width: 1px;       background-color: Lavender;      font-size: 75%;      max-width: 65%; }table, th, td {        border: 2px solid lightgrey;        border-collapse: collapse;}table { text-align: right; }th {      padding: 15px;     font-size: 105%;     border-bottom: 1px solid grey;}td {      font-family : monospace;     font-size: 100%;}.post-date {             font-weight: bold;             font-size: 110%;             color: RebeccaPurple;}</style><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script></div>
+<div id="content">
+<div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-playing-sounds-using-in-memory-blobs.html">Playing Sounds Using In-Memory BLOBS</a></h1>
 <p>
 <b>Summary:</b> I briefly describe how thread-based resource management
 is used in <code>sound.c</code> and how it will be modified to play preloaded sound files
@@ -132,59 +136,7 @@ In today's livestream, we will:
 <hr>
 </div>
 </div>
-<div class="taglist"></div>]]></description>
-  <link>./2024-07-28-playing-sounds-using-in-memory-blobs.html</link>
-  <guid>./2024-07-28-playing-sounds-using-in-memory-blobs.html</guid>
-  <pubDate>Sun, 28 Jul 2024 21:34:00 -0700</pubDate>
-</item>
-<item>
-  <title><![CDATA[First Blog Post]]></title>
-  <description><![CDATA[
-<p>
-<b>Summary:</b> This is a first test-post.  In the future each of my livestreams
-will have a companion blog post here.
-</p>
-
-<div id="outline-container-orgfbbdc65" class="outline-2">
-<h2 id="orgfbbdc65"><span class="section-number-2">1.</span> THE PROJECT</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-I'm writing a game in Common Lisp and C (using CFFI).
-So far I have:
-</p>
-<ol class="org-ol">
-<li>A basic UI with graphics.</li>
-<li>Sounds (played asynchronously).</li>
-<li>Simple (region-based) memory management to store sounds, bitmaps, sprites etc.</li>
-<li>Some supporting Lisp code.</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-orgb6e067f" class="outline-2">
-<h2 id="orgb6e067f"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
-<div class="outline-text-2" id="text-2">
-
-<figure id="org59e41cb">
-<img src="modules.jpg" alt="modules.jpg">
-
-<figcaption><span class="figure-number">Figure 1: </span>This diagram shows the approximate structure of the program.</figcaption>
-</figure>
-</div>
-</div>
-
-<div id="outline-container-org432f5be" class="outline-2">
-<h2 id="org432f5be"><span class="section-number-2">3.</span> SOURCE CODE</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-Github repository forthcoming.
-</p>
-</div>
-</div>
-<div class="taglist"></div>]]></description>
-  <link>./2024-07-28-first-blog-post.html</link>
-  <guid>./2024-07-28-first-blog-post.html</guid>
-  <pubDate>Sun, 28 Jul 2024 19:11:00 -0700</pubDate>
-</item>
-</channel>
-</rss>
+<div class="taglist"></div></div>
+<div id="postamble" class="status"></div>
+</body>
+</html>
