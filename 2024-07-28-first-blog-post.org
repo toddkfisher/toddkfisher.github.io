@@ -1,0 +1,43 @@
+#+title: First Blog Post
+#+date: <2024-07-28 19:11>
+#+description:
+#+filetags: Lisp C Games
+
+*Summary:* This is a first test-post.  In the future each of my livestreams
+will have a companion blog post here.
+
+* THE PROJECT
+  I'm writing a game in Common Lisp and C (using CFFI).
+  So far I have:
+  1. A basic UI with graphics.
+  2. Sounds (played asynchronously).
+  3. Simple (region-based) memory management to store sounds, bitmaps, sprites etc.
+  4. Some supporting Lisp code.
+
+* MODULE (OR PACKAGE) DEPENDENCIES.
+  #+begin_src dot :file ./modules.jpg :exports both :cmdline -Kdot -Tjpg
+    digraph modules {
+      graph [fontname="helvetica"];
+      node [fontname="helvetica"];
+      edge [fontname="helvetica"];
+      newbreakout -> sound;
+      newbreakout -> ui;
+      newbreakout -> colors;
+      newbreakout -> geometry;
+      newbreakout -> stackalloc;
+      sound -> stackalloc;
+      newbreakout [label="new-breakout.lisp"];
+      sound [label="sound.c"];
+      ui [label="ui.c"];
+      colors [label="colors.lisp"];
+      geometry [label="geometry.lisp"];
+      stackalloc [label="stk-alloc.c"];
+    }
+#+end_src
+
+#+CAPTION: This diagram shows the approximate structure of the program.
+#+RESULTS:
+[[file:./modules.jpg]]
+
+* SOURCE CODE
+  Github repository forthcoming.
