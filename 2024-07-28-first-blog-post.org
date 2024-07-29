@@ -15,7 +15,7 @@ will have a companion blog post here.
   4. Some supporting Lisp code.
 
 * MODULE (OR PACKAGE) DEPENDENCIES.
-  #+begin_src dot :file modules.jpg :cmdline -Kdot -Tjpg
+#+begin_src dot :file modules.jpg :cmdline -Kdot -Tjpg
     digraph modules {
       graph [fontname="helvetica"];
       node [fontname="helvetica"];
