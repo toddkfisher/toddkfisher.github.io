@@ -4,7 +4,7 @@
 <title><![CDATA[Writing a Game in Common Lisp and C]]></title>
 <description><![CDATA[Writing a Game in Common Lisp and C]]></description>
 <link>./</link>
-<lastBuildDate>Sun, 28 Jul 2024 21:16:17 -0700</lastBuildDate>
+<lastBuildDate>Sun, 28 Jul 2024 21:23:42 -0700</lastBuildDate>
 <item>
   <title><![CDATA[First Blog Post]]></title>
   <description><![CDATA[
@@ -13,8 +13,8 @@
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-org300d0f4" class="outline-2">
-<h2 id="org300d0f4"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-orge9173d7" class="outline-2">
+<h2 id="orge9173d7"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -29,11 +29,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org170c512" class="outline-2">
-<h2 id="org170c512"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-org295aefb" class="outline-2">
+<h2 id="org295aefb"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="org9d99354">
+<figure id="orge086d8b">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span>This diagram shows the approximate structure of the program.</figcaption>
@@ -41,8 +41,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org3531de0" class="outline-2">
-<h2 id="org3531de0"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-orgbe7faa7" class="outline-2">
+<h2 id="orgbe7faa7"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.
