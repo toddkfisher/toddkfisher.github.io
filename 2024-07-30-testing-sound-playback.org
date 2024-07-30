@@ -13,7 +13,7 @@ https://www.youtube.com/watch?v=8zS1ABTCTmo&t=191s
 I  have  a  small  test   program,  ~simple-playback.c~,  which  uses  Miniaudio
 (https://miniaud.io/)   for  asychronous   sound   playback  and   cancellation.
 ~simple-playback.c~  is  a  "wrapper"  around Miniaudio's  low-level  API.   The
-low-level  API  must  be  used  play sound  files  preloaded  into  memory  (see
+low-level  API  must  be  used  to play sound  files  preloaded  into  memory  (see
 [[file:2024-07-28-playing-sounds-using-in-memory-blobs.org][Livestream  post 28-July-24]])  The wrapper  code in  ~simple-playback.c~ will  be
 tested today  (hopefully) and I'll  begin moving functions prefixed  with ~snd_~
 over to the ~sound.c~ module.  ~sound.c~ compiles to ~libsound.so~.  Once that's

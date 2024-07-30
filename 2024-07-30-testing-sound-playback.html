@@ -76,14 +76,14 @@ td {
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
 </p>
 
-<div id="outline-container-org39ab289" class="outline-2">
-<h2 id="org39ab289"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org1539c30" class="outline-2">
+<h2 id="org1539c30"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
 (<a href="https://miniaud.io/">https://miniaud.io/</a>)   for  asychronous   sound   playback  and   cancellation.
 <code>simple-playback.c</code>  is  a  "wrapper"  around Miniaudio's  low-level  API.   The
-low-level  API  must  be  used  play sound  files  preloaded  into  memory  (see
+low-level  API  must  be  used  to play sound  files  preloaded  into  memory  (see
 <a href="2024-07-28-playing-sounds-using-in-memory-blobs.html">Livestream  post 28-July-24</a>)  The wrapper  code in  <code>simple-playback.c</code> will  be
 tested today  (hopefully) and I'll  begin moving functions prefixed  with <code>snd_</code>
 over to the <code>sound.c</code> module.  <code>sound.c</code> compiles to <code>libsound.so</code>.  Once that's
@@ -93,8 +93,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orge7cfdad" class="outline-2">
-<h2 id="orge7cfdad"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
+<div id="outline-container-orga11ca2c" class="outline-2">
+<h2 id="orga11ca2c"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -113,7 +113,7 @@ and produces the appropriate Lisp/CFFI <code>defcfun</code>.
 For example, the C function declaration:
 </p>
 
-<pre class="example" id="org77a1ff9">
+<pre class="example" id="org846334e">
 
 void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 
@@ -123,7 +123,7 @@ void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 Produces:
 </p>
 
-<pre class="example" id="org6d59b60">
+<pre class="example" id="org4d58e0d">
 (cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
               (timeout-ms :uint32)
               (delay-ms :uint32))
