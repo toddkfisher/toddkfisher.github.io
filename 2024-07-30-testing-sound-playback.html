@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="./rss.xml"
+      title="RSS feed for ./">
+<title>Testing Sound Playback</title>
+</head>
+<body>
+<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
+Writing a Game in Common Lisp and C
+</h1>
+<p style="font-family: sans-serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
+<i>Notes to accompany livestreams.</i></p><hr>
+<style>
+body {
+       margin-right: 80px;
+       margin-left: 80px;
+       font-size: 18px;
+       font-family: sans-serif;
+}
+img {
+      border-style: solid;
+      border-color: grey;
+      border-width: 1px;
+      filter: drop-shadow(5px 5px 5px gray);
+}
+li {
+     width: 65%;
+}
+p {
+    width: 65%;
+}
+pre {
+      border-style: solid;
+      border-color: grey;
+      border-width: 1px;
+      background-color: Lavender;
+      font-size: 75%;
+}
+table, th, td {
+        border: 2px solid lightgrey;
+        border-collapse: collapse;
+}
+table { text-align: right; }
+th {
+     padding: 15px;
+     font-size: 105%;
+     border-bottom: 1px solid grey;
+}
+td {
+     font-family : monospace;
+     font-size: 100%;
+}
+.post-date {
+             font-weight: bold;
+             font-size: 110%;
+             color: RebeccaPurple;
+}
+</style>
+<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script></div>
+<div id="content">
+<div class="post-date">30 Jul 2024</div><h1 class="post-title"><a href="./2024-07-30-testing-sound-playback.html">Testing Sound Playback</a></h1>
+<p>
+<b>Previous livestreams:</b>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=49ojU19ruHk">https://www.youtube.com/watch?v=49ojU19ruHk</a>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
+</p>
+
+<div id="outline-container-org39ab289" class="outline-2">
+<h2 id="org39ab289"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
+(<a href="https://miniaud.io/">https://miniaud.io/</a>)   for  asychronous   sound   playback  and   cancellation.
+<code>simple-playback.c</code>  is  a  "wrapper"  around Miniaudio's  low-level  API.   The
+low-level  API  must  be  used  play sound  files  preloaded  into  memory  (see
+<a href="2024-07-28-playing-sounds-using-in-memory-blobs.html">Livestream  post 28-July-24</a>)  The wrapper  code in  <code>simple-playback.c</code> will  be
+tested today  (hopefully) and I'll  begin moving functions prefixed  with <code>snd_</code>
+over to the <code>sound.c</code> module.  <code>sound.c</code> compiles to <code>libsound.so</code>.  Once that's
+complete, we should be able to use Lisp/CFFI to call exported functions from the
+Lisp REPL.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge7cfdad" class="outline-2">
+<h2 id="orge7cfdad"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
+program <code>cffi-gen.lisp</code> which parses a limited form of C function declarations:
+</p>
+
+<p>
+<i>&lt;type-name&gt; &lt;function-name&gt; <code>(</code> (<code>void</code> | &lt;parameter-list&gt;) <code>)</code> <code>//</code> <code>EXPORT</code> &lt;newline&gt;</i>
+</p>
+
+<p>
+and produces the appropriate Lisp/CFFI <code>defcfun</code>.
+</p>
+
+<p>
+For example, the C function declaration:
+</p>
+
+<pre class="example" id="org77a1ff9">
+
+void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
+
+</pre>
+
+<p>
+Produces:
+</p>
+
+<pre class="example" id="org6d59b60">
+(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
+              (timeout-ms :uint32)
+              (delay-ms :uint32))
+(export 'set-kbd-repeat)
+</pre>
+
+<p>
+when run through <code>cffi-gen.lisp</code>.
+</p>
+
+<p>
+<b>END</b>
+</p>
+<hr>
+</div>
+</div>
+<div class="taglist"></div></div>
+<div id="postamble" class="status"><hr></div>
+</body>
+</html>

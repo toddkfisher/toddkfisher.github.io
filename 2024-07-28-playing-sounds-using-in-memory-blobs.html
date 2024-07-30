@@ -9,17 +9,69 @@
 <title>Playing Sounds Using In-Memory BLOBS</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">Writing a Game in Common Lisp and C</h1><p style="font-family: sans-serif;font-size: 225%; font-weight: bold; color: RebeccaPurple; text-align: left"><i>Notes to accompany livestreams.</i></p><style>body {       margin-right: 80px;       margin-left: 80px;       font-size: 18px;       font-family: sans-serif;}img {      border-style: solid;      border-color: grey;       border-width: 1px;      filter: drop-shadow(5px 5px 5px gray);}li {     width: 65%;}p {     width: 65%;    text-align: justify;     text-justify: inter-word; }pre {      border-style: solid;      border-color: grey;       border-width: 1px;       background-color: Lavender;      font-size: 75%;      max-width: 65%; }table, th, td {        border: 2px solid lightgrey;        border-collapse: collapse;}table { text-align: right; }th {      padding: 15px;     font-size: 105%;     border-bottom: 1px solid grey;}td {      font-family : monospace;     font-size: 100%;}.post-date {             font-weight: bold;             font-size: 110%;             color: RebeccaPurple;}</style><script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script></div>
+<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
+Writing a Game in Common Lisp and C
+</h1>
+<p style="font-family: sans-serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
+<i>Notes to accompany livestreams.</i></p><hr>
+<style>
+body {
+       margin-right: 80px;
+       margin-left: 80px;
+       font-size: 18px;
+       font-family: sans-serif;
+}
+img {
+      border-style: solid;
+      border-color: grey;
+      border-width: 1px;
+      filter: drop-shadow(5px 5px 5px gray);
+}
+li {
+     width: 65%;
+}
+p {
+    width: 65%;
+}
+pre {
+      border-style: solid;
+      border-color: grey;
+      border-width: 1px;
+      background-color: Lavender;
+      font-size: 75%;
+}
+table, th, td {
+        border: 2px solid lightgrey;
+        border-collapse: collapse;
+}
+table { text-align: right; }
+th {
+     padding: 15px;
+     font-size: 105%;
+     border-bottom: 1px solid grey;
+}
+td {
+     font-family : monospace;
+     font-size: 100%;
+}
+.post-date {
+             font-weight: bold;
+             font-size: 110%;
+             color: RebeccaPurple;
+}
+</style>
+<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script></div>
 <div id="content">
 <div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-playing-sounds-using-in-memory-blobs.html">Playing Sounds Using In-Memory BLOBS</a></h1>
 <p>
-<b>Summary:</b> I briefly describe how thread-based resource management
-is used in <code>sound.c</code> and how it will be modified to play preloaded sound files
-residing in memory.
+<b>Summary:</b> I  briefly describe how  thread-based resource management is  used in
+<del><code>sound.c</code></del> <code>simple-playback.c</code>  and how it  will be modified to  play preloaded
+sound files residing in memory.
 </p>
 
-<div id="outline-container-orge891134" class="outline-2">
-<h2 id="orge891134"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org8dbeeb7" class="outline-2">
+<h2 id="org8dbeeb7"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -55,7 +107,7 @@ Each entry  in <code>g_sound_list[]</code> is a  structure which holds an  "is a
 flag:
 </p>
 
-<pre class="example" id="org563f461">
+<pre class="example" id="org926f887">
 typedef struct
 {
   ma_device        s_device;
@@ -68,7 +120,9 @@ typedef struct
 
 // Array of sound resources.
 // IF g_sound_list[i].s_is_available &amp;&amp; !g_sound_list[i].s_cancel_sent THEN:
+//
 //   slot i may be used as a decoder and device to play a sound.
+//
 // NOTE that there is no free list of available slots.  The list must be scanned to find
 // a free slot i.
 #define MAX_SOUNDS 25
@@ -88,7 +142,7 @@ onto <code>g_cancel_list[]</code> and signals <code>g_cnd_cancel</code> waking u
 A mutex, <code>g_mtx_sound_list</code>, is used to synchronize access to <code>g_sound_list[]</code>
 </p>
 
-<pre class="example" id="orgecd4287">
+<pre class="example" id="org522eed9">
 // Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.
 // Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
 // are valid.
@@ -105,8 +159,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org3596f37" class="outline-2">
-<h2 id="org3596f37"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org7918bd9" class="outline-2">
+<h2 id="org7918bd9"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -121,8 +175,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-org90162e1" class="outline-2">
-<h2 id="org90162e1"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-orgddded59" class="outline-2">
+<h2 id="orgddded59"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -133,6 +187,9 @@ In today's livestream, we will:
 <li>Provide some sort of UI for playing and cancelling sounds.</li>
 </ol>
 
+<p>
+<b>END</b>
+</p>
 <hr>
 </div>
 </div>

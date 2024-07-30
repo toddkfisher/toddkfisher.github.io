@@ -3,9 +3,9 @@
 #+description:
 #+filetags: C Lisp Sound Region-Based-Memory-Management.
 
-*Summary:* I briefly describe how thread-based resource management
-is used in ~sound.c~ and how it will be modified to play preloaded sound files
-residing in memory.
+*Summary:* I  briefly describe how  thread-based resource management is  used in
++~sound.c~+ ~simple-playback.c~  and how it  will be modified to  play preloaded
+sound files residing in memory.
 
 * SOUND PLAYBACK AND RESOURCE MANAGEMENT.
   ~Miniaudio~ has a simple way of playing a sound file:
@@ -45,7 +45,9 @@ residing in memory.
 
   // Array of sound resources.
   // IF g_sound_list[i].s_is_available && !g_sound_list[i].s_cancel_sent THEN:
+  //
   //   slot i may be used as a decoder and device to play a sound.
+  //
   // NOTE that there is no free list of available slots.  The list must be scanned to find
   // a free slot i.
   #define MAX_SOUNDS 25
@@ -88,4 +90,5 @@ residing in memory.
   1. Load several sound files into memory using ~libstackalloc~.
   2. Provide some sort of UI for playing and cancelling sounds.
 
+*END*
 ----------

@@ -1,0 +1,51 @@
+#+title: Testing Sound Playback
+#+date: <2024-07-30 12:54>
+#+description:
+#+filetags: sound miniaudio Lisp
+
+*Previous livestreams:*
+
+https://www.youtube.com/watch?v=49ojU19ruHk
+
+https://www.youtube.com/watch?v=8zS1ABTCTmo&t=191s
+
+* TODAY'S AGENDA
+I  have  a  small  test   program,  ~simple-playback.c~,  which  uses  Miniaudio
+(https://miniaud.io/)   for  asychronous   sound   playback  and   cancellation.
+~simple-playback.c~  is  a  "wrapper"  around Miniaudio's  low-level  API.   The
+low-level  API  must  be  used  play sound  files  preloaded  into  memory  (see
+[[file:2024-07-28-playing-sounds-using-in-memory-blobs.org][Livestream  post 28-July-24]])  The wrapper  code in  ~simple-playback.c~ will  be
+tested today  (hopefully) and I'll  begin moving functions prefixed  with ~snd_~
+over to the ~sound.c~ module.  ~sound.c~ compiles to ~libsound.so~.  Once that's
+complete, we should be able to use Lisp/CFFI to call exported functions from the
+Lisp REPL.
+
+* EXPORTING FUNCTIONS TO LISP
+A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
+program ~cffi-gen.lisp~ which parses a limited form of C function declarations:
+
+/<type-name> <function-name> ~(~ (~void~ | <parameter-list>) ~)~ ~//~ ~EXPORT~ <newline>/
+
+and produces the appropriate Lisp/CFFI ~defcfun~.
+
+For example, the C function declaration:
+
+#+begin_example
+
+void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
+
+#+end_example
+
+Produces:
+
+#+begin_example
+(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
+              (timeout-ms :uint32)
+              (delay-ms :uint32))
+(export 'set-kbd-repeat)
+#+end_example
+
+when run through ~cffi-gen.lisp~.
+
+*END*
+----------
