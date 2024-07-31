@@ -4,7 +4,7 @@
 <title><![CDATA[Writing a Game in Common Lisp and C]]></title>
 <description><![CDATA[Writing a Game in Common Lisp and C]]></description>
 <link>./</link>
-<lastBuildDate>Tue, 30 Jul 2024 16:32:05 -0700</lastBuildDate>
+<lastBuildDate>Tue, 30 Jul 2024 23:24:30 -0700</lastBuildDate>
 <item>
   <title><![CDATA[Testing Sound Playback]]></title>
   <description><![CDATA[
@@ -20,8 +20,8 @@
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
 </p>
 
-<div id="outline-container-org1539c30" class="outline-2">
-<h2 id="org1539c30"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org8013210" class="outline-2">
+<h2 id="org8013210"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -37,17 +37,20 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orga11ca2c" class="outline-2">
-<h2 id="orga11ca2c"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
+<div id="outline-container-org317c51a" class="outline-2">
+<h2 id="org317c51a"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
 program <code>cffi-gen.lisp</code> which parses a limited form of C function declarations:
 </p>
 
-<p>
-<i>&lt;type-name&gt; &lt;function-name&gt; <code>(</code> (<code>void</code> | &lt;parameter-list&gt;) <code>)</code> <code>//</code> <code>EXPORT</code> &lt;newline&gt;</i>
-</p>
+
+<figure id="orgd596f68">
+<img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
+
+<figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
+</figure>
 
 <p>
 and produces the appropriate Lisp/CFFI <code>defcfun</code>.
@@ -57,7 +60,7 @@ and produces the appropriate Lisp/CFFI <code>defcfun</code>.
 For example, the C function declaration:
 </p>
 
-<pre class="example" id="org846334e">
+<pre class="example" id="org730798b">
 
 void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 
@@ -67,7 +70,7 @@ void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 Produces:
 </p>
 
-<pre class="example" id="org4d58e0d">
+<pre class="example" id="org253739e">
 (cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
               (timeout-ms :uint32)
               (delay-ms :uint32))
@@ -234,8 +237,8 @@ In today's livestream, we will:
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-org56fd9d1" class="outline-2">
-<h2 id="org56fd9d1"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org93642d9" class="outline-2">
+<h2 id="org93642d9"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -250,20 +253,20 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org48fab75" class="outline-2">
-<h2 id="org48fab75"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-orgc54803c" class="outline-2">
+<h2 id="orgc54803c"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orgba75e31">
+<figure id="org8967a7a">
 <img src="modules.jpg" alt="modules.jpg">
 
-<figcaption><span class="figure-number">Figure 1: </span>This diagram shows the approximate structure of the program.</figcaption>
+<figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
 </figure>
 </div>
 </div>
 
-<div id="outline-container-orgdb080f9" class="outline-2">
-<h2 id="orgdb080f9"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org847b0a5" class="outline-2">
+<h2 id="org847b0a5"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.

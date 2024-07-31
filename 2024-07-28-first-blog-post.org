@@ -35,7 +35,7 @@ will have a companion blog post here.
     }
 #+end_src
 
-#+CAPTION: This diagram shows the approximate structure of the program.
+#+CAPTION: /This diagram shows the approximate structure of the program./
 #+RESULTS:
 [[file:modules.jpg]]
 

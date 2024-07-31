@@ -24,7 +24,9 @@ Lisp REPL.
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
 program ~cffi-gen.lisp~ which parses a limited form of C function declarations:
 
-/<type-name> <function-name> ~(~ (~void~ | <parameter-list>) ~)~ ~//~ ~EXPORT~ <newline>/
+#+CAPTION: /Syntax for C functions exported to Lisp/CFFI. (using: https://www.bottlecaps.de/rr/ui)/
+#+attr_html: :width 65%
+[[./CFFI-line-syntax.PNG]]
 
 and produces the appropriate Lisp/CFFI ~defcfun~.
 
