@@ -28,7 +28,8 @@ program ~cffi-gen.lisp~ which parses a limited form of C function declarations:
 #+attr_html: :width 65%
 [[./CFFI-line-syntax.PNG]]
 
-and produces the appropriate Lisp/CFFI ~defcfun~.
+and produces the appropriate Lisp/CFFI ~defcfun~.  /type-names/ and the /parameter-list/ are
+severly restricted but adequate for this project.
 
 For example, the C function declaration:
 
