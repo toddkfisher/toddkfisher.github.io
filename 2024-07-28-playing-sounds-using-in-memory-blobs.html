@@ -70,8 +70,8 @@ td {
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org8dbeeb7" class="outline-2">
-<h2 id="org8dbeeb7"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org2af6c3c" class="outline-2">
+<h2 id="org2af6c3c"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -90,13 +90,22 @@ be configured for sample format, channel count, and sample rate.</li>
 <li>An <code>ma_device</code> must be configured and initialized.  The device contains references
 to the decoder created in step 1 as well as a callback function which uses the decoder to
 provide <code>Miniaudio</code> with frames (a frame is a set of samples: one per channel).</li>
-<li>Finally, we must start the device. This begins playing the sound.</li>
+<li>We must start the device. This begins playing the sound.</li>
 </ol>
 
 <p>
-Sound playback can be cancelled with <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> but
-this <i>must not happen</i> in the data callback, it must occur in another thread.
-To overcome this restriction we have a seperate thread function, <code>snd_cancel_thread()</code>:
+End of playback is detected in our data callback:
+</p>
+
+<pre class="example" id="org2a2ac4e">
+if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL))
+  // ...
+</pre>
+
+<p>
+And we free Miniaudio resources with <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> but
+this <i>must not happen</i> in the data callback, it must occur in another thread. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+To overcome this restriction we have a separate thread function, <code>snd_cancel_thread()</code>:
 which calls <code>ma_(device|decoder)_uninit()</code> when a condition <code>g_cnd_cancel</code> is
 signalled.
 </p>
@@ -107,7 +116,7 @@ Each entry  in <code>g_sound_list[]</code> is a  structure which holds an  "is a
 flag:
 </p>
 
-<pre class="example" id="org926f887">
+<pre class="example" id="org647edc0">
 typedef struct
 {
   ma_device        s_device;
@@ -132,7 +141,7 @@ sound_t g_sound_list[MAX_SOUNDS];
 <p>
 Sound playback is achieved  with <code>snd_play_file_async()</code> which finds an
 index of an available device/decoder and then proceeds with steps 1-3 above.  And
-the resources in <code>g_sound_list[</code> <i>&lt;index&gt;</i> <code>]</code> are made unvailable.
+the resources in <code>g_sound_list[</code> <i>&lt;index&gt;</i> <code>]</code> are made unavailable.
 </p>
 
 <p>
@@ -142,7 +151,7 @@ onto <code>g_cancel_list[]</code> and signals <code>g_cnd_cancel</code> waking u
 A mutex, <code>g_mtx_sound_list</code>, is used to synchronize access to <code>g_sound_list[]</code>
 </p>
 
-<pre class="example" id="org522eed9">
+<pre class="example" id="org9635025">
 // Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.
 // Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
 // are valid.
@@ -159,8 +168,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org7918bd9" class="outline-2">
-<h2 id="org7918bd9"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-orgb8efdb3" class="outline-2">
+<h2 id="orgb8efdb3"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -175,8 +184,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-orgddded59" class="outline-2">
-<h2 id="orgddded59"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org7eabee9" class="outline-2">
+<h2 id="org7eabee9"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -190,10 +199,20 @@ In today's livestream, we will:
 <p>
 <b>END</b>
 </p>
-<hr>
 </div>
 </div>
-<div class="taglist"></div></div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> will also stop a sound currently playing.
+</p>
+<hr></div></div>
+
+
+</div>
+</div><div class="taglist"></div></div>
 <div id="postamble" class="status"></div>
 </body>
 </html>

@@ -20,11 +20,18 @@ sound files residing in memory.
   2. An ~ma_device~ must be configured and initialized.  The device contains references
      to the decoder created in step 1 as well as a callback function which uses the decoder to
      provide ~Miniaudio~ with frames (a frame is a set of samples: one per channel).
-  3. Finally, we must start the device. This begins playing the sound.
+  3. We must start the device. This begins playing the sound.
 
-  Sound playback can be cancelled with ~ma_device_uninit()~ and ~ma_decoder_uninit()~ but
-  this /must not happen/ in the data callback, it must occur in another thread.
-  To overcome this restriction we have a seperate thread function, ~snd_cancel_thread()~:
+  End of playback is detected in our data callback:
+
+#+begin_example
+if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL))
+  // ...
+#+end_example
+
+  And we free Miniaudio resources with ~ma_device_uninit()~ and ~ma_decoder_uninit()~ but
+  this /must not happen/ in the data callback, it must occur in another thread. [fn:1]
+  To overcome this restriction we have a separate thread function, ~snd_cancel_thread()~:
   which calls ~ma_(device|decoder)_uninit()~ when a condition ~g_cnd_cancel~ is
   signalled.
 
@@ -56,7 +63,7 @@ sound files residing in memory.
 
   Sound playback is achieved  with ~snd_play_file_async()~ which finds an
   index of an available device/decoder and then proceeds with steps 1-3 above.  And
-  the resources in ~g_sound_list[~ /<index>/ ~]~ are made unvailable.
+  the resources in ~g_sound_list[~ /<index>/ ~]~ are made unavailable.
 
   Cancellation of a sound can occur when a sound has completed playing or during
   playback.  ~snd_cancel_async()~ places the an index of an entry in ~g_sound_list[]~
@@ -91,4 +98,5 @@ sound files residing in memory.
   2. Provide some sort of UI for playing and cancelling sounds.
 
 *END*
+[fn:1] Calling ~ma_device_uninit()~ and ~ma_decoder_uninit()~ will also stop a sound currently playing.
 ----------
