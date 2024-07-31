@@ -76,8 +76,8 @@ td {
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
 </p>
 
-<div id="outline-container-org8013210" class="outline-2">
-<h2 id="org8013210"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org1dd00f6" class="outline-2">
+<h2 id="org1dd00f6"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -93,8 +93,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org317c51a" class="outline-2">
-<h2 id="org317c51a"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
+<div id="outline-container-org1782dc6" class="outline-2">
+<h2 id="org1782dc6"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -102,21 +102,22 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="orgd596f68">
+<figure id="org3155ced">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
 </figure>
 
 <p>
-and produces the appropriate Lisp/CFFI <code>defcfun</code>.
+and produces the appropriate Lisp/CFFI <code>defcfun</code>.  <i>type-names</i> and the <i>parameter-list</i> are
+severly restricted but adequate for this project.
 </p>
 
 <p>
 For example, the C function declaration:
 </p>
 
-<pre class="example" id="org730798b">
+<pre class="example" id="org7d03b9f">
 
 void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 
@@ -126,7 +127,7 @@ void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 Produces:
 </p>
 
-<pre class="example" id="org253739e">
+<pre class="example" id="org1be663c">
 (cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
               (timeout-ms :uint32)
               (delay-ms :uint32))
