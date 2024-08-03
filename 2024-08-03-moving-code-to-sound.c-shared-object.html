@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="./rss.xml"
+      title="RSS feed for ./">
+<title>Continuing with sound-related coding</title>
+</head>
+<body>
+<div id="preamble" class="status"><img src="blogheader.png">
+<h1><i>Notes to accompany livestreams.</i></h1>
+<hr>
+<style>
+body {
+       margin-right: 80px;
+       margin-left: 80px;
+       font-size: 18px;
+}
+img {
+      border-style: solid;
+      border-color: grey;
+      border-width: 1px;
+      filter: drop-shadow(5px 5px 5px gray);
+}
+li {
+     width: 65%;
+}
+p {
+    width: 65%;
+}
+h1 { color: RebeccaPurple; }
+pre {
+      font-size: 80%;
+      margin-left: 5%;
+}
+code { font-weight: lighter; font-size: 80%; }
+.linenr { background-color: Lavender; }
+.listing-number { font-slant: italic; font-weight: bold}
+.figure-number { font-slant: italic; font-weight: bold}
+table, th, td {
+        border: 2px solid lightgrey;
+        border-collapse: collapse;
+}
+table { text-align: right; }
+th {
+     padding: 15px;
+     font-size: 105%;
+     border-bottom: 1px solid grey;
+}
+td {
+     font-family : monospace;
+     font-size: 100%;
+}
+.post-date {
+             font-weight: bold;
+             font-size: 110%;
+             color: RebeccaPurple;
+}
+</style>
+<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script></div>
+<div id="content">
+<div class="post-date">03 Aug 2024</div><h1 class="post-title"><a href="./2024-08-03-moving-code-to-sound.c-shared-object.html">Continuing with sound-related coding</a></h1>
+<p>
+<b>Prevous livestream:</b>
+</p>
+
+<p>
+<a href="https://youtube.com/live/i-WEMsvJoJw">https://youtube.com/live/i-WEMsvJoJw</a>
+</p>
+
+<p>
+In my last livestream, I "tested" asychronous sound playback/stop using
+Miniaudio's <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level API.  All of this code lived in <code>simple-playback.c</code> which was
+intended as a proof-of-concept.  Today I'll be moving code to <code>sound.c</code> which
+compiles to a dynamically-loaded library <code>libsound.so</code>.  Once we have a working
+<code>libsound</code> we can stress-test our sound code in Lisp.
+</p>
+
+<p>
+<b>Warning:</b> this will be sleep-inducing as it's mostly copy/paste and fixing compilation errors.
+</p>
+
+<p>
+<b>2nd Warning:</b> it's a lovely afternoon outside and I have my patio door open, which means
+there might be some noise in the background.
+</p>
+
+<p>
+<b>END</b>
+</p>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="https://miniaud.io/">https://miniaud.io/</a>
+</p>
+<hr></div></div>
+
+
+</div>
+</div><div class="taglist"></div></div>
+<div id="postamble" class="status"></div>
+</body>
+</html>

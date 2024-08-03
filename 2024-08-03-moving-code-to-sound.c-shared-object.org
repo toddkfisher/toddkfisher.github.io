@@ -1,0 +1,23 @@
+#+title:  Continuing with sound-related coding
+#+date: <2024-08-03 13:04>
+#+description:
+#+filetags: sound C CFFI Lisp
+
+*Prevous livestream:*
+
+https://youtube.com/live/i-WEMsvJoJw
+
+In my last livestream, I "tested" asychronous sound playback/stop using
+Miniaudio's [fn:miniaudio] low-level API.  All of this code lived in ~simple-playback.c~ which was
+intended as a proof-of-concept.  Today I'll be moving code to ~sound.c~ which
+compiles to a dynamically-loaded library ~libsound.so~.  Once we have a working
+~libsound~ we can stress-test our sound code in Lisp.
+
+*Warning:* this will be sleep-inducing as it's mostly copy/paste and fixing compilation errors.
+
+*2nd Warning:* it's a lovely afternoon outside and I have my patio door open, which means
+there might be some noise in the background.
+
+*END*
+[fn:miniaudio] See https://miniaud.io/
+----------

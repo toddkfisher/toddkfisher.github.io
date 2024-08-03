@@ -1,21 +1,16 @@
-#+title: Playing Sounds Using In-Memory BLOBS
-#+date: <2024-07-28 21:34>
-#+description:
-#+filetags: C Lisp Sound Region-Based-Memory-Management.
+#    -*- mode: org -*-
 
-*Binary large object (BLOB)*
-/is a generic term used to  describe the handling and/
-/storage of  long strings  of data by  database management systems.  A BLOB  is a/
-/category of data,  characterized by large size (including media  formats such as/
-/audio and video), which can place extreme demands on storage systems and network/
-/bandwidth./
-[[https://www.gartner.com/en/information-technology/glossary/blob-binary-large-object][Gartner.com]]
 
-*Summary:* I  briefly describe how  thread-based resource management is  used in
-+~sound.c~+ ~simple-playback.c~  and how it  will be modified to  play preloaded
-sound files residing in memory.
+Archived entries from file /home/tkf/Documents/toddkfisher.github.io/2024-07-28-playing-sounds-using-in-memory-blobs.org
+
 
 * SOUND PLAYBACK AND RESOURCE MANAGEMENT.
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-08-01 Thu 23:13
+:ARCHIVE_FILE: ~/Documents/toddkfisher.github.io/2024-07-28-playing-sounds-using-in-memory-blobs.org
+:ARCHIVE_CATEGORY: 2024-07-28-playing-sounds-using-in-memory-blobs
+:ARCHIVE_ITAGS: C Lisp Sound Region-Based-Memory-Management.
+:END:
   ~Miniaudio~ has a simple way of playing a sound file:
   ~ma_engine_play_sound()~ which is adequate for asynchronously loading and
   playing sounds.  We would like to preload sounds and play them from memory but
@@ -77,9 +72,8 @@ if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL)
   Cancellation of a sound can occur when a sound has completed playing or during
   playback.  ~snd_cancel_async()~ places the an index of an entry in ~g_sound_list[]~
   onto ~g_cancel_list[]~ and signals ~g_cnd_cancel~ waking up the ~snd_cancel_thread()~.
-  A mutex, ~g_mtx_sound_list~, is used to synchronize access to ~g_sound_list[]~ and ~g_cancel_list[]~.
+  A mutex, ~g_mtx_sound_list~, is used to synchronize access to ~g_sound_list[]~
 
-#+caption: /Array storing indices (into ~g_sound_list[]~) of ~Miniaudio~ resources to release./
 #+begin_src C -n 0
   // Indices into g_sound_list[] of sounds/resources to be cancelled & freed.
   // Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
@@ -92,21 +86,3 @@ if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL)
 #+end_src
 
   All of this functionality will eventually be used in LISP through ~CFFI~.
-
-* REGION-BASED MEMORY MANAGEMENT
-  We would prefer that our LISP code not call ~malloc()~ and ~free()~.  It is expected that
-  sounds will be loaded into memory when our program starts.
-
-  ~stk-alloc.c~ allocates memory blocks by simply advancing a pointer ~g_p_next~ when a
-  block is requested (~stkalloc_get_mem()~).  Calling ~stkalloc_free(p)~ adjusts ~g_p_next~
-  to ~p~ and so everything allocated after ~p~ is released as well.
-
-* PLAYING SOUNDS PRELOADED IN MEMORY
-  So far all of the code for sound playback lives in a test program, ~simple-playback.c~.
-  In today's livestream, we will:
-  1. Load several sound files into memory using ~libstackalloc~.
-  2. Provide some sort of UI for playing and cancelling sounds.
-
-*END*
-[fn:stopsound] Calling ~ma_device_uninit()~ and ~ma_decoder_uninit()~ will also stop a sound currently playing.
-----------

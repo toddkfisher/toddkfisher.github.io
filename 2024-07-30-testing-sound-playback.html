@@ -9,11 +9,9 @@
 <title>Testing Sound Playback</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
-Writing a Game in Common Lisp and C
-</h1>
-<p style="font-family: serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
-<i>Notes to accompany livestreams.</i></p><hr>
+<div id="preamble" class="status"><img src="blogheader.png">
+<h1><i>Notes to accompany livestreams.</i></h1>
+<hr>
 <style>
 body {
        margin-right: 80px;
@@ -32,13 +30,15 @@ li {
 p {
     width: 65%;
 }
+h1 { color: RebeccaPurple; }
 pre {
-      font-size: 75%;
-      font-weight: bold;
+      font-size: 80%;
       margin-left: 5%;
 }
-code { font-weight: bold; }
+code { font-weight: lighter; font-size: 80%; }
 .linenr { background-color: Lavender; }
+.listing-number { font-slant: italic; font-weight: bold}
+.figure-number { font-slant: italic; font-weight: bold}
 table, th, td {
         border: 2px solid lightgrey;
         border-collapse: collapse;
@@ -72,11 +72,11 @@ td {
 </p>
 
 <p>
-<a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
+<a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org96f9558" class="outline-2">
-<h2 id="org96f9558"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org5880eaa" class="outline-2">
+<h2 id="org5880eaa"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -92,8 +92,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org7e7484f" class="outline-2">
-<h2 id="org7e7484f"><span class="section-number-2">2.</span> EXPORTING C FUNCTIONS TO LISP</h2>
+<div id="outline-container-org4d874de" class="outline-2">
+<h2 id="org4d874de"><span class="section-number-2">2.</span> EXPORTING C FUNCTIONS TO LISP</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -101,7 +101,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org3f4a6a6">
+<figure id="orgd7817f9">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>

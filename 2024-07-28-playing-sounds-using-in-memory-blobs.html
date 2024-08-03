@@ -9,11 +9,9 @@
 <title>Playing Sounds Using In-Memory BLOBS</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
-Writing a Game in Common Lisp and C
-</h1>
-<p style="font-family: serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
-<i>Notes to accompany livestreams.</i></p><hr>
+<div id="preamble" class="status"><img src="blogheader.png">
+<h1><i>Notes to accompany livestreams.</i></h1>
+<hr>
 <style>
 body {
        margin-right: 80px;
@@ -32,13 +30,15 @@ li {
 p {
     width: 65%;
 }
+h1 { color: RebeccaPurple; }
 pre {
-      font-size: 75%;
-      font-weight: bold;
+      font-size: 80%;
       margin-left: 5%;
 }
-code { font-weight: bold; }
+code { font-weight: lighter; font-size: 80%; }
 .linenr { background-color: Lavender; }
+.listing-number { font-slant: italic; font-weight: bold}
+.figure-number { font-slant: italic; font-weight: bold}
 table, th, td {
         border: 2px solid lightgrey;
         border-collapse: collapse;
@@ -64,11 +64,13 @@ td {
 <div id="content">
 <div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-playing-sounds-using-in-memory-blobs.html">Playing Sounds Using In-Memory BLOBS</a></h1>
 <p>
-<b>Binary large object (BLOB)</b> <i>is a generic term used to  describe the handling and</i>
+<b>Binary large object (BLOB)</b>
+<i>is a generic term used to  describe the handling and</i>
 <i>storage of  long strings  of data by  database management systems.  A BLOB  is a</i>
 <i>category of data,  characterized by large size (including media  formats such as</i>
 <i>audio and video), which can place extreme demands on storage systems and network</i>
-<i>bandwidth.</i> <a href="https://www.gartner.com/en/information-technology/glossary/blob-binary-large-object">Gartner.com</a>
+<i>bandwidth.</i>
+<a href="https://www.gartner.com/en/information-technology/glossary/blob-binary-large-object">Gartner.com</a>
 </p>
 
 <p>
@@ -77,8 +79,8 @@ td {
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org4c3e9eb" class="outline-2">
-<h2 id="org4c3e9eb"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-orgfb9627d" class="outline-2">
+<h2 id="orgfb9627d"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -178,8 +180,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org4458cdb" class="outline-2">
-<h2 id="org4458cdb"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org71585c9" class="outline-2">
+<h2 id="org71585c9"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -194,8 +196,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-orgd4f7468" class="outline-2">
-<h2 id="orgd4f7468"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org9b8888c" class="outline-2">
+<h2 id="org9b8888c"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
