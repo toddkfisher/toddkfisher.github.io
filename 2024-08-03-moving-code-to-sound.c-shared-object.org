@@ -1,4 +1,4 @@
-#+title:  Continuing with sound-related coding
+#+title:  Continuing Sound-Related Coding
 #+date: <2024-08-03 13:04>
 #+description:
 #+filetags: sound C CFFI Lisp
