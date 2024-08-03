@@ -20,7 +20,7 @@ over to the ~sound.c~ module.  ~sound.c~ compiles to ~libsound.so~.  Once that's
 complete, we should be able to use Lisp/CFFI to call exported functions from the
 Lisp REPL.
 
-* EXPORTING FUNCTIONS TO LISP
+* EXPORTING C FUNCTIONS TO LISP
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
 program ~cffi-gen.lisp~ which parses a limited form of C function declarations:
 
@@ -33,20 +33,18 @@ severly restricted but adequate for this project.
 
 For example, the C function declaration:
 
-#+begin_example
-
-void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
-
-#+end_example
+#+begin_src C
+  void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
+#+end_src
 
 Produces:
 
-#+begin_example
-(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
-              (timeout-ms :uint32)
-              (delay-ms :uint32))
-(export 'set-kbd-repeat)
-#+end_example
+#+begin_src lisp -n 0
+  (cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
+                (timeout-ms :uint32)
+                (delay-ms :uint32))
+  (export 'set-kbd-repeat)
+#+end_src
 
 when run through ~cffi-gen.lisp~.
 

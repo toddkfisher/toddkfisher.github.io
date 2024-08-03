@@ -9,17 +9,16 @@
 <title>Testing Sound Playback</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
+<div id="preamble" class="status"><h1 style="width: 60%; font-family: serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
 Writing a Game in Common Lisp and C
 </h1>
-<p style="font-family: sans-serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
+<p style="font-family: serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
 <i>Notes to accompany livestreams.</i></p><hr>
 <style>
 body {
        margin-right: 80px;
        margin-left: 80px;
        font-size: 18px;
-       font-family: sans-serif;
 }
 img {
       border-style: solid;
@@ -34,12 +33,12 @@ p {
     width: 65%;
 }
 pre {
-      border-style: solid;
-      border-color: grey;
-      border-width: 1px;
-      background-color: Lavender;
       font-size: 75%;
+      font-weight: bold;
+      margin-left: 5%;
 }
+code { font-weight: bold; }
+.linenr { background-color: Lavender; }
 table, th, td {
         border: 2px solid lightgrey;
         border-collapse: collapse;
@@ -76,8 +75,8 @@ td {
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s">https://www.youtube.com/watch?v=8zS1ABTCTmo&amp;t=191s</a>
 </p>
 
-<div id="outline-container-org1dd00f6" class="outline-2">
-<h2 id="org1dd00f6"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org96f9558" class="outline-2">
+<h2 id="org96f9558"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -93,8 +92,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org1782dc6" class="outline-2">
-<h2 id="org1782dc6"><span class="section-number-2">2.</span> EXPORTING FUNCTIONS TO LISP</h2>
+<div id="outline-container-org7e7484f" class="outline-2">
+<h2 id="org7e7484f"><span class="section-number-2">2.</span> EXPORTING C FUNCTIONS TO LISP</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -102,7 +101,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org3155ced">
+<figure id="org3f4a6a6">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -117,22 +116,22 @@ severly restricted but adequate for this project.
 For example, the C function declaration:
 </p>
 
-<pre class="example" id="org7d03b9f">
-
-void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
-
+<div class="org-src-container">
+<pre class="src src-C">void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
 </pre>
+</div>
 
 <p>
 Produces:
 </p>
 
-<pre class="example" id="org1be663c">
-(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
-              (timeout-ms :uint32)
-              (delay-ms :uint32))
-(export 'set-kbd-repeat)
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="linenr">0: </span>(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
+<span class="linenr">1: </span>              (timeout-ms :uint32)
+<span class="linenr">2: </span>              (delay-ms :uint32))
+<span class="linenr">3: </span>(export 'set-kbd-repeat)
 </pre>
+</div>
 
 <p>
 when run through <code>cffi-gen.lisp</code>.
@@ -145,6 +144,6 @@ when run through <code>cffi-gen.lisp</code>.
 </div>
 </div>
 <div class="taglist"></div></div>
-<div id="postamble" class="status"><hr></div>
+<div id="postamble" class="status"></div>
 </body>
 </html>
