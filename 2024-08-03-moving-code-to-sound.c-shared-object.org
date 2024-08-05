@@ -8,7 +8,7 @@
 https://youtube.com/live/i-WEMsvJoJw
 
 In my last livestream, I "tested" asychronous sound playback/stop using
-Miniaudio's [fn:miniaudio] low-level API.  All of this code lived in ~simple-playback.c~ which was
+Miniaudio's [fn:ma] low-level API.  All of this code lived in ~simple-playback.c~ which was
 intended as a proof-of-concept.  Today I'll be moving code to ~sound.c~ which
 compiles to a dynamically-loaded library ~libsound.so~.  Once we have a working
 ~libsound~ we can stress-test our sound code in Lisp.
@@ -19,5 +19,5 @@ compiles to a dynamically-loaded library ~libsound.so~.  Once we have a working
 there might be some noise in the background.
 
 *END*
-[fn:miniaudio] See https://miniaud.io/
+[fn:ma] See https://miniaud.io/
 ----------

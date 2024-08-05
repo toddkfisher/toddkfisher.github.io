@@ -4,7 +4,110 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Sat, 03 Aug 2024 13:22:19 -0700</lastBuildDate>
+<lastBuildDate>Mon, 05 Aug 2024 14:19:49 -0700</lastBuildDate>
+<item>
+  <title><![CDATA[Error Handling in the sound.c Module]]></title>
+  <description><![CDATA[
+<p>
+<b>Previous livestreams</b>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=5OrYG_7_uHY">https://www.youtube.com/watch?v=5OrYG_7_uHY</a>
+</p>
+
+<p>
+<a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
+</p>
+
+<div id="outline-container-org6016fd6" class="outline-2">
+<h2 id="org6016fd6"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
+<code>sound.c</code> and all compiler errors removed.  It is time to walk through
+the code to convince myself that it's correct.  I will also add error-handling
+and error-cleanup code as described below.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1e70dfe" class="outline-2">
+<h2 id="org1e70dfe"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
+then no one else can either."  Any pthreads or Miniaudio function call that returns
+an error code will result in:
+</p>
+<ol class="org-ol">
+<li>The line number, API, and error code are saved into global variables.</li>
+<li>A global flag: <code>g_something_failed</code> is set to true.</li>
+</ol>
+<p>
+Every function call in <code>sound.c</code> will begin with code similar to:
+</p>
+<div class="org-src-container">
+<pre class="src src-C">if (atomic_load(&amp;g_something_failed))
+  return /* some error code */
+</pre>
+</div>
+<p>
+Lisp code that calls exported functions in <code>libsound.so</code> should check for error codes.
+On receiving an error the Lisp code should signal an error and provide restarts <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> if
+appropriate.
+</p>
+</div>
+</div>
+<div id="outline-container-org83861d5" class="outline-2">
+<h2 id="org83861d5"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The destructor function in <code>sound.c</code> :
+</p>
+<div class="org-src-container">
+<pre class="src src-C">void __attribute__((destructor)) snd_shared_object_uninit(void)
+</pre>
+</div>
+<p>
+Should terminate <code>snd_cancel_thread()</code> with:
+</p>
+<div class="org-src-container">
+<pre class="src src-C">atomic_store(&amp;g_stop_cancel_thread, true);  // stop snd_cancel_thread() if it's awake and running.
+pthread_mutex_lock(&amp;g_mtx_sound_list);
+pthread_cond_signal(&amp;g_cnd_cancel);  // get snd_cancel_thread() ready to wake
+pthread_mutex_unlock(&amp;g_mtx_sound_list);  // wake snd_cancel_thread().
+</pre>
+</div>
+<p>
+When <code>snd_cancel_thread()</code> is awakened it will free up any Miniaudio resources in use.
+</p>
+
+<p>
+<b>END</b>
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="https://miniaud.io/">https://miniaud.io/</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+One such restart might be to unload then reload <code>libsound.so</code> and continue program execution.
+</p>
+<hr></div></div>
+
+
+</div>
+</div><div class="taglist"></div>]]></description>
+  <link>./2024-08-05-error-handling-in-the-sound.c-module.html</link>
+  <guid>./2024-08-05-error-handling-in-the-sound.c-module.html</guid>
+  <pubDate>Mon, 05 Aug 2024 12:15:00 -0700</pubDate>
+</item>
 <item>
   <title><![CDATA[Continuing Sound-Related Coding]]></title>
   <description><![CDATA[
@@ -67,8 +170,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org5880eaa" class="outline-2">
-<h2 id="org5880eaa"><span class="section-number-2">1.</span> TODAY'S AGENDA</h2>
+<div id="outline-container-org519e0bd" class="outline-2">
+<h2 id="org519e0bd"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -84,8 +187,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org4d874de" class="outline-2">
-<h2 id="org4d874de"><span class="section-number-2">2.</span> EXPORTING C FUNCTIONS TO LISP</h2>
+<div id="outline-container-org338099c" class="outline-2">
+<h2 id="org338099c"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -93,7 +196,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="orgd7817f9">
+<figure id="org03d8130">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>

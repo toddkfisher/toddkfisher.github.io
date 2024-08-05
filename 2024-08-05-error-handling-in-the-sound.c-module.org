@@ -1,0 +1,49 @@
+#+title: Error Handling in the sound.c Module
+#+date: <2024-08-05 12:15>
+#+description:
+#+filetags: sound miniaudio lisp cffi
+
+*Previous livestreams*
+
+https://www.youtube.com/watch?v=5OrYG_7_uHY
+
+https://www.youtube.com/watch?v=L-ri_PFpmcA
+
+* Today's Agenda
+The wrapper code for Miniaudio [fn:ma] low-level playback has been added to
+~sound.c~ and all compiler errors removed.  It is time to walk through
+the code to convince myself that it's correct.  I will also add error-handling
+and error-cleanup code as described below.
+
+* Error-Handling and Cleanup
+I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
+then no one else can either."  Any pthreads or Miniaudio function call that returns
+an error code will result in:
+  1. The line number, API, and error code are saved into global variables.
+  2. A global flag: ~g_something_failed~ is set to true.
+Every function call in ~sound.c~ will begin with code similar to:
+#+begin_src C
+  if (atomic_load(&g_something_failed))
+    return /* some error code */
+#+end_src
+Lisp code that calls exported functions in ~libsound.so~ should check for error codes.
+On receiving an error the Lisp code should signal an error and provide restarts [fn:rst] if
+appropriate.
+* Error Cleanup
+The destructor function in ~sound.c~ :
+#+begin_src C
+  void __attribute__((destructor)) snd_shared_object_uninit(void)
+#+end_src
+Should terminate ~snd_cancel_thread()~ with:
+#+begin_src C
+  atomic_store(&g_stop_cancel_thread, true);  // stop snd_cancel_thread() if it's awake and running.
+  pthread_mutex_lock(&g_mtx_sound_list);
+  pthread_cond_signal(&g_cnd_cancel);  // get snd_cancel_thread() ready to wake
+  pthread_mutex_unlock(&g_mtx_sound_list);  // wake snd_cancel_thread().
+#+end_src
+When ~snd_cancel_thread()~ is awakened it will free up any Miniaudio resources in use.
+
+*END*
+[fn:ma] See https://miniaud.io/
+[fn:rst] One such restart might be to unload then reload ~libsound.so~ and continue program execution.
+----------

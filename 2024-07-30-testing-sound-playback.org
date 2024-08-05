@@ -9,7 +9,7 @@ https://www.youtube.com/watch?v=49ojU19ruHk
 
 https://www.youtube.com/watch?v=8zS1ABTCTmos
 
-* TODAY'S AGENDA
+* Today's Agenda
 I  have  a  small  test   program,  ~simple-playback.c~,  which  uses  Miniaudio
 (https://miniaud.io/)   for  asychronous   sound   playback  and   cancellation.
 ~simple-playback.c~  is  a  "wrapper"  around Miniaudio's  low-level  API.   The
@@ -20,7 +20,7 @@ over to the ~sound.c~ module.  ~sound.c~ compiles to ~libsound.so~.  Once that's
 complete, we should be able to use Lisp/CFFI to call exported functions from the
 Lisp REPL.
 
-* EXPORTING C FUNCTIONS TO LISP
+* Exporting C Functions to Lisp
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
 program ~cffi-gen.lisp~ which parses a limited form of C function declarations:
 
