@@ -9,48 +9,51 @@
 <title>First Blog Post</title>
 </head>
 <body>
-<div id="preamble" class="status"><h1 style="width: 60%; font-family: sans-serif;font-size: 375%; font-weight: bold; color: RebeccaPurple">
-Writing a Game in Common Lisp and C
-</h1>
-<p style="font-family: sans-serif;font-size: 225%; font-weight: bold; width:100%; color: RebeccaPurple; text-align: left">
-<i>Notes to accompany livestreams.</i></p><hr>
+<div id="preamble" class="status"><img src="blogheader.png">
+<h1><i>Notes to accompany livestreams.</i></h1>
+<hr>
 <style>
+}
+p.footpara { white-space: nowrap; }
+div.footpara { white-space: nowrap; }
+.footnum { white-space: nowrap; }
 body {
        margin-right: 80px;
        margin-left: 80px;
        font-size: 18px;
-       font-family: sans-serif;
 }
 img {
       border-style: solid;
-      border-color: grey;
+      border-color: grey; 
       border-width: 1px;
       filter: drop-shadow(5px 5px 5px gray);
 }
 li {
      width: 65%;
 }
-p {
+p { 
     width: 65%;
 }
+h1 { color: RebeccaPurple; }
 pre {
-      border-style: solid;
-      border-color: grey;
-      border-width: 1px;
-      background-color: Lavender;
-      font-size: 75%;
+      font-size: 80%;
+      margin-left: 5%;
 }
+code { font-weight: lighter; font-size: 80%; }
+.linenr { background-color: Lavender; }
+.listing-number { font-slant: italic; font-weight: bold}
+.figure-number { font-slant: italic; font-weight: bold}
 table, th, td {
         border: 2px solid lightgrey;
         border-collapse: collapse;
 }
 table { text-align: right; }
-th {
+th { 
      padding: 15px;
      font-size: 105%;
      border-bottom: 1px solid grey;
 }
-td {
+td { 
      font-family : monospace;
      font-size: 100%;
 }
@@ -69,8 +72,8 @@ td {
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-org93642d9" class="outline-2">
-<h2 id="org93642d9"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org9b5281f" class="outline-2">
+<h2 id="org9b5281f"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -85,11 +88,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-orgc54803c" class="outline-2">
-<h2 id="orgc54803c"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-org8c3ac2c" class="outline-2">
+<h2 id="org8c3ac2c"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="org8967a7a">
+<figure id="org01bf3ac">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -97,8 +100,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org847b0a5" class="outline-2">
-<h2 id="org847b0a5"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org7abe32e" class="outline-2">
+<h2 id="org7abe32e"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.
@@ -109,7 +112,11 @@ Github repository forthcoming.
 </p>
 </div>
 </div>
-<div class="taglist"></div></div>
-<div id="postamble" class="status"><hr></div>
+<div class="taglist"></div>
+
+<hr>
+
+</div>
+<div id="postamble" class="status"></div>
 </body>
 </html>

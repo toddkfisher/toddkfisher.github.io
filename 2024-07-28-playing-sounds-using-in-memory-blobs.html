@@ -13,6 +13,10 @@
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
 <style>
+}
+p.footpara { white-space: nowrap; }
+div.footpara { white-space: nowrap; }
+.footnum { white-space: nowrap; }
 body {
        margin-right: 80px;
        margin-left: 80px;
@@ -20,14 +24,14 @@ body {
 }
 img {
       border-style: solid;
-      border-color: grey;
+      border-color: grey; 
       border-width: 1px;
       filter: drop-shadow(5px 5px 5px gray);
 }
 li {
      width: 65%;
 }
-p {
+p { 
     width: 65%;
 }
 h1 { color: RebeccaPurple; }
@@ -44,12 +48,12 @@ table, th, td {
         border-collapse: collapse;
 }
 table { text-align: right; }
-th {
+th { 
      padding: 15px;
      font-size: 105%;
      border-bottom: 1px solid grey;
 }
-td {
+td { 
      font-family : monospace;
      font-size: 100%;
 }
@@ -79,8 +83,8 @@ td {
 sound files residing in memory.
 </p>
 
-<div id="outline-container-orgfb9627d" class="outline-2">
-<h2 id="orgfb9627d"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org1ab8140" class="outline-2">
+<h2 id="org1ab8140"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -180,8 +184,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org71585c9" class="outline-2">
-<h2 id="org71585c9"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org69e61be" class="outline-2">
+<h2 id="org69e61be"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -196,8 +200,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-org9b8888c" class="outline-2">
-<h2 id="org9b8888c"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org4a92a71" class="outline-2">
+<h2 id="org4a92a71"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -219,12 +223,15 @@ In today's livestream, we will:
 
 <div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> will also stop a sound currently playing.
-</p>
-<hr></div></div>
+</p></div></div>
 
 
 </div>
-</div><div class="taglist"></div></div>
+</div><div class="taglist"></div>
+
+<hr>
+
+</div>
 <div id="postamble" class="status"></div>
 </body>
 </html>

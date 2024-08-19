@@ -123,9 +123,7 @@ prefer to return two values but I don't know of a simple way to do this in CFFI
         ; Error
     ; ... 
 #+end_src
-
 As opposed to:
-
 #+begin_src lisp -n 0
   (let ((playback-id (snd:play-file-async "some-sound.mp3")))
     (when (> (logand #x3f playback-id) 0)
@@ -134,8 +132,7 @@ As opposed to:
 #+end_src
 
 [fn:loop] This won't work if we have sounds that repeat endlessly.  It's possible that
-67 million sounds could have been played and wraparound could clobber any long-running playback.
-
-----------
+67 million sounds could have been played and wraparound could
+clobber any long-running playback.
 
 

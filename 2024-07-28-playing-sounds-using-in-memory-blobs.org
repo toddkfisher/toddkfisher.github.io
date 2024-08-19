@@ -109,4 +109,4 @@ if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL)
 
 *END*
 [fn:stopsound] Calling ~ma_device_uninit()~ and ~ma_decoder_uninit()~ will also stop a sound currently playing.
-----------
+

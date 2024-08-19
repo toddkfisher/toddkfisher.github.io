@@ -13,6 +13,10 @@
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
 <style>
+}
+p.footpara { white-space: nowrap; }
+div.footpara { white-space: nowrap; }
+.footnum { white-space: nowrap; }
 body {
        margin-right: 80px;
        margin-left: 80px;
@@ -20,14 +24,14 @@ body {
 }
 img {
       border-style: solid;
-      border-color: grey;
+      border-color: grey; 
       border-width: 1px;
       filter: drop-shadow(5px 5px 5px gray);
 }
 li {
      width: 65%;
 }
-p {
+p { 
     width: 65%;
 }
 h1 { color: RebeccaPurple; }
@@ -44,12 +48,12 @@ table, th, td {
         border-collapse: collapse;
 }
 table { text-align: right; }
-th {
+th { 
      padding: 15px;
      font-size: 105%;
      border-bottom: 1px solid grey;
 }
-td {
+td { 
      font-family : monospace;
      font-size: 100%;
 }
@@ -75,8 +79,8 @@ td {
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org6016fd6" class="outline-2">
-<h2 id="org6016fd6"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org79c254e" class="outline-2">
+<h2 id="org79c254e"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -87,8 +91,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-org1e70dfe" class="outline-2">
-<h2 id="org1e70dfe"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-orga693a98" class="outline-2">
+<h2 id="orga693a98"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -114,8 +118,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org83861d5" class="outline-2">
-<h2 id="org83861d5"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org2d30a9f" class="outline-2">
+<h2 id="org2d30a9f"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -153,12 +157,15 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 
 <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 One such restart might be to unload then reload <code>libsound.so</code> and continue program execution.
-</p>
-<hr></div></div>
+</p></div></div>
 
 
 </div>
-</div><div class="taglist"></div></div>
+</div><div class="taglist"></div>
+
+<hr>
+
+</div>
 <div id="postamble" class="status"></div>
 </body>
 </html>

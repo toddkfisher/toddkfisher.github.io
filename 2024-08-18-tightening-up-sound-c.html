@@ -72,8 +72,8 @@ td {
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org89bf990" class="outline-2">
-<h2 id="org89bf990"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org4609adc" class="outline-2">
+<h2 id="org4609adc"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -113,18 +113,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-orge2d6ae4" class="outline-2">
-<h2 id="orge2d6ae4"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-org282b7d3" class="outline-2">
+<h2 id="org282b7d3"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#org85f108d">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org8196ee7">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="org85f108d">
+<figure id="org8196ee7">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -133,11 +133,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orgb403b9e">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#org172bf97">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orgb403b9e">
+<figure id="org172bf97">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -145,11 +145,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org454550c">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org69b6024">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org454550c"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org69b6024"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -190,8 +190,8 @@ As it stands today, listing <a href="#org454550c">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-orgbe36049" class="outline-2">
-<h2 id="orgbe36049"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-orgfef97d2" class="outline-2">
+<h2 id="orgfef97d2"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -226,10 +226,9 @@ Image created with <a href="http://draw.io">Draw.io</a>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 This won't work if we have sounds that repeat endlessly.  It's possible that
-67 million sounds could have been played and wraparound could clobber any long-running playback.
-</p>
-
-<hr></div></div>
+67 million sounds could have been played and wraparound could
+clobber any long-running playback.
+</p></div></div>
 
 <div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
 Perhaps C's bitfield feature would be more appropriate here.  
@@ -245,11 +244,9 @@ Placing the 6-bit error field in bits [26:31] would make checking for error code
 <span class="linenr">3: </span>  ; ... 
 </pre>
 </div>
-
 <p class="footpara">
 As opposed to:
 </p>
-
 <div class="org-src-container">
 <pre class="src src-lisp"><span class="linenr">0: </span>(let ((playback-id (snd:play-file-async "some-sound.mp3")))
 <span class="linenr">1: </span>  (when (&gt; (logand #x3f playback-id) 0)
@@ -260,7 +257,11 @@ As opposed to:
 
 
 </div>
-</div><div class="taglist"></div></div>
+</div><div class="taglist"></div>
+
+<hr>
+
+</div>
 <div id="postamble" class="status"></div>
 </body>
 </html>

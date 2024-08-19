@@ -13,6 +13,10 @@
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
 <style>
+}
+p.footpara { white-space: nowrap; }
+div.footpara { white-space: nowrap; }
+.footnum { white-space: nowrap; }
 body {
        margin-right: 80px;
        margin-left: 80px;
@@ -20,14 +24,14 @@ body {
 }
 img {
       border-style: solid;
-      border-color: grey;
+      border-color: grey; 
       border-width: 1px;
       filter: drop-shadow(5px 5px 5px gray);
 }
 li {
      width: 65%;
 }
-p {
+p { 
     width: 65%;
 }
 h1 { color: RebeccaPurple; }
@@ -44,12 +48,12 @@ table, th, td {
         border-collapse: collapse;
 }
 table { text-align: right; }
-th {
+th { 
      padding: 15px;
      font-size: 105%;
      border-bottom: 1px solid grey;
 }
-td {
+td { 
      font-family : monospace;
      font-size: 100%;
 }
@@ -75,8 +79,8 @@ td {
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org519e0bd" class="outline-2">
-<h2 id="org519e0bd"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgfc02c87" class="outline-2">
+<h2 id="orgfc02c87"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -92,8 +96,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org338099c" class="outline-2">
-<h2 id="org338099c"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgd53a75c" class="outline-2">
+<h2 id="orgd53a75c"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -101,7 +105,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org03d8130">
+<figure id="org8b90244">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -140,10 +144,13 @@ when run through <code>cffi-gen.lisp</code>.
 <p>
 <b>END</b>
 </p>
+</div>
+</div>
+<div class="taglist"></div>
+
 <hr>
+
 </div>
-</div>
-<div class="taglist"></div></div>
 <div id="postamble" class="status"></div>
 </body>
 </html>
