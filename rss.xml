@@ -4,7 +4,208 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Mon, 05 Aug 2024 14:19:49 -0700</lastBuildDate>
+<lastBuildDate>Mon, 19 Aug 2024 14:15:55 -0700</lastBuildDate>
+<item>
+  <title><![CDATA[Tightening Up sound.c]]></title>
+  <description><![CDATA[
+<p>
+<b>Previous Stream:</b>
+<a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
+</p>
+
+<div id="outline-container-org89bf990" class="outline-2">
+<h2 id="org89bf990"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In my first draft of <code>sound.c</code>, a typical use might be:
+</p>
+<ol class="org-ol">
+<li>Client requests playback by calling <code>snd_play_mem_async()</code> or
+<code>snd_play_file_async()</code>.</li>
+<li>Index into the resource list (<code>g_sound_list[]</code>) returned on success and sound begins playing.</li>
+<li>Sound cancellation (freeing of Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> resources) occurs by:
+<ul class="org-ul">
+<li>In-progress playback can be cancelled by calling <code>snd_cancel_async(idx)</code>
+where <code>idx</code> is the index returned in step 1. <b>OR</b></li>
+<li>Playback completes.</li>
+</ul></li>
+</ol>
+
+<p>
+After thinking for a bit, I realized that the following could occur.
+</p>
+
+<ol class="org-ol">
+<li>Steps 1-3 above.</li>
+<li>After playback, client requests playback of another sound and receives <i>the same</i> index
+as in step 2. above.</li>
+<li>Another part of the client code believes that the original playback above is still in
+progress and requests cancellation.</li>
+<li>New playback using same index is cancelled instead.</li>
+</ol>
+
+<p>
+A solution is to simply modify <code>snd_play_(mem|file)_async()</code> to instead
+return a pair: <code>(serial_number, resource_index)</code> where <code>serial_number</code> is
+unique for each playback request <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>.  To cancel, <code>snd_cancel_async()</code> would
+take the serial number and index as parameters. It should be an error condition, if the
+client attempts to stop playback with a serial number that has "expired".
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2d6ae4" class="outline-2">
+<h2 id="orge2d6ae4"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Figure <a href="#org85f108d">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
+wide and "wrap around" after approximately 67.1 million plays - an acceptable number
+(for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
+</p>
+
+
+<figure id="org85f108d">
+<img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
+
+<figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
+</figure>
+
+<p>
+Since we must also signal error conditions to a caller and since we're returning a single
+<code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
+<a href="#orgb403b9e">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+</p>
+
+
+<figure id="orgb403b9e">
+<img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
+
+<figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
+</figure>
+
+
+<p>
+As it stands today, listing <a href="#org454550c">1</a> is the <code>struct</code> used in Miniaudio resource management:
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org454550c"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<span class="linenr"> 1: </span>typedef struct
+<span class="linenr"> 2: </span>{
+<span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
+<span class="linenr"> 4: </span>  ma_device        s_device;         
+<span class="linenr"> 5: </span>  ma_device_config s_device_config;
+<span class="linenr"> 6: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
+<span class="linenr"> 7: </span>  ma_decoder       s_decoder;        
+<span class="linenr"> 8: </span>  // Sound play is cancelled but not necessarily stopped yet.
+<span class="linenr"> 9: </span>  atomic_bool      s_cancel_sent;    
+<span class="linenr">10: </span>  // Miniaudio resources in this slot available for playback or is this slot currently in use or in
+<span class="linenr">11: </span>  // the process of being cancelled.
+<span class="linenr">12: </span>  atomic_bool      s_is_available;   
+<span class="linenr">13: </span>  // Unique identifier returned when playback is initiated.
+<span class="linenr">14: </span>  // Format:                                                     
+<span class="linenr">15: </span>  //          - bits [0:5] Index of sound resource in 'g_sound_list[]'
+<span class="linenr">16: </span>  //                       If = 0x3f (= 0b111111), then this id is an error code.
+<span class="linenr">17: </span>  //          - bits [8:32] Serial # uniquely identifying playback request.
+<span class="linenr">18: </span>  //                       If bits [0:5] = 0b111111, then bits[8:32] are identify the
+<span class="linenr">19: </span>  //                       specific error code.
+<span class="linenr">20: </span>  //          NOTE: Encoding index/serial#/error code into a single uint32_t means that
+<span class="linenr">21: </span>  //          we can pass around and return these as a single number.
+<span class="linenr">22: </span>  uint32_t         s_playback_id;
+<span class="linenr">23: </span>  // Index of these miniaudio resources in 'g_sound_list[]'.  Redundant since
+<span class="linenr">24: </span>  // bits [0:5] of 's_playback_id' hold the same index.
+<span class="linenr">25: </span>  uint32_t         s_idx_sound_list; 
+<span class="linenr">26: </span>  // Playing from file or from memory?
+<span class="linenr">27: </span>  source_type_t    s_source_type;    
+<span class="linenr">28: </span>  union
+<span class="linenr">29: </span>  {
+<span class="linenr">30: </span>    // Pointer to memory block of preloaded sound file.
+<span class="linenr">31: </span>    void           *s_p_preloaded_sound;
+<span class="linenr">32: </span>    // ... Or jus the filepath if not preloaded.
+<span class="linenr">33: </span>    ASCII          s_file_path[FILENAME_MAX];
+<span class="linenr">34: </span>  };
+<span class="linenr">35: </span>} sound_t;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe36049" class="outline-2">
+<h2 id="orgbe36049"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
+but isn't used anywhere.  Modify any affected function in <code>sound.c</code></li>
+<li>Walk through <code>sound.c</code> and <i>informally</i> convince ourselves that there are no
+race conditions or deadlocks.</li>
+</ol>
+
+<p>
+<b>END</b>
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+See <a href="https://miniaud.io/">https://miniaud.io/</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+(<code>serial_number</code>, <code>resource_index</code>) pairs are smashed into a single
+<code>uint32_t</code> which the CFFI client will pass to <code>snd_cancel_async()</code>. I would
+prefer to return two values but I don't know of a simple way to do this in CFFI
+(at the time of writing this).
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Image created with <a href="http://draw.io">Draw.io</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+This won't work if we have sounds that repeat endlessly.  It's possible that
+67 million sounds could have been played and wraparound could clobber any long-running playback.
+</p>
+
+<hr></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Perhaps C's bitfield feature would be more appropriate here.  
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Placing the 6-bit error field in bits [26:31] would make checking for error codes simpler.  For example:
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="linenr">0: </span>(let ((playback-id (snd:play-file-async "some-sound.mp3")))
+<span class="linenr">1: </span>  (when (&gt;= playback-id #xfc000000) ; #xfc000000 = #b11111100000000000000000000000000
+<span class="linenr">2: </span>      ; Error
+<span class="linenr">3: </span>  ; ... 
+</pre>
+</div>
+
+<p class="footpara">
+As opposed to:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp"><span class="linenr">0: </span>(let ((playback-id (snd:play-file-async "some-sound.mp3")))
+<span class="linenr">1: </span>  (when (&gt; (logand #x3f playback-id) 0)
+<span class="linenr">2: </span>      ; Error
+<span class="linenr">3: </span>  ; ... 
+</pre>
+</div></div></div>
+
+
+</div>
+</div><div class="taglist"></div>]]></description>
+  <link>./2024-08-18-tightening-up-sound-c.html</link>
+  <guid>./2024-08-18-tightening-up-sound-c.html</guid>
+  <pubDate>Sun, 18 Aug 2024 13:43:00 -0700</pubDate>
+</item>
 <item>
   <title><![CDATA[Error Handling in the sound.c Module]]></title>
   <description><![CDATA[

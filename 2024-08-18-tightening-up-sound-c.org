@@ -1,0 +1,141 @@
+#+title: Tightening Up sound.c
+#+date: <2024-08-18 13:43>
+#+description: 
+#+filetags: CFFI Lisp Game C Miniaudio.
+#+options: org-footnote-section t
+
+*Previous Stream:*
+https://www.youtube.com/watch?v=L-ri_PFpmcA
+
+* Playback Serial Numbers.
+
+In my first draft of ~sound.c~, a typical use might be:
+  1. Client requests playback by calling ~snd_play_mem_async()~ or
+     ~snd_play_file_async()~.
+  2. Index into the resource list (~g_sound_list[]~) returned on success and sound begins playing.
+  3. Sound cancellation (freeing of Miniaudio [fn:ma] resources) occurs by:
+     - In-progress playback can be cancelled by calling ~snd_cancel_async(idx)~
+        where ~idx~ is the index returned in step 1. *OR*
+     - Playback completes.
+
+After thinking for a bit, I realized that the following could occur.
+
+1. Steps 1-3 above.
+2. After playback, client requests playback of another sound and receives /the same/ index
+   as in step 2. above.
+3. Another part of the client code believes that the original playback above is still in
+   progress and requests cancellation.
+4. New playback using same index is cancelled instead.
+
+A solution is to simply modify ~snd_play_(mem|file)_async()~ to instead
+return a pair: ~(serial_number, resource_index)~ where ~serial_number~ is
+unique for each playback request [fn:id].  To cancel, ~snd_cancel_async()~ would
+take the serial number and index as parameters. It should be an error condition, if the
+client attempts to stop playback with a serial number that has "expired".
+
+* Playback ID format.
+Figure [[fig:idbitlayout]] [fn:drawio] below shows how the ~serial_number~ and ~resource_index~ bits are
+smashed together into a single ~uint32_t~  Note that serial numbers are 26 bits
+wide and "wrap around" after approximately 67.1 million plays - an acceptable number
+(for me at least) [fn:loop].
+
+#+CAPTION: /Playback ID bit layout./
+#+name: fig:idbitlayout
+#+attr_html: :width 65%
+[[./playback-id-bit-layout.png]]
+
+Since we must also signal error conditions to a caller and since we're returning a single
+~uint32_t~, some range of possible values must represent an error condition.  See figure
+[[fig:bitlayouterror]] [fn:bitfields] [fn:altlayout].
+
+#+CAPTION: /Bit layout for error condition./
+#+name: fig:bitlayouterror
+#+attr_html: :width 65%
+[[./bit-layout-error.png]]
+
+
+As it stands today, listing [[lst:sound_t]] is the ~struct~ used in Miniaudio resource management:
+
+#+caption: /C struct for Miniaudio resource management./
+#+name: lst:sound_t
+#+begin_src C -n 0
+// Member prefix "s_" == "sound"
+typedef struct
+{
+  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
+  ma_device        s_device;         
+  ma_device_config s_device_config;
+  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
+  ma_decoder       s_decoder;        
+  // Sound play is cancelled but not necessarily stopped yet.
+  atomic_bool      s_cancel_sent;    
+  // Miniaudio resources in this slot available for playback or is this slot currently in use or in
+  // the process of being cancelled.
+  atomic_bool      s_is_available;   
+  // Unique identifier returned when playback is initiated.
+  // Format:                                                     
+  //          - bits [0:5] Index of sound resource in 'g_sound_list[]'
+  //                       If = 0x3f (= 0b111111), then this id is an error code.
+  //          - bits [8:32] Serial # uniquely identifying playback request.
+  //                       If bits [0:5] = 0b111111, then bits[8:32] are identify the
+  //                       specific error code.
+  //          NOTE: Encoding index/serial#/error code into a single uint32_t means that
+  //          we can pass around and return these as a single number.
+  uint32_t         s_playback_id;
+  // Index of these miniaudio resources in 'g_sound_list[]'.  Redundant since
+  // bits [0:5] of 's_playback_id' hold the same index.
+  uint32_t         s_idx_sound_list; 
+  // Playing from file or from memory?
+  source_type_t    s_source_type;    
+  union
+  {
+    // Pointer to memory block of preloaded sound file.
+    void           *s_p_preloaded_sound;
+    // ... Or jus the filepath if not preloaded.
+    ASCII          s_file_path[FILENAME_MAX];
+  };
+} sound_t;
+#+end_src
+
+* Today's Agenda
+1. The code to create/extract (~serial_number~, ~resource_index~) pairs from ~uint32_t~'s has been written
+   but isn't used anywhere.  Modify any affected function in ~sound.c~
+2. Walk through ~sound.c~ and /informally/ convince ourselves that there are no
+   race conditions or deadlocks. 
+
+*END*
+
+[fn:ma] See https://miniaud.io/
+
+[fn:id] (~serial_number~, ~resource_index~) pairs are smashed into a single
+~uint32_t~ which the CFFI client will pass to ~snd_cancel_async()~. I would
+prefer to return two values but I don't know of a simple way to do this in CFFI
+(at the time of writing this).
+
+[fn:drawio] Image created with [[http://draw.io][Draw.io]]
+
+[fn:bitfields] Perhaps C's bitfield feature would be more appropriate here.  
+
+[fn:altlayout] Placing the 6-bit error field in bits [26:31] would make checking for error codes simpler.  For example:
+#+begin_src lisp -n 0
+  (let ((playback-id (snd:play-file-async "some-sound.mp3")))
+    (when (>= playback-id #xfc000000) ; #xfc000000 = #b11111100000000000000000000000000
+        ; Error
+    ; ... 
+#+end_src
+
+As opposed to:
+
+#+begin_src lisp -n 0
+  (let ((playback-id (snd:play-file-async "some-sound.mp3")))
+    (when (> (logand #x3f playback-id) 0)
+        ; Error
+    ; ... 
+#+end_src
+
+[fn:loop] This won't work if we have sounds that repeat endlessly.  It's possible that
+67 million sounds could have been played and wraparound could clobber any long-running playback.
+
+----------
+
+
