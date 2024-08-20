@@ -48,5 +48,3 @@ Produces:
 
 when run through ~cffi-gen.lisp~.
 
-*END*
-

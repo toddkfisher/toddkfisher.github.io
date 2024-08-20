@@ -43,7 +43,7 @@ Should terminate ~snd_cancel_thread()~ with:
 #+end_src
 When ~snd_cancel_thread()~ is awakened it will free up any Miniaudio resources in use.
 
-*END*
 [fn:ma] See https://miniaud.io/
+
 [fn:rst] One such restart might be to unload then reload ~libsound.so~ and continue program execution.
 

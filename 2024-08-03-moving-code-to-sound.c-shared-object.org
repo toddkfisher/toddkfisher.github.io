@@ -18,6 +18,5 @@ compiles to a dynamically-loaded library ~libsound.so~.  Once we have a working
 *2nd Warning:* it's a lovely afternoon outside and I have my patio door open, which means
 there might be some noise in the background.
 
-*END*
 [fn:ma] See https://miniaud.io/
 

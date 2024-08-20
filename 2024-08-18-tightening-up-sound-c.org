@@ -103,8 +103,6 @@ typedef struct
 2. Walk through ~sound.c~ and /informally/ convince ourselves that there are no
    race conditions or deadlocks. 
 
-*END*
-
 [fn:ma] See https://miniaud.io/
 
 [fn:id] (~serial_number~, ~resource_index~) pairs are smashed into a single

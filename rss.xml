@@ -4,7 +4,7 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Mon, 19 Aug 2024 19:44:52 -0700</lastBuildDate>
+<lastBuildDate>Tue, 20 Aug 2024 08:05:32 -0700</lastBuildDate>
 <item>
   <title><![CDATA[Tightening Up sound.c]]></title>
   <description><![CDATA[
@@ -13,8 +13,8 @@
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orgc68bc0d" class="outline-2">
-<h2 id="orgc68bc0d"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org393285d" class="outline-2">
+<h2 id="org393285d"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -54,18 +54,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-org09aa480" class="outline-2">
-<h2 id="org09aa480"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-orgeac096a" class="outline-2">
+<h2 id="orgeac096a"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#orgeb959b5">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#orgd82f22a">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="orgeb959b5">
+<figure id="orgd82f22a">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -74,11 +74,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orgc46bd8d">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#org8fcc25b">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orgc46bd8d">
+<figure id="org8fcc25b">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -86,11 +86,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org6cbeb72">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#orgc2106f9">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org6cbeb72"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="orgc2106f9"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -131,8 +131,8 @@ As it stands today, listing <a href="#org6cbeb72">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-orgc2534c3" class="outline-2">
-<h2 id="orgc2534c3"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org9ee4771" class="outline-2">
+<h2 id="org9ee4771"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -140,10 +140,6 @@ but isn't used anywhere.  Modify any affected function in <code>sound.c</code></
 <li>Walk through <code>sound.c</code> and <i>informally</i> convince ourselves that there are no
 race conditions or deadlocks.</li>
 </ol>
-
-<p>
-<b>END</b>
-</p>
 </div>
 </div>
 <div id="footnotes">
@@ -199,6 +195,7 @@ As opposed to:
 
 </div>
 </div><div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 
@@ -222,8 +219,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org5235b4f" class="outline-2">
-<h2 id="org5235b4f"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgaf6551c" class="outline-2">
+<h2 id="orgaf6551c"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -234,8 +231,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-orge3558db" class="outline-2">
-<h2 id="orge3558db"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-org4efbb0c" class="outline-2">
+<h2 id="org4efbb0c"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -261,8 +258,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org8afb2bd" class="outline-2">
-<h2 id="org8afb2bd"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org7b8a117" class="outline-2">
+<h2 id="org7b8a117"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -284,10 +281,6 @@ pthread_mutex_unlock(&amp;g_mtx_sound_list);  // wake snd_cancel_thread().
 <p>
 When <code>snd_cancel_thread()</code> is awakened it will free up any Miniaudio resources in use.
 </p>
-
-<p>
-<b>END</b>
-</p>
 </div>
 </div>
 <div id="footnotes">
@@ -305,6 +298,7 @@ One such restart might be to unload then reload <code>libsound.so</code> and con
 
 </div>
 </div><div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 
@@ -340,10 +334,6 @@ compiles to a dynamically-loaded library <code>libsound.so</code>.  Once we have
 <b>2nd Warning:</b> it's a lovely afternoon outside and I have my patio door open, which means
 there might be some noise in the background.
 </p>
-
-<p>
-<b>END</b>
-</p>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
@@ -355,6 +345,7 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 
 </div>
 </div><div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 
@@ -378,8 +369,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org1428ac0" class="outline-2">
-<h2 id="org1428ac0"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org71424e9" class="outline-2">
+<h2 id="org71424e9"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -395,8 +386,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org2a3d18b" class="outline-2">
-<h2 id="org2a3d18b"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgc656319" class="outline-2">
+<h2 id="orgc656319"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -404,7 +395,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org5cf942f">
+<figure id="org8e88cd6">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -439,13 +430,10 @@ Produces:
 <p>
 when run through <code>cffi-gen.lisp</code>.
 </p>
-
-<p>
-<b>END</b>
-</p>
 </div>
 </div>
 <div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 
@@ -473,8 +461,8 @@ when run through <code>cffi-gen.lisp</code>.
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org1699d78" class="outline-2">
-<h2 id="org1699d78"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org55351b1" class="outline-2">
+<h2 id="org55351b1"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -574,8 +562,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org2349204" class="outline-2">
-<h2 id="org2349204"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-orgd293924" class="outline-2">
+<h2 id="orgd293924"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -590,8 +578,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-orgaef2ab1" class="outline-2">
-<h2 id="orgaef2ab1"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org2ead2d1" class="outline-2">
+<h2 id="org2ead2d1"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -601,10 +589,6 @@ In today's livestream, we will:
 <li>Load several sound files into memory using <code>libstackalloc</code>.</li>
 <li>Provide some sort of UI for playing and cancelling sounds.</li>
 </ol>
-
-<p>
-<b>END</b>
-</p>
 </div>
 </div>
 <div id="footnotes">
@@ -618,6 +602,7 @@ Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> wil
 
 </div>
 </div><div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 
@@ -634,8 +619,8 @@ Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> wil
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-org4422346" class="outline-2">
-<h2 id="org4422346"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org5a77737" class="outline-2">
+<h2 id="org5a77737"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -650,11 +635,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org2dc0b53" class="outline-2">
-<h2 id="org2dc0b53"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-org5fc389a" class="outline-2">
+<h2 id="org5fc389a"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orgbfd087d">
+<figure id="orgefc41b4">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -662,19 +647,16 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-orgb859e2a" class="outline-2">
-<h2 id="orgb859e2a"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org98a5e8d" class="outline-2">
+<h2 id="org98a5e8d"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.
 </p>
-
-<p>
-<b>END</b>
-</p>
 </div>
 </div>
 <div class="taglist"></div>
+<h3>END</h3>
 
 <hr>
 

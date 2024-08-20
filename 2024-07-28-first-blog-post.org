@@ -41,5 +41,3 @@ will have a companion blog post here.
 
 * SOURCE CODE
   Github repository forthcoming.
-
-*END*
