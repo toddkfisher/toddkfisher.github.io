@@ -13,10 +13,11 @@
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
 <style>
+.squiggles {
+                height: 10 px;
+                background-image: url("squiggles.png");
+                background-repeat: repeat;
 }
-p.footpara { white-space: nowrap; }
-div.footpara { white-space: nowrap; }
-.footnum { white-space: nowrap; }
 body {
        margin-right: 80px;
        margin-left: 80px;
@@ -79,8 +80,8 @@ td {
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-orgfc02c87" class="outline-2">
-<h2 id="orgfc02c87"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org1428ac0" class="outline-2">
+<h2 id="org1428ac0"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -96,8 +97,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orgd53a75c" class="outline-2">
-<h2 id="orgd53a75c"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-org2a3d18b" class="outline-2">
+<h2 id="org2a3d18b"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -105,7 +106,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org8b90244">
+<figure id="org5cf942f">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
