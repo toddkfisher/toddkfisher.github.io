@@ -126,7 +126,7 @@ prefer to return two values but I don't know of a simple way to do this in CFFI
 As opposed to:
 #+begin_src lisp -n 0
   (let ((playback-id (snd:play-file-async "some-sound.mp3")))
-    (when (> (logand #x3f playback-id) 0)
+    (when (= (logand #x3f playback-id) #x3f)
         ; Error
     ; ... 
 #+end_src
