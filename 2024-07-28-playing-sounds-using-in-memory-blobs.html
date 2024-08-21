@@ -13,15 +13,9 @@
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
 <style>
-.square {
-          height: 25px;
-          width: 25px;
-          background-color: black;
-}
 body {
-       margin-right: 80px;
-       margin-left: 80px;
-       font-size: 18px;
+       margin-right: 10%;
+       margin-left: 10%;
 }
 img {
       border-style: solid;
@@ -84,8 +78,8 @@ td {
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org55351b1" class="outline-2">
-<h2 id="org55351b1"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org2a1718c" class="outline-2">
+<h2 id="org2a1718c"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -185,8 +179,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-orgd293924" class="outline-2">
-<h2 id="orgd293924"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org5817fbd" class="outline-2">
+<h2 id="org5817fbd"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -201,8 +195,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-org2ead2d1" class="outline-2">
-<h2 id="org2ead2d1"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-orgeb3c1cb" class="outline-2">
+<h2 id="orgeb3c1cb"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
