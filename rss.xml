@@ -4,7 +4,120 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Wed, 21 Aug 2024 12:39:38 -0700</lastBuildDate>
+<lastBuildDate>Wed, 21 Aug 2024 20:30:32 -0700</lastBuildDate>
+<item>
+  <title><![CDATA[FOSS Licenses and How I Publish Livestream Notes]]></title>
+  <description><![CDATA[
+
+<div id="outline-container-org5a72eee" class="outline-2">
+<h2 id="org5a72eee"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I believe that it's time to put the source code for my game project up on a Github repo.
+This should include instructions to build and run.  At a minimum, you will need <code>clang</code>,
+<code>sbcl</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, <code>emacs</code>, and <code>sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>slime</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd0a0b27" class="outline-2">
+<h2 id="orgd0a0b27"><span class="section-number-2">2.</span> Which Open Source License?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Unfortunately I must release the code under some sort of open source license.  Even though
+there isn't much code, I would prefer that my work isn't stolen.
+In tonight's stream, I'll compare various licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+gives me a good starting point:
+</p>
+
+<blockquote>
+<p>
+Most licenses fit into one of two broad categories: copyleft licenses or
+permissive licenses. Depending on how you want other people to use your project,
+you can narrow your choice down to one of these two categories.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>COPYLEFT LICENSES</b>
+</p>
+
+<p>
+A <b>copyleft</b> license requires that any modified version of an open source
+project also be released under the same license as the original project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+For example, if you released an open source project with a copyleft license,
+anyone who modifies your code must then release their code, including any of the
+changes they made, under the same license as your project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>PERMISSIVE LICENSES</b>
+</p>
+
+<p>
+The other general category of open source licenses is permissive
+licenses. Permissive licenses are different from copyleft licenses in that they
+do not put restrictions on people modifying or redistributing a project.
+</p>
+
+<p>
+For example, if a private company wanted to fork an open source project, add
+some proprietary changes, and redistribute the project, this would be totally
+within their right as long as the project was under a permissive license.
+</p>
+</blockquote>
+
+<p>
+I'm going to select a copyleft license.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="http://sbcl.org">Steel Bank Common Lisp</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://joaotavora.github.io/sly/">Sly Common Lisp IDE</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://slime.common-lisp.dev/">The Superior Lisp Interaction Mode for Emacs</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://www.codecademy.com/article/choosing-an-open-source-license">codeacademy Choosing An Open Source License</a>
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"></div>
+<h3>END</h3>
+
+<hr>
+
+]]></description>
+  <link>./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html</link>
+  <guid>./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html</guid>
+  <pubDate>Wed, 21 Aug 2024 20:04:00 -0700</pubDate>
+</item>
 <item>
   <title><![CDATA[Tightening Up sound.c]]></title>
   <description><![CDATA[
@@ -13,8 +126,8 @@
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orge441151" class="outline-2">
-<h2 id="orge441151"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org4349514" class="outline-2">
+<h2 id="org4349514"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -54,18 +167,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-orga3ad26d" class="outline-2">
-<h2 id="orga3ad26d"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-org67bdf40" class="outline-2">
+<h2 id="org67bdf40"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#org16e305c">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org7534d77">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="org16e305c">
+<figure id="org7534d77">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -74,11 +187,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orgd1f6794">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#org6a15953">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orgd1f6794">
+<figure id="org6a15953">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -86,11 +199,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#orgd7f6755">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="orgd7f6755"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org2c97a8e"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -131,8 +244,8 @@ As it stands today, listing <a href="#orgd7f6755">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-org4fb2ed1" class="outline-2">
-<h2 id="org4fb2ed1"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org3c64b27" class="outline-2">
+<h2 id="org3c64b27"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -219,8 +332,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org0e95ef8" class="outline-2">
-<h2 id="org0e95ef8"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org48e57e0" class="outline-2">
+<h2 id="org48e57e0"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -231,8 +344,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-orgbb3869f" class="outline-2">
-<h2 id="orgbb3869f"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-orgfbe3773" class="outline-2">
+<h2 id="orgfbe3773"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -258,8 +371,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb8e2d1f" class="outline-2">
-<h2 id="orgb8e2d1f"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org76fd28d" class="outline-2">
+<h2 id="org76fd28d"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -369,8 +482,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org78e22ec" class="outline-2">
-<h2 id="org78e22ec"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgf8b2322" class="outline-2">
+<h2 id="orgf8b2322"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -386,8 +499,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orgedb5ca2" class="outline-2">
-<h2 id="orgedb5ca2"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgd2136e4" class="outline-2">
+<h2 id="orgd2136e4"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -395,7 +508,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org6173f1b">
+<figure id="org23d77d7">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -461,8 +574,8 @@ when run through <code>cffi-gen.lisp</code>.
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org2a1718c" class="outline-2">
-<h2 id="org2a1718c"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org41a1e4a" class="outline-2">
+<h2 id="org41a1e4a"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -562,8 +675,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org5817fbd" class="outline-2">
-<h2 id="org5817fbd"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-orgf72c4f9" class="outline-2">
+<h2 id="orgf72c4f9"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -578,8 +691,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-orgeb3c1cb" class="outline-2">
-<h2 id="orgeb3c1cb"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org2725fd0" class="outline-2">
+<h2 id="org2725fd0"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -619,8 +732,8 @@ Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> wil
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-orgc9322ce" class="outline-2">
-<h2 id="orgc9322ce"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org3347b62" class="outline-2">
+<h2 id="org3347b62"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -635,11 +748,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org97eaba3" class="outline-2">
-<h2 id="org97eaba3"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-org8fea55b" class="outline-2">
+<h2 id="org8fea55b"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="org2d3e625">
+<figure id="org4eab166">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -647,8 +760,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-orgf52217e" class="outline-2">
-<h2 id="orgf52217e"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org041ebf9" class="outline-2">
+<h2 id="org041ebf9"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.

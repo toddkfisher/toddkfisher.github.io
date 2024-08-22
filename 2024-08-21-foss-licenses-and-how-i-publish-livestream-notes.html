@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="This is a test to be replaced later">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="./rss.xml"
+      title="RSS feed for ./">
+<title>FOSS Licenses and How I Publish Livestream Notes</title>
+</head>
+<body>
+<div id="preamble" class="status"><img src="blogheader.png">
+<h1><i>Notes to accompany livestreams.</i></h1>
+<hr>
+<style>
+body {
+       margin-right: 10%;
+       margin-left: 10%;
+}
+img {
+      border-style: solid;
+      border-color: grey; 
+      border-width: 1px;
+      filter: drop-shadow(5px 5px 5px gray);
+}
+li {
+     width: 65%;
+}
+p { 
+    width: 65%;
+}
+h1 { color: RebeccaPurple; }
+blockquote { font-style: italic; }
+pre {
+      font-size: 80%;
+      margin-left: 5%;
+}
+code { font-weight: lighter; font-size: 80%; }
+.linenr { background-color: Lavender; }
+.listing-number { font-slant: italic; font-weight: bold}
+.figure-number { font-slant: italic; font-weight: bold}
+table, th, td {
+        border: 2px solid lightgrey;
+        border-collapse: collapse;
+}
+table { text-align: right; }
+th { 
+     padding: 15px;
+     font-size: 105%;
+     border-bottom: 1px solid grey;
+}
+td { 
+     font-family : monospace;
+     font-size: 100%;
+}
+.post-date {
+             font-weight: bold;
+             font-size: 110%;
+             color: RebeccaPurple;
+}
+</style>
+<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script></div>
+<div id="content">
+<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses and How I Publish Livestream Notes</a></h1>
+
+<div id="outline-container-org5a72eee" class="outline-2">
+<h2 id="org5a72eee"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I believe that it's time to put the source code for my game project up on a Github repo.
+This should include instructions to build and run.  At a minimum, you will need <code>clang</code>,
+<code>sbcl</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, <code>emacs</code>, and <code>sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>slime</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd0a0b27" class="outline-2">
+<h2 id="orgd0a0b27"><span class="section-number-2">2.</span> Which Open Source License?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Unfortunately I must release the code under some sort of open source license.  Even though
+there isn't much code, I would prefer that my work isn't stolen.
+In tonight's stream, I'll compare various licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+gives me a good starting point:
+</p>
+
+<blockquote>
+<p>
+Most licenses fit into one of two broad categories: copyleft licenses or
+permissive licenses. Depending on how you want other people to use your project,
+you can narrow your choice down to one of these two categories.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>COPYLEFT LICENSES</b>
+</p>
+
+<p>
+A <b>copyleft</b> license requires that any modified version of an open source
+project also be released under the same license as the original project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+For example, if you released an open source project with a copyleft license,
+anyone who modifies your code must then release their code, including any of the
+changes they made, under the same license as your project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>PERMISSIVE LICENSES</b>
+</p>
+
+<p>
+The other general category of open source licenses is permissive
+licenses. Permissive licenses are different from copyleft licenses in that they
+do not put restrictions on people modifying or redistributing a project.
+</p>
+
+<p>
+For example, if a private company wanted to fork an open source project, add
+some proprietary changes, and redistribute the project, this would be totally
+within their right as long as the project was under a permissive license.
+</p>
+</blockquote>
+
+<p>
+I'm going to select a copyleft license.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="http://sbcl.org">Steel Bank Common Lisp</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://joaotavora.github.io/sly/">Sly Common Lisp IDE</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://slime.common-lisp.dev/">The Superior Lisp Interaction Mode for Emacs</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://www.codecademy.com/article/choosing-an-open-source-license">codeacademy Choosing An Open Source License</a>
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"></div>
+<h3>END</h3>
+
+<hr>
+
+</div>
+<div id="postamble" class="status"></div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+#+title: FOSS Licenses and How I Publish Livestream Notes
+#+date: <2024-08-21 20:04>
+#+description: This is a test to be replaced later
+#+filetags:
+
+* The Source Code for These Streams Should be Available on Github.
+I believe that it's time to put the source code for my game project up on a Github repo.
+This should include instructions to build and run.  At a minimum, you will need ~clang~,
+~sbcl~ [fn:sbcl], ~emacs~, and ~sly~ [fn:sly] or ~slime~ [fn:slime].
+
+* Which Open Source License?
+Unfortunately I must release the code under some sort of open source license.  Even though
+there isn't much code, I would prefer that my work isn't stolen.
+In tonight's stream, I'll compare various licenses.  Codeacademy [fn:codeacademy]
+gives me a good starting point:
+
+#+begin_quote
+  Most licenses fit into one of two broad categories: copyleft licenses or
+  permissive licenses. Depending on how you want other people to use your project,
+  you can narrow your choice down to one of these two categories.
+   
+  /[...]/
+
+  *COPYLEFT LICENSES*
+   
+  A *copyleft* license requires that any modified version of an open source
+  project also be released under the same license as the original project.
+   
+  /[...]/
+   
+  For example, if you released an open source project with a copyleft license,
+  anyone who modifies your code must then release their code, including any of the
+  changes they made, under the same license as your project.
+   
+  /[...]/
+   
+  *PERMISSIVE LICENSES*
+   
+  The other general category of open source licenses is permissive
+  licenses. Permissive licenses are different from copyleft licenses in that they
+  do not put restrictions on people modifying or redistributing a project.
+   
+  For example, if a private company wanted to fork an open source project, add
+  some proprietary changes, and redistribute the project, this would be totally
+  within their right as long as the project was under a permissive license.
+#+end_quote
+
+I'm going to select a copyleft license.
+
+[fn:sbcl] [[http://sbcl.org][Steel Bank Common Lisp]]
+
+[fn:sly] [[https://joaotavora.github.io/sly/][Sly Common Lisp IDE]]
+
+[fn:slime] [[https://slime.common-lisp.dev/][The Superior Lisp Interaction Mode for Emacs]]
+
+[fn:codeacademy] [[https://www.codecademy.com/article/choosing-an-open-source-license][codeacademy: Choosing An Open Source License]]

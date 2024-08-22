@@ -30,6 +30,7 @@ p {
     width: 65%;
 }
 h1 { color: RebeccaPurple; }
+blockquote { font-style: italic; }
 pre {
       font-size: 80%;
       margin-left: 5%;
@@ -62,14 +63,121 @@ td {
 </script></div>
 <div id="content">
 
+<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses and How I Publish Livestream Notes</a></h1>
+
+<div id="outline-container-org5a72eee" class="outline-2">
+<h2 id="org5a72eee"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I believe that it's time to put the source code for my game project up on a Github repo.
+This should include instructions to build and run.  At a minimum, you will need <code>clang</code>,
+<code>sbcl</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, <code>emacs</code>, and <code>sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>slime</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd0a0b27" class="outline-2">
+<h2 id="orgd0a0b27"><span class="section-number-2">2.</span> Which Open Source License?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Unfortunately I must release the code under some sort of open source license.  Even though
+there isn't much code, I would prefer that my work isn't stolen.
+In tonight's stream, I'll compare various licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
+gives me a good starting point:
+</p>
+
+<blockquote>
+<p>
+Most licenses fit into one of two broad categories: copyleft licenses or
+permissive licenses. Depending on how you want other people to use your project,
+you can narrow your choice down to one of these two categories.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>COPYLEFT LICENSES</b>
+</p>
+
+<p>
+A <b>copyleft</b> license requires that any modified version of an open source
+project also be released under the same license as the original project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+For example, if you released an open source project with a copyleft license,
+anyone who modifies your code must then release their code, including any of the
+changes they made, under the same license as your project.
+</p>
+
+<p>
+<i>[&#x2026;]</i>
+</p>
+
+<p>
+<b>PERMISSIVE LICENSES</b>
+</p>
+
+<p>
+The other general category of open source licenses is permissive
+licenses. Permissive licenses are different from copyleft licenses in that they
+do not put restrictions on people modifying or redistributing a project.
+</p>
+
+<p>
+For example, if a private company wanted to fork an open source project, add
+some proprietary changes, and redistribute the project, this would be totally
+within their right as long as the project was under a permissive license.
+</p>
+</blockquote>
+
+<p>
+I'm going to select a copyleft license.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="http://sbcl.org">Steel Bank Common Lisp</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://joaotavora.github.io/sly/">Sly Common Lisp IDE</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://slime.common-lisp.dev/">The Superior Lisp Interaction Mode for Emacs</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://www.codecademy.com/article/choosing-an-open-source-license">codeacademy Choosing An Open Source License</a>
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"></div>
+<h3>END</h3>
+
+<hr>
+
+
 <div class="post-date">18 Aug 2024</div><h1 class="post-title"><a href="./2024-08-18-tightening-up-sound-c.html">Tightening Up sound.c</a></h1>
 <p>
 <b>Previous Stream:</b>
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orge441151" class="outline-2">
-<h2 id="orge441151"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org4349514" class="outline-2">
+<h2 id="org4349514"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -109,18 +217,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-orga3ad26d" class="outline-2">
-<h2 id="orga3ad26d"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-org67bdf40" class="outline-2">
+<h2 id="org67bdf40"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#org16e305c">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org7534d77">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="org16e305c">
+<figure id="org7534d77">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -129,11 +237,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orgd1f6794">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#org6a15953">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orgd1f6794">
+<figure id="org6a15953">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -141,11 +249,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#orgd7f6755">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="orgd7f6755"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org2c97a8e"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -186,8 +294,8 @@ As it stands today, listing <a href="#orgd7f6755">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-org4fb2ed1" class="outline-2">
-<h2 id="org4fb2ed1"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org3c64b27" class="outline-2">
+<h2 id="org3c64b27"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -268,8 +376,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org0e95ef8" class="outline-2">
-<h2 id="org0e95ef8"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org48e57e0" class="outline-2">
+<h2 id="org48e57e0"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -280,8 +388,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-orgbb3869f" class="outline-2">
-<h2 id="orgbb3869f"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-orgfbe3773" class="outline-2">
+<h2 id="orgfbe3773"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -307,8 +415,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-orgb8e2d1f" class="outline-2">
-<h2 id="orgb8e2d1f"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org76fd28d" class="outline-2">
+<h2 id="org76fd28d"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -406,8 +514,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org78e22ec" class="outline-2">
-<h2 id="org78e22ec"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgf8b2322" class="outline-2">
+<h2 id="orgf8b2322"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -423,8 +531,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orgedb5ca2" class="outline-2">
-<h2 id="orgedb5ca2"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgd2136e4" class="outline-2">
+<h2 id="orgd2136e4"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -432,7 +540,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org6173f1b">
+<figure id="org23d77d7">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -470,169 +578,6 @@ when run through <code>cffi-gen.lisp</code>.
 </div>
 </div>
 <div class="taglist"></div>
-<h3>END</h3>
-
-<hr>
-
-
-<div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-playing-sounds-using-in-memory-blobs.html">Playing Sounds Using In-Memory BLOBS</a></h1>
-<p>
-<b>Binary large object (BLOB)</b>
-<i>is a generic term used to  describe the handling and</i>
-<i>storage of  long strings  of data by  database management systems.  A BLOB  is a</i>
-<i>category of data,  characterized by large size (including media  formats such as</i>
-<i>audio and video), which can place extreme demands on storage systems and network</i>
-<i>bandwidth.</i>
-<a href="https://www.gartner.com/en/information-technology/glossary/blob-binary-large-object">Gartner.com</a>
-</p>
-
-<p>
-<b>Summary:</b> I  briefly describe how  thread-based resource management is  used in
-<del><code>sound.c</code></del> <code>simple-playback.c</code>  and how it  will be modified to  play preloaded
-sound files residing in memory.
-</p>
-
-<div id="outline-container-org2a1718c" class="outline-2">
-<h2 id="org2a1718c"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-<code>Miniaudio</code> has a simple way of playing a sound file:
-<code>ma_engine_play_sound()</code> which is adequate for asynchronously loading and
-playing sounds.  We would like to preload sounds and play them from memory but
-there is no simple high-level function for this.  We must resort to <code>Miniaudio</code>'s
-"low-level" API.
-</p>
-
-<p>
-To play sounds through the low-level API we must:
-</p>
-<ol class="org-ol">
-<li>Create an <code>ma_decoder</code> from a file or block of memory.  The decoder must
-be configured for sample format, channel count, and sample rate.</li>
-<li>An <code>ma_device</code> must be configured and initialized.  The device contains references
-to the decoder created in step 1 as well as a callback function which uses the decoder to
-provide <code>Miniaudio</code> with frames (a frame is a set of samples: one per channel).</li>
-<li>We must start the device. This begins playing the sound.</li>
-</ol>
-
-<p>
-End of playback is detected in our data callback:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-C">if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL))
-  // ...
-</pre>
-</div>
-
-<p>
-And we free Miniaudio resources with <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> but
-this <i>must not happen</i> in the data callback, it must occur in another thread. <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
-To overcome this restriction we have a separate thread function, <code>snd_cancel_thread()</code>:
-which calls <code>ma_(device|decoder)_uninit()</code> when a condition <code>g_cnd_cancel</code> is
-signalled.
-</p>
-
-<p>
-In <code>sound.c</code>,  devices and decoders  are stored in an  array: <code>g_sound_list[]</code>.
-Each entry  in <code>g_sound_list[]</code> is a  structure which holds an  "is available"
-flag:
-</p>
-
-<div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Data structures for storing sounds during playback.</i></label><pre class="src src-C"><span class="linenr"> 0: </span>typedef struct
-<span class="linenr"> 1: </span>{
-<span class="linenr"> 2: </span>  ma_device        s_device;
-<span class="linenr"> 3: </span>  ma_device_config s_device_config;
-<span class="linenr"> 4: </span>  ma_decoder       s_decoder;
-<span class="linenr"> 5: </span>  atomic_bool      s_cancel_sent;
-<span class="linenr"> 6: </span>  atomic_bool      s_is_available;
-<span class="linenr"> 7: </span>  int              s_idx_sound_list;
-<span class="linenr"> 8: </span>} sound_t;
-<span class="linenr"> 9: </span>
-<span class="linenr">10: </span>// Array of sound resources.
-<span class="linenr">11: </span>// IF g_sound_list[i].s_is_available &amp;&amp; !g_sound_list[i].s_cancel_sent THEN:
-<span class="linenr">12: </span>//
-<span class="linenr">13: </span>//   slot i may be used as a decoder and device to play a sound.
-<span class="linenr">14: </span>//
-<span class="linenr">15: </span>// NOTE that there is no free list of available slots.  The list must be scanned to find
-<span class="linenr">16: </span>// a free slot i.
-<span class="linenr">17: </span>#define MAX_SOUNDS 25
-<span class="linenr">18: </span>sound_t g_sound_list[MAX_SOUNDS];
-</pre>
-</div>
-
-<p>
-Sound playback is achieved  with <code>snd_play_file_async()</code> which finds an
-index of an available device/decoder and then proceeds with steps 1-3 above.  And
-the resources in <code>g_sound_list[</code> <i>&lt;index&gt;</i> <code>]</code> are made unavailable.
-</p>
-
-<p>
-Cancellation of a sound can occur when a sound has completed playing or during
-playback.  <code>snd_cancel_async()</code> places the an index of an entry in <code>g_sound_list[]</code>
-onto <code>g_cancel_list[]</code> and signals <code>g_cnd_cancel</code> waking up the <code>snd_cancel_thread()</code>.
-A mutex, <code>g_mtx_sound_list</code>, is used to synchronize access to <code>g_sound_list[]</code> and <code>g_cancel_list[]</code>.
-</p>
-
-<div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Array storing indices (into <code>g_sound_list[]</code>) of <code>Miniaudio</code> resources to release.</i></label><pre class="src src-C"><span class="linenr">0: </span>// Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.
-<span class="linenr">1: </span>// Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
-<span class="linenr">2: </span>// are valid.
-<span class="linenr">3: </span>int g_cancel_list_end = 0;
-<span class="linenr">4: </span>int g_cancel_list[MAX_SOUNDS];
-<span class="linenr">5: </span>
-<span class="linenr">6: </span>// Synchronize access to g_sound_list[] and g_cancel_list[].
-<span class="linenr">7: </span>pthread_mutex_t g_mtx_sound_list = PTHREAD_MUTEX_INITIALIZER;
-</pre>
-</div>
-
-<p>
-All of this functionality will eventually be used in LISP through <code>CFFI</code>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-org5817fbd" class="outline-2">
-<h2 id="org5817fbd"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
-sounds will be loaded into memory when our program starts.
-</p>
-
-<p>
-<code>stk-alloc.c</code> allocates memory blocks by simply advancing a pointer <code>g_p_next</code> when a
-block is requested (<code>stkalloc_get_mem()</code>).  Calling <code>stkalloc_free(p)</code> adjusts <code>g_p_next</code>
-to <code>p</code> and so everything allocated after <code>p</code> is released as well.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgeb3c1cb" class="outline-2">
-<h2 id="orgeb3c1cb"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
-In today's livestream, we will:
-</p>
-<ol class="org-ol">
-<li>Load several sound files into memory using <code>libstackalloc</code>.</li>
-<li>Provide some sort of UI for playing and cancelling sounds.</li>
-</ol>
-</div>
-</div>
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> will also stop a sound currently playing.
-</p></div></div>
-
-
-</div>
-</div><div class="taglist"></div>
 <h3>END</h3>
 
 <hr>

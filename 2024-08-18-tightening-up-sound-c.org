@@ -102,7 +102,7 @@ typedef struct
    but isn't used anywhere.  Modify any affected function in ~sound.c~
 2. Walk through ~sound.c~ and /informally/ convince ourselves that there are no
    race conditions or deadlocks. 
-
+   
 [fn:ma] See https://miniaud.io/
 
 [fn:id] (~serial_number~, ~resource_index~) pairs are smashed into a single
@@ -132,6 +132,7 @@ As opposed to:
 [fn:loop] This won't work if we have sounds that repeat endlessly.  It's possible that
 67 million sounds could have been played and wraparound could
 clobber any long-running playback.
+
 
 
 
