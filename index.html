@@ -35,7 +35,7 @@ pre {
       font-size: 80%;
       margin-left: 5%;
 }
-code { font-weight: lighter; font-size: 80%; }
+code { font-weight: lighter; }
 .linenr { background-color: Lavender; }
 .listing-number { font-slant: italic; font-weight: bold}
 .figure-number { font-slant: italic; font-weight: bold}
@@ -63,27 +63,31 @@ td {
 </script></div>
 <div id="content">
 
-<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses and How I Publish Livestream Notes</a></h1>
+<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses</a></h1>
 
-<div id="outline-container-org5a72eee" class="outline-2">
-<h2 id="org5a72eee"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div id="outline-container-org255c78b" class="outline-2">
+<h2 id="org255c78b"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I believe that it's time to put the source code for my game project up on a Github repo.
-This should include instructions to build and run.  At a minimum, you will need <code>clang</code>,
-<code>sbcl</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, <code>emacs</code>, and <code>sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>slime</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+This should include instructions on how to build and run.  At a minimum, you will need:
 </p>
+<ul class="org-ul">
+<li><code>clang</code>,</li>
+<li><code>SBCL</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>,</li>
+<li><code>Emacs</code>, and</li>
+<li><code>Sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>SLIME</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.</li>
+</ul>
 </div>
 </div>
 
-<div id="outline-container-orgd0a0b27" class="outline-2">
-<h2 id="orgd0a0b27"><span class="section-number-2">2.</span> Which Open Source License?</h2>
+<div id="outline-container-orgc9b628b" class="outline-2">
+<h2 id="orgc9b628b"><span class="section-number-2">2.</span> Which Open Source License?</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Unfortunately I must release the code under some sort of open source license.  Even though
-there isn't much code, I would prefer that my work isn't stolen.
-In tonight's stream, I'll compare various licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
-gives me a good starting point:
+Unfortunately I must release the code under some sort of open source license.
+I would prefer that my work isn't stolen. In today's stream, I'll compare various
+licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> gives is a good starting point:
 </p>
 
 <blockquote>
@@ -94,7 +98,7 @@ you can narrow your choice down to one of these two categories.
 </p>
 
 <p>
-<i>[&#x2026;]</i>
+[&#x2026;]
 </p>
 
 <p>
@@ -107,17 +111,7 @@ project also be released under the same license as the original project.
 </p>
 
 <p>
-<i>[&#x2026;]</i>
-</p>
-
-<p>
-For example, if you released an open source project with a copyleft license,
-anyone who modifies your code must then release their code, including any of the
-changes they made, under the same license as your project.
-</p>
-
-<p>
-<i>[&#x2026;]</i>
+[&#x2026;]
 </p>
 
 <p>
@@ -125,20 +119,159 @@ changes they made, under the same license as your project.
 </p>
 
 <p>
-The other general category of open source licenses is permissive
+The other general category of open source licenses is <b>permissive</b>
 licenses. Permissive licenses are different from copyleft licenses in that they
 do not put restrictions on people modifying or redistributing a project.
-</p>
-
-<p>
-For example, if a private company wanted to fork an open source project, add
-some proprietary changes, and redistribute the project, this would be totally
-within their right as long as the project was under a permissive license.
 </p>
 </blockquote>
 
 <p>
 I'm going to select a copyleft license.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga25000d" class="outline-2">
+<h2 id="orga25000d"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Wikipedia's <i>Comparison of free and open-source software licenses</i> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
+has a 41 row table comparison.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org51df5f9" class="outline-2">
+<h2 id="org51df5f9"><span class="section-number-2">4.</span> What I Want From a License.</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+It is very unlikely that anyone will "steal" the code for this tiny
+project and close-source it for profit.  It's a good idea though to be aware of the major
+FOSS licenses should you contribute to or create a larger project.
+</p>
+
+<p>
+Here are my license preferences:
+</p>
+<ol class="org-ol">
+<li>No one can make any money off of my work or any work derived from
+it.</li>
+<li>No one can take my work, modify it (even slightly) and
+not credit me.</li>
+<li>My original work and anything derived from it must always
+be available in source form.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6f4041d" class="outline-2">
+<h2 id="org6f4041d"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Github has a website <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> which compares eight popular FOSS licenses.  None of these
+seems to satisfy criteral No. 1 above.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Criteria Satisfied</th>
+<th scope="col" class="org-left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">GNU AGPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">Same as GPLv3 but network use is distribution</td>
+</tr>
+
+<tr>
+<td class="org-left">GNU GPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">GNU LGPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">(see below)</td>
+</tr>
+
+<tr>
+<td class="org-left">Mozilla Public License 2.0</td>
+<td class="org-left">?</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Apache License 2.0</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MIT License</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Boost Software License 1.0</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">The Unlicense</td>
+<td class="org-left">?</td>
+<td class="org-left">none</td>
+<td class="org-left">No conditions</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+LGPLv3 allows close-source software to include your work as long as:
+</p>
+<ul class="org-ul">
+<li>Your source code is published and</li>
+<li>The closed-source software uses your software through whatever interfaces are provided
+(e.g. public functions in a shared-object library)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeef562c" class="outline-2">
+<h2 id="orgeef562c"><span class="section-number-2">6.</span> Conclusion</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Any project that uses an AGPLv3 or GPLv3 licensed source-code is bound to the same terms.
+AGPLv3 is the most restrictive of the two so I'm choosing that.
+</p>
+
+<p>
+Now that I have this taken care of, I can move on to more interesting topics.
 </p>
 </div>
 </div>
@@ -159,7 +292,15 @@ I'm going to select a copyleft license.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://www.codecademy.com/article/choosing-an-open-source-license">codeacademy Choosing An Open Source License</a>
+codeacademy: <a href="https://www.codecademy.com/article/choosing-an-open-source-license">Choosing An Open Source License</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Wikipedia: <a href="https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses">Comparison of Free and Open-Source Software Licenses</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Github: <a href="https://choosealicense.com/">Choose an open source license</a> and <a href="https://choosealicense.com/licenses/">Licenses</a>
 </p></div></div>
 
 
@@ -176,8 +317,8 @@ I'm going to select a copyleft license.
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org4349514" class="outline-2">
-<h2 id="org4349514"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org030db1d" class="outline-2">
+<h2 id="org030db1d"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -217,18 +358,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-org67bdf40" class="outline-2">
-<h2 id="org67bdf40"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-orgf5aa835" class="outline-2">
+<h2 id="orgf5aa835"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#org7534d77">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org8a1e42d">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="org7534d77">
+<figure id="org8a1e42d">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -237,11 +378,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#org6a15953">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#orgf900bbc">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="org6a15953">
+<figure id="orgf900bbc">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -249,11 +390,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org1309a76">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org2c97a8e"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org1309a76"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -294,8 +435,8 @@ As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-org3c64b27" class="outline-2">
-<h2 id="org3c64b27"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org9088353" class="outline-2">
+<h2 id="org9088353"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -376,8 +517,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org48e57e0" class="outline-2">
-<h2 id="org48e57e0"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org8eedcff" class="outline-2">
+<h2 id="org8eedcff"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -388,8 +529,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-orgfbe3773" class="outline-2">
-<h2 id="orgfbe3773"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-org91d84f5" class="outline-2">
+<h2 id="org91d84f5"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -415,8 +556,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org76fd28d" class="outline-2">
-<h2 id="org76fd28d"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org818b70c" class="outline-2">
+<h2 id="org818b70c"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -514,8 +655,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-orgf8b2322" class="outline-2">
-<h2 id="orgf8b2322"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org7a40d11" class="outline-2">
+<h2 id="org7a40d11"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -531,8 +672,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-orgd2136e4" class="outline-2">
-<h2 id="orgd2136e4"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-org298ed54" class="outline-2">
+<h2 id="org298ed54"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -540,7 +681,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org23d77d7">
+<figure id="org296d42d">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>

@@ -1,51 +1,86 @@
-#+title: FOSS Licenses and How I Publish Livestream Notes
+#+title: FOSS Licenses
 #+date: <2024-08-21 20:04>
 #+description: This is a test to be replaced later
 #+filetags:
 
 * The Source Code for These Streams Should be Available on Github.
 I believe that it's time to put the source code for my game project up on a Github repo.
-This should include instructions to build and run.  At a minimum, you will need ~clang~,
-~sbcl~ [fn:sbcl], ~emacs~, and ~sly~ [fn:sly] or ~slime~ [fn:slime].
+This should include instructions on how to build and run.  At a minimum, you will need:
+  - ~clang~,
+  - ~SBCL~ [fn:sbcl],
+  - ~Emacs~, and
+  - ~Sly~ [fn:sly] or ~SLIME~ [fn:slime].
 
 * Which Open Source License?
-Unfortunately I must release the code under some sort of open source license.  Even though
-there isn't much code, I would prefer that my work isn't stolen.
-In tonight's stream, I'll compare various licenses.  Codeacademy [fn:codeacademy]
-gives me a good starting point:
+Unfortunately I must release the code under some sort of open source license.
+I would prefer that my work isn't stolen. In today's stream, I'll compare various
+licenses.  Codeacademy [fn:codeacademy] gives is a good starting point:
 
 #+begin_quote
   Most licenses fit into one of two broad categories: copyleft licenses or
   permissive licenses. Depending on how you want other people to use your project,
   you can narrow your choice down to one of these two categories.
    
-  /[...]/
+  [...]
 
   *COPYLEFT LICENSES*
    
   A *copyleft* license requires that any modified version of an open source
   project also be released under the same license as the original project.
-   
-  /[...]/
-   
-  For example, if you released an open source project with a copyleft license,
-  anyone who modifies your code must then release their code, including any of the
-  changes they made, under the same license as your project.
-   
-  /[...]/
-   
+
+  [...]
+  
   *PERMISSIVE LICENSES*
    
-  The other general category of open source licenses is permissive
+  The other general category of open source licenses is *permissive*
   licenses. Permissive licenses are different from copyleft licenses in that they
   do not put restrictions on people modifying or redistributing a project.
-   
-  For example, if a private company wanted to fork an open source project, add
-  some proprietary changes, and redistribute the project, this would be totally
-  within their right as long as the project was under a permissive license.
 #+end_quote
 
 I'm going to select a copyleft license.
+
+* How Many Licenses Are Out There?
+Wikipedia's /Comparison of free and open-source software licenses/ [fn:wikicompare]
+has a 41 row table comparison.
+
+* What I Want From a License.
+  It is very unlikely that anyone will "steal" the code for this tiny
+  project and close-source it for profit.  It's a good idea though to be aware of the major
+  FOSS licenses should you contribute to or create a larger project.
+
+  Here are my license preferences:
+  1. No one can make any money off of my work or any work derived from
+     it.
+  2. No one can take my work, modify it (even slightly) and
+     not credit me.
+  3. My original work and anything derived from it must always
+     be available in source form.
+
+* How Do the Major FOSS Licenses Stack Up?
+  Github has a website [fn:comparelic] which compares eight popular FOSS licenses.  None of these
+  seems to satisfy criteral No. 1 above.
+
+  | Name                       | Type       | Criteria Satisfied | Notes                                         |
+  |----------------------------+------------+--------------------+-----------------------------------------------+
+  | GNU AGPLv3                 | copyleft   | 2 & 3              | Same as GPLv3 but network use is distribution |
+  | GNU GPLv3                  | copyleft   | 2 & 3              |                                               |
+  | GNU LGPLv3                 | copyleft   | 2 & 3              | (see below)                                   |
+  | Mozilla Public License 2.0 | ?          | none               |                                               |
+  | Apache License 2.0         | permissive | none               |                                               |
+  | MIT License                | permissive | none               |                                               |
+  | Boost Software License 1.0 | permissive | none               |                                               |
+  | The Unlicense              | ?          | none               | No conditions                                 |
+
+  LGPLv3 allows close-source software to include your work as long as:
+  - Your source code is published and
+  - The closed-source software uses your software through whatever interfaces are provided
+    (e.g. public functions in a shared-object library)
+
+* Conclusion
+  Any project that uses an AGPLv3 or GPLv3 licensed source-code is bound to the same terms.
+  AGPLv3 is the most restrictive of the two so I'm choosing that.
+
+  Now that I have this taken care of, I can move on to more interesting topics.
 
 [fn:sbcl] [[http://sbcl.org][Steel Bank Common Lisp]]
 
@@ -53,4 +88,8 @@ I'm going to select a copyleft license.
 
 [fn:slime] [[https://slime.common-lisp.dev/][The Superior Lisp Interaction Mode for Emacs]]
 
-[fn:codeacademy] [[https://www.codecademy.com/article/choosing-an-open-source-license][codeacademy: Choosing An Open Source License]]
+[fn:codeacademy] codeacademy: [[https://www.codecademy.com/article/choosing-an-open-source-license][Choosing An Open Source License]]
+
+[fn:wikicompare] Wikipedia: [[https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses][Comparison of Free and Open-Source Software Licenses]]
+
+[fn:comparelic] Github: [[https://choosealicense.com/][Choose an open source license]] and [[https://choosealicense.com/licenses/][Licenses]]

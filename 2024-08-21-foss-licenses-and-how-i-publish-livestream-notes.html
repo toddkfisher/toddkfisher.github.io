@@ -7,7 +7,7 @@
       type="application/rss+xml"
       href="./rss.xml"
       title="RSS feed for ./">
-<title>FOSS Licenses and How I Publish Livestream Notes</title>
+<title>FOSS Licenses</title>
 </head>
 <body>
 <div id="preamble" class="status"><img src="blogheader.png">
@@ -36,7 +36,7 @@ pre {
       font-size: 80%;
       margin-left: 5%;
 }
-code { font-weight: lighter; font-size: 80%; }
+code { font-weight: lighter; }
 .linenr { background-color: Lavender; }
 .listing-number { font-slant: italic; font-weight: bold}
 .figure-number { font-slant: italic; font-weight: bold}
@@ -63,27 +63,31 @@ td {
 <script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script></div>
 <div id="content">
-<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses and How I Publish Livestream Notes</a></h1>
+<div class="post-date">21 Aug 2024</div><h1 class="post-title"><a href="./2024-08-21-foss-licenses-and-how-i-publish-livestream-notes.html">FOSS Licenses</a></h1>
 
-<div id="outline-container-org5a72eee" class="outline-2">
-<h2 id="org5a72eee"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div id="outline-container-org255c78b" class="outline-2">
+<h2 id="org255c78b"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I believe that it's time to put the source code for my game project up on a Github repo.
-This should include instructions to build and run.  At a minimum, you will need <code>clang</code>,
-<code>sbcl</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, <code>emacs</code>, and <code>sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>slime</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.
+This should include instructions on how to build and run.  At a minimum, you will need:
 </p>
+<ul class="org-ul">
+<li><code>clang</code>,</li>
+<li><code>SBCL</code> <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>,</li>
+<li><code>Emacs</code>, and</li>
+<li><code>Sly</code> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> or <code>SLIME</code> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.</li>
+</ul>
 </div>
 </div>
 
-<div id="outline-container-orgd0a0b27" class="outline-2">
-<h2 id="orgd0a0b27"><span class="section-number-2">2.</span> Which Open Source License?</h2>
+<div id="outline-container-orgc9b628b" class="outline-2">
+<h2 id="orgc9b628b"><span class="section-number-2">2.</span> Which Open Source License?</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Unfortunately I must release the code under some sort of open source license.  Even though
-there isn't much code, I would prefer that my work isn't stolen.
-In tonight's stream, I'll compare various licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
-gives me a good starting point:
+Unfortunately I must release the code under some sort of open source license.
+I would prefer that my work isn't stolen. In today's stream, I'll compare various
+licenses.  Codeacademy <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> gives is a good starting point:
 </p>
 
 <blockquote>
@@ -94,7 +98,7 @@ you can narrow your choice down to one of these two categories.
 </p>
 
 <p>
-<i>[&#x2026;]</i>
+[&#x2026;]
 </p>
 
 <p>
@@ -107,17 +111,7 @@ project also be released under the same license as the original project.
 </p>
 
 <p>
-<i>[&#x2026;]</i>
-</p>
-
-<p>
-For example, if you released an open source project with a copyleft license,
-anyone who modifies your code must then release their code, including any of the
-changes they made, under the same license as your project.
-</p>
-
-<p>
-<i>[&#x2026;]</i>
+[&#x2026;]
 </p>
 
 <p>
@@ -125,20 +119,159 @@ changes they made, under the same license as your project.
 </p>
 
 <p>
-The other general category of open source licenses is permissive
+The other general category of open source licenses is <b>permissive</b>
 licenses. Permissive licenses are different from copyleft licenses in that they
 do not put restrictions on people modifying or redistributing a project.
-</p>
-
-<p>
-For example, if a private company wanted to fork an open source project, add
-some proprietary changes, and redistribute the project, this would be totally
-within their right as long as the project was under a permissive license.
 </p>
 </blockquote>
 
 <p>
 I'm going to select a copyleft license.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga25000d" class="outline-2">
+<h2 id="orga25000d"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Wikipedia's <i>Comparison of free and open-source software licenses</i> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
+has a 41 row table comparison.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org51df5f9" class="outline-2">
+<h2 id="org51df5f9"><span class="section-number-2">4.</span> What I Want From a License.</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+It is very unlikely that anyone will "steal" the code for this tiny
+project and close-source it for profit.  It's a good idea though to be aware of the major
+FOSS licenses should you contribute to or create a larger project.
+</p>
+
+<p>
+Here are my license preferences:
+</p>
+<ol class="org-ol">
+<li>No one can make any money off of my work or any work derived from
+it.</li>
+<li>No one can take my work, modify it (even slightly) and
+not credit me.</li>
+<li>My original work and anything derived from it must always
+be available in source form.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6f4041d" class="outline-2">
+<h2 id="org6f4041d"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Github has a website <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> which compares eight popular FOSS licenses.  None of these
+seems to satisfy criteral No. 1 above.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Criteria Satisfied</th>
+<th scope="col" class="org-left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">GNU AGPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">Same as GPLv3 but network use is distribution</td>
+</tr>
+
+<tr>
+<td class="org-left">GNU GPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">GNU LGPLv3</td>
+<td class="org-left">copyleft</td>
+<td class="org-left">2 &amp; 3</td>
+<td class="org-left">(see below)</td>
+</tr>
+
+<tr>
+<td class="org-left">Mozilla Public License 2.0</td>
+<td class="org-left">?</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Apache License 2.0</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">MIT License</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Boost Software License 1.0</td>
+<td class="org-left">permissive</td>
+<td class="org-left">none</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">The Unlicense</td>
+<td class="org-left">?</td>
+<td class="org-left">none</td>
+<td class="org-left">No conditions</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+LGPLv3 allows close-source software to include your work as long as:
+</p>
+<ul class="org-ul">
+<li>Your source code is published and</li>
+<li>The closed-source software uses your software through whatever interfaces are provided
+(e.g. public functions in a shared-object library)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeef562c" class="outline-2">
+<h2 id="orgeef562c"><span class="section-number-2">6.</span> Conclusion</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Any project that uses an AGPLv3 or GPLv3 licensed source-code is bound to the same terms.
+AGPLv3 is the most restrictive of the two so I'm choosing that.
+</p>
+
+<p>
+Now that I have this taken care of, I can move on to more interesting topics.
 </p>
 </div>
 </div>
@@ -159,7 +292,15 @@ I'm going to select a copyleft license.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://www.codecademy.com/article/choosing-an-open-source-license">codeacademy Choosing An Open Source License</a>
+codeacademy: <a href="https://www.codecademy.com/article/choosing-an-open-source-license">Choosing An Open Source License</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Wikipedia: <a href="https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses">Comparison of Free and Open-Source Software Licenses</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Github: <a href="https://choosealicense.com/">Choose an open source license</a> and <a href="https://choosealicense.com/licenses/">Licenses</a>
 </p></div></div>
 
 

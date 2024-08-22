@@ -35,7 +35,7 @@ pre {
       font-size: 80%;
       margin-left: 5%;
 }
-code { font-weight: lighter; font-size: 80%; }
+code { font-weight: lighter; }
 .linenr { background-color: Lavender; }
 .listing-number { font-slant: italic; font-weight: bold}
 .figure-number { font-slant: italic; font-weight: bold}
@@ -68,8 +68,8 @@ td {
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org4349514" class="outline-2">
-<h2 id="org4349514"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org030db1d" class="outline-2">
+<h2 id="org030db1d"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -109,18 +109,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-org67bdf40" class="outline-2">
-<h2 id="org67bdf40"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-orgf5aa835" class="outline-2">
+<h2 id="orgf5aa835"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#org7534d77">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org8a1e42d">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="org7534d77">
+<figure id="org8a1e42d">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -129,11 +129,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#org6a15953">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#orgf900bbc">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="org6a15953">
+<figure id="orgf900bbc">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -141,11 +141,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org1309a76">1</a> is the <code>struct</code> used in Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org2c97a8e"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org1309a76"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
 <span class="linenr"> 1: </span>typedef struct
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
@@ -186,8 +186,8 @@ As it stands today, listing <a href="#org2c97a8e">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-org3c64b27" class="outline-2">
-<h2 id="org3c64b27"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org9088353" class="outline-2">
+<h2 id="org9088353"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
