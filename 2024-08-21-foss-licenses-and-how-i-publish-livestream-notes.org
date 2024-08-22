@@ -1,7 +1,11 @@
-#+title: FOSS Licenses
+#+title: Choosing an Open-Source License
 #+date: <2024-08-21 20:04>
 #+description: This is a test to be replaced later
 #+filetags:
+
+*Prevous livestream:*
+
+https://www.youtube.com/live/DmznJlAIwsE
 
 * The Source Code for These Streams Should be Available on Github.
 I believe that it's time to put the source code for my game project up on a Github repo.
@@ -11,7 +15,7 @@ This should include instructions on how to build and run.  At a minimum, you wil
   - ~Emacs~, and
   - ~Sly~ [fn:sly] or ~SLIME~ [fn:slime].
 
-* Which Open Source License?
+* Two Major Categories of Licenses.
 Unfortunately I must release the code under some sort of open source license.
 I would prefer that my work isn't stolen. In today's stream, I'll compare various
 licenses.  Codeacademy [fn:codeacademy] gives is a good starting point:
