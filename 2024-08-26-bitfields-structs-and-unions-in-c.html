@@ -64,8 +64,8 @@ td {
 <div id="content">
 <div class="post-date">26 Aug 2024</div><h1 class="post-title"><a href="./2024-08-26-bitfields-structs-and-unions-in-c.html">Sound Playback Identifiers: Using Bitfields, Structs and Unions Instead of Handwritten Shifting, Masking and Or-ing</a></h1>
 
-<div id="outline-container-org6ba5f66" class="outline-2">
-<h2 id="org6ba5f66"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
+<div id="outline-container-orgdbe4b42" class="outline-2">
+<h2 id="orgdbe4b42"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my last programming-related post <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I described how sound playback resources in
@@ -99,15 +99,15 @@ shifting, masking, and or-ing.
 </div>
 </div>
 
-<div id="outline-container-orga544079" class="outline-2">
-<h2 id="orga544079"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
+<div id="outline-container-orgd155eb5" class="outline-2">
+<h2 id="orgd155eb5"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 My first attempt at using bitfields:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="orgf403a10"><span class="linenr"> 0: </span>typedef struct struct __attribute__((packed))
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org72ad40f"><span class="linenr"> 0: </span>typedef struct struct __attribute__((packed))
 <span class="linenr"> 1: </span>{
 <span class="linenr"> 2: </span>  union 
 <span class="linenr"> 3: </span>  {
@@ -129,7 +129,7 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="org3150025"><span class="linenr">0: </span>typedef struct struct __attribute__((packed))
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="orgb63d8ca"><span class="linenr">0: </span>typedef struct struct __attribute__((packed))
 <span class="linenr">1: </span>{
 <span class="linenr">2: </span>  int8_t   id_idx_or_error_flag : 6;
 <span class="linenr">3: </span>  uint32_t id_serial_or_error_code : 26;
@@ -138,13 +138,13 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </div>
 <p>
 So my compiler doesn't seem to be as smart as I'd hoped.
-I'm happy with <a href="#org3150025">2</a> and I'll use that.
+I'm happy with <code>typedef</code> <a href="#orgb63d8ca">2</a> and I'll use that.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org95ddb86" class="outline-2">
-<h2 id="org95ddb86"><span class="section-number-2">3.</span> Warning</h2>
+<div id="outline-container-org66d183f" class="outline-2">
+<h2 id="org66d183f"><span class="section-number-2">3.</span> Warning</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The C standard makes no guarantees about the ordering of bitfields.  In my initial
@@ -166,12 +166,12 @@ We'll have to do some testing and see what happens when we use bitfields.
 </div>
 </div>
 
-<div id="outline-container-org0df886e" class="outline-2">
-<h2 id="org0df886e"><span class="section-number-2">4.</span> Today's Agenda</h2>
+<div id="outline-container-org271fb43" class="outline-2">
+<h2 id="org271fb43"><span class="section-number-2">4.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>Fidget around and test bit ordering in <a href="#org3150025">2</a>.</li>
-<li>Add definition <a href="#org3150025">2</a> to <code>sound.c</code>.</li>
+<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#orgb63d8ca">2</a>.</li>
+<li>Add definition <a href="#orgb63d8ca">2</a> to <code>sound.c</code>.</li>
 <li>Replace shift/mask/&#x2026; function calls on <code>playback_id</code> values with ordinary
 field references</li>
 </ol>

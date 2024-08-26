@@ -57,7 +57,7 @@
   } playback_id_t;
 #+end_src
   So my compiler doesn't seem to be as smart as I'd hoped.
-  I'm happy with [[lst:bitfield-only-id]] and I'll use that.
+  I'm happy with ~typedef~ [[lst:bitfield-only-id]] and I'll use that.
 
 * Warning
   The C standard makes no guarantees about the ordering of bitfields.  In my initial
@@ -74,7 +74,7 @@
   We'll have to do some testing and see what happens when we use bitfields.
 
 * Today's Agenda
-  0. Fidget around and test bit ordering in [[lst:bitfield-only-id]].
+  0. Fidget around and test bit ordering in ~typedef~ [[lst:bitfield-only-id]].
   1. Add definition [[lst:bitfield-only-id]] to ~sound.c~.
   2. Replace shift/mask/... function calls on ~playback_id~ values with ordinary
      field references
