@@ -29,7 +29,7 @@
 #+caption: /Playback ID structure using unions and bitfields/.
 #+name: lst:struct-union-bitfield-id
 #+begin_src C -n 0
-  typedef struct struct __attribute__((packed))
+  typedef struct __attribute__((packed))
   {
     union 
     {
@@ -50,7 +50,7 @@
 #+caption: /Second attempt at defining playback ID structure./
 #+name: lst:bitfield-only-id
 #+begin_src C -n 0  
-  typedef struct struct __attribute__((packed))
+  typedef struct __attribute__((packed))
   {
     int8_t   id_idx_or_error_flag : 6;
     uint32_t id_serial_or_error_code : 26;
