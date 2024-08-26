@@ -1,7 +1,7 @@
 #+title: Tightening Up sound.c
 #+date: <2024-08-18 13:43>
 #+description: 
-#+filetags: CFFI Lisp Game C Miniaudio.
+#+filetags: CFFI Lisp Game C Miniaudio
 #+options: org-footnote-section t
 
 *Previous Stream:*
