@@ -4,13 +4,13 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Mon, 26 Aug 2024 13:41:42 -0700</lastBuildDate>
+<lastBuildDate>Tue, 27 Aug 2024 14:53:29 -0700</lastBuildDate>
 <item>
   <title><![CDATA[Sound Playback Identifiers: Using Bitfields, Structs and Unions Instead of Handwritten Shifting, Masking and Or-ing]]></title>
   <description><![CDATA[
 
-<div id="outline-container-org6283205" class="outline-2">
-<h2 id="org6283205"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
+<div id="outline-container-org3458515" class="outline-2">
+<h2 id="org3458515"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my last programming-related post <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I described how sound playback resources in
@@ -44,27 +44,27 @@ shifting, masking, and or-ing.
 </div>
 </div>
 
-<div id="outline-container-org75e5846" class="outline-2">
-<h2 id="org75e5846"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
+<div id="outline-container-org0f14e62" class="outline-2">
+<h2 id="org0f14e62"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 My first attempt at using bitfields:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org5969291"><span class="linenr"> 0: </span>typedef struct __attribute__((packed))
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org9130ca8"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr"> 1: </span>{
-<span class="linenr"> 2: </span>  union 
+<span class="linenr"> 2: </span>  <span style="color: #000000; font-weight: bold; font-style: italic;">union</span> 
 <span class="linenr"> 3: </span>  {
-<span class="linenr"> 4: </span>    uint8_t id_idx : 6;
-<span class="linenr"> 5: </span>    int8_t id_err_flag : 6;
+<span class="linenr"> 4: </span>    <span style="color: #000000;">uint8_t</span> <span style="color: #000000;">id_idx</span> : 6;
+<span class="linenr"> 5: </span>    <span style="color: #000000;">int8_t</span> <span style="color: #000000;">id_err_flag</span> : 6;
 <span class="linenr"> 6: </span>  };
-<span class="linenr"> 7: </span>  union 
+<span class="linenr"> 7: </span>  <span style="color: #000000; font-weight: bold; font-style: italic;">union</span> 
 <span class="linenr"> 8: </span>  {
-<span class="linenr"> 9: </span>    uint32_t id_serial_n : 26;
-<span class="linenr">10: </span>    uint32_t id_error_code : 26;
+<span class="linenr"> 9: </span>    <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">id_serial_n</span> : 26;
+<span class="linenr">10: </span>    <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">id_error_code</span> : 26;
 <span class="linenr">11: </span>  };
-<span class="linenr">12: </span>} playback_id_t;
+<span class="linenr">12: </span>} <span style="color: #000000;">playback_id_t</span>;
 </pre>
 </div>
 
@@ -74,22 +74,22 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="orgf5000a7"><span class="linenr">0: </span>typedef struct __attribute__((packed))
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="org4c8cc27"><span class="linenr">0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr">1: </span>{
-<span class="linenr">2: </span>  int8_t   id_idx_or_error_flag : 6;
-<span class="linenr">3: </span>  uint32_t id_serial_or_error_code : 26;
-<span class="linenr">4: </span>} playback_id_t;
+<span class="linenr">2: </span>  <span style="color: #000000;">int8_t</span>   <span style="color: #000000;">id_idx_or_error_flag</span> : 6;
+<span class="linenr">3: </span>  <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">id_serial_or_error_code</span> : 26;
+<span class="linenr">4: </span>} <span style="color: #000000;">playback_id_t</span>;
 </pre>
 </div>
 <p>
 So my compiler doesn't seem to be as smart as I'd hoped.
-I'm happy with <code>typedef</code> <a href="#orgf5000a7">2</a> and I'll use that.
+I'm happy with <code>typedef</code> <a href="#org4c8cc27">2</a> and I'll use that.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1630e4d" class="outline-2">
-<h2 id="org1630e4d"><span class="section-number-2">3.</span> Warning</h2>
+<div id="outline-container-org604b4b9" class="outline-2">
+<h2 id="org604b4b9"><span class="section-number-2">3.</span> Warning</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The C standard makes no guarantees about the ordering of bitfields.  In my initial
@@ -98,10 +98,10 @@ I could simply assume that an error flag test could be written:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp">(let ((playback-id (snd:play-file-async "some-sound.mp3")))
-    (when (= (logand #x3f playback-id) #x3f)
-        ; Error
-    ; ...
+<pre class="src src-lisp">(<span style="color: #000000; font-weight: bold; font-style: italic;">let</span> ((playback-id (snd:play-file-async <span style="color: #006400; font-style: italic;">"some-sound.mp3"</span>)))
+    (<span style="color: #000000; font-weight: bold; font-style: italic;">when</span> (= (logand #x3f playback-id) #x3f)
+        <span style="color: #7a7a7a; font-style: italic;">; Error</span>
+    <span style="color: #7a7a7a; font-style: italic;">; ...</span>
 </pre>
 </div>
 
@@ -111,14 +111,14 @@ We'll have to do some testing and see what happens when we use bitfields.
 </div>
 </div>
 
-<div id="outline-container-org1225db7" class="outline-2">
-<h2 id="org1225db7"><span class="section-number-2">4.</span> Today's Agenda</h2>
+<div id="outline-container-org9377488" class="outline-2">
+<h2 id="org9377488"><span class="section-number-2">4.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#orgf5000a7">2</a>.</li>
-<li>Add definition <a href="#orgf5000a7">2</a> to <code>sound.c</code>.</li>
+<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#org4c8cc27">2</a>.</li>
+<li>Add definition <a href="#org4c8cc27">2</a> to <code>sound.c</code>.</li>
 <li>Replace shift/mask/&#x2026; function calls on <code>playback_id</code> values with ordinary
-field references</li>
+field references.</li>
 </ol>
 </div>
 </div>
@@ -157,8 +157,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/live/DmznJlAIwsE">https://www.youtube.com/live/DmznJlAIwsE</a>
 </p>
 
-<div id="outline-container-org80175eb" class="outline-2">
-<h2 id="org80175eb"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div id="outline-container-orgb2d592e" class="outline-2">
+<h2 id="orgb2d592e"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I believe that it's time to put the source code for my game project up on a Github repo.
@@ -173,8 +173,8 @@ This should include instructions on how to build and run.  At a minimum, you wil
 </div>
 </div>
 
-<div id="outline-container-org9ac8ee7" class="outline-2">
-<h2 id="org9ac8ee7"><span class="section-number-2">2.</span> Two Major Categories of Licenses.</h2>
+<div id="outline-container-org1163e26" class="outline-2">
+<h2 id="org1163e26"><span class="section-number-2">2.</span> Two Major Categories of Licenses.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Unfortunately I must release the code under some sort of open source license.
@@ -223,8 +223,8 @@ I'm going to select a copyleft license.
 </div>
 </div>
 
-<div id="outline-container-orge5bc21f" class="outline-2">
-<h2 id="orge5bc21f"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
+<div id="outline-container-org12119f7" class="outline-2">
+<h2 id="org12119f7"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Wikipedia's <i>Comparison of free and open-source software licenses</i> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
@@ -233,8 +233,8 @@ has a 41 row table comparison.
 </div>
 </div>
 
-<div id="outline-container-org79a8955" class="outline-2">
-<h2 id="org79a8955"><span class="section-number-2">4.</span> What I Want From a License.</h2>
+<div id="outline-container-org3541bf8" class="outline-2">
+<h2 id="org3541bf8"><span class="section-number-2">4.</span> What I Want From a License.</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 It is very unlikely that anyone will "steal" the code for this tiny
@@ -256,8 +256,8 @@ be available in source form.</li>
 </div>
 </div>
 
-<div id="outline-container-org01fad65" class="outline-2">
-<h2 id="org01fad65"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
+<div id="outline-container-orgd6d88bb" class="outline-2">
+<h2 id="orgd6d88bb"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Github has a website <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> which compares eight popular FOSS licenses.  None of these
@@ -354,8 +354,8 @@ LGPLv3 allows close-source software to include your work as long as:
 </div>
 </div>
 
-<div id="outline-container-org95ef680" class="outline-2">
-<h2 id="org95ef680"><span class="section-number-2">6.</span> Conclusion</h2>
+<div id="outline-container-orgf8cd02f" class="outline-2">
+<h2 id="orgf8cd02f"><span class="section-number-2">6.</span> Conclusion</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Any project that uses an AGPLv3 or GPLv3 licensed source-code is bound to the same terms.
@@ -415,8 +415,8 @@ Github: <a href="https://choosealicense.com/">Choose an open source license</a> 
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orgbebd31b" class="outline-2">
-<h2 id="orgbebd31b"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org2739548" class="outline-2">
+<h2 id="org2739548"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -456,18 +456,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-org2a8f64c" class="outline-2">
-<h2 id="org2a8f64c"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-org8ca13a7" class="outline-2">
+<h2 id="org8ca13a7"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#orgc014fb7">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#orgd2d2d40">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="orgc014fb7">
+<figure id="orgd2d2d40">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -476,11 +476,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orgd6e2cb0">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#orga2f5f10">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orgd6e2cb0">
+<figure id="orga2f5f10">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -488,53 +488,53 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org7fad079">1</a> is the <code>struct</code> used in Miniaudio resource management:
+As it stands today, listing <a href="#org15bdbf9">1</a> is the <code>struct</code> I'm using for Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org7fad079"><span class="linenr"> 0: </span>// Member prefix "s_" == "sound"
-<span class="linenr"> 1: </span>typedef struct
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org15bdbf9"><span class="linenr"> 0: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Member prefix "s_" == "sound"</span>
+<span class="linenr"> 1: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span>
 <span class="linenr"> 2: </span>{
-<span class="linenr"> 3: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
-<span class="linenr"> 4: </span>  ma_device        s_device;         
-<span class="linenr"> 5: </span>  ma_device_config s_device_config;
-<span class="linenr"> 6: </span>  // Miniaudio resource.  Created/destroyed each time a sound is played/stopped.
-<span class="linenr"> 7: </span>  ma_decoder       s_decoder;        
-<span class="linenr"> 8: </span>  // Sound play is cancelled but not necessarily stopped yet.
-<span class="linenr"> 9: </span>  atomic_bool      s_cancel_sent;    
-<span class="linenr">10: </span>  // Miniaudio resources in this slot available for playback or is this slot currently in use or in
-<span class="linenr">11: </span>  // the process of being cancelled.
-<span class="linenr">12: </span>  atomic_bool      s_is_available;   
-<span class="linenr">13: </span>  // Unique identifier returned when playback is initiated.
-<span class="linenr">14: </span>  // Format:                                                     
-<span class="linenr">15: </span>  //          - bits [0:5] Index of sound resource in 'g_sound_list[]'
-<span class="linenr">16: </span>  //                       If = 0x3f (= 0b111111), then this id is an error code.
-<span class="linenr">17: </span>  //          - bits [8:32] Serial # uniquely identifying playback request.
-<span class="linenr">18: </span>  //                       If bits [0:5] = 0b111111, then bits[8:32] are identify the
-<span class="linenr">19: </span>  //                       specific error code.
-<span class="linenr">20: </span>  //          NOTE: Encoding index/serial#/error code into a single uint32_t means that
-<span class="linenr">21: </span>  //          we can pass around and return these as a single number.
-<span class="linenr">22: </span>  uint32_t         s_playback_id;
-<span class="linenr">23: </span>  // Index of these miniaudio resources in 'g_sound_list[]'.  Redundant since
-<span class="linenr">24: </span>  // bits [0:5] of 's_playback_id' hold the same index.
-<span class="linenr">25: </span>  uint32_t         s_idx_sound_list; 
-<span class="linenr">26: </span>  // Playing from file or from memory?
-<span class="linenr">27: </span>  source_type_t    s_source_type;    
-<span class="linenr">28: </span>  union
+<span class="linenr"> 3: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Miniaudio resource.  Created/destroyed each time a sound is played/stopped.</span>
+<span class="linenr"> 4: </span>  <span style="color: #000000;">ma_device</span>        <span style="color: #000000;">s_device</span>;         
+<span class="linenr"> 5: </span>  <span style="color: #000000;">ma_device_config</span> <span style="color: #000000;">s_device_config</span>;
+<span class="linenr"> 6: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Miniaudio resource.  Created/destroyed each time a sound is played/stopped.</span>
+<span class="linenr"> 7: </span>  <span style="color: #000000;">ma_decoder</span>       <span style="color: #000000;">s_decoder</span>;        
+<span class="linenr"> 8: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Sound play is cancelled but not necessarily stopped yet.</span>
+<span class="linenr"> 9: </span>  <span style="color: #000000;">atomic_bool</span>      <span style="color: #000000;">s_cancel_sent</span>;    
+<span class="linenr">10: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Miniaudio resources in this slot available for playback or is this slot currently in use or in</span>
+<span class="linenr">11: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">the process of being cancelled.</span>
+<span class="linenr">12: </span>  <span style="color: #000000;">atomic_bool</span>      <span style="color: #000000;">s_is_available</span>;   
+<span class="linenr">13: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Unique identifier returned when playback is initiated.</span>
+<span class="linenr">14: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Format:                                                     </span>
+<span class="linenr">15: </span>  <span style="color: #7a7a7a; font-style: italic;">//          </span><span style="color: #7a7a7a; font-style: italic;">- bits [0:5] Index of sound resource in 'g_sound_list[]'</span>
+<span class="linenr">16: </span>  <span style="color: #7a7a7a; font-style: italic;">//                       </span><span style="color: #7a7a7a; font-style: italic;">If = 0x3f (= 0b111111), then this id is an error code.</span>
+<span class="linenr">17: </span>  <span style="color: #7a7a7a; font-style: italic;">//          </span><span style="color: #7a7a7a; font-style: italic;">- bits [8:32] Serial # uniquely identifying playback request.</span>
+<span class="linenr">18: </span>  <span style="color: #7a7a7a; font-style: italic;">//                       </span><span style="color: #7a7a7a; font-style: italic;">If bits [0:5] = 0b111111, then bits[8:32] are identify the</span>
+<span class="linenr">19: </span>  <span style="color: #7a7a7a; font-style: italic;">//                       </span><span style="color: #7a7a7a; font-style: italic;">specific error code.</span>
+<span class="linenr">20: </span>  <span style="color: #7a7a7a; font-style: italic;">//          </span><span style="color: #7a7a7a; font-style: italic;">NOTE: Encoding index/serial#/error code into a single uint32_t means that</span>
+<span class="linenr">21: </span>  <span style="color: #7a7a7a; font-style: italic;">//          </span><span style="color: #7a7a7a; font-style: italic;">we can pass around and return these as a single number.</span>
+<span class="linenr">22: </span>  <span style="color: #000000;">uint32_t</span>         <span style="color: #000000;">s_playback_id</span>;
+<span class="linenr">23: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Index of these miniaudio resources in 'g_sound_list[]'.  Redundant since</span>
+<span class="linenr">24: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">bits [0:5] of 's_playback_id' hold the same index.</span>
+<span class="linenr">25: </span>  <span style="color: #000000;">uint32_t</span>         <span style="color: #000000;">s_idx_sound_list</span>; 
+<span class="linenr">26: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Playing from file or from memory?</span>
+<span class="linenr">27: </span>  <span style="color: #000000;">source_type_t</span>    <span style="color: #000000;">s_source_type</span>;    
+<span class="linenr">28: </span>  <span style="color: #000000; font-weight: bold; font-style: italic;">union</span>
 <span class="linenr">29: </span>  {
-<span class="linenr">30: </span>    // Pointer to memory block of preloaded sound file.
-<span class="linenr">31: </span>    void           *s_p_preloaded_sound;
-<span class="linenr">32: </span>    // ... Or jus the filepath if not preloaded.
-<span class="linenr">33: </span>    ASCII          s_file_path[FILENAME_MAX];
+<span class="linenr">30: </span>    <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Pointer to memory block of preloaded sound file.</span>
+<span class="linenr">31: </span>    <span style="color: #000000;">void</span>           *<span style="color: #000000;">s_p_preloaded_sound</span>;
+<span class="linenr">32: </span>    <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">... Or jus the filepath if not preloaded.</span>
+<span class="linenr">33: </span>    <span style="color: #000000;">ASCII</span>          <span style="color: #000000;">s_file_path</span>[FILENAME_MAX];
 <span class="linenr">34: </span>  };
-<span class="linenr">35: </span>} sound_t;
+<span class="linenr">35: </span>} <span style="color: #000000;">sound_t</span>;
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org23a4f25" class="outline-2">
-<h2 id="org23a4f25"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-org81e2379" class="outline-2">
+<h2 id="org81e2379"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -577,20 +577,20 @@ Perhaps C's bitfield feature would be more appropriate here.
 Placing the 6-bit error field in bits [26:31] would make checking for error codes simpler.  For example:
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="linenr">0: </span>(let ((playback-id (snd:play-file-async "some-sound.mp3")))
-<span class="linenr">1: </span>  (when (&gt;= playback-id #xfc000000) ; #xfc000000 = #b11111100000000000000000000000000
-<span class="linenr">2: </span>      ; Error
-<span class="linenr">3: </span>  ; ... 
+<pre class="src src-lisp"><span class="linenr">0: </span>(<span style="color: #000000; font-weight: bold; font-style: italic;">let</span> ((playback-id (snd:play-file-async <span style="color: #006400; font-style: italic;">"some-sound.mp3"</span>)))
+<span class="linenr">1: </span>  (<span style="color: #000000; font-weight: bold; font-style: italic;">when</span> (&gt;= playback-id #xfc000000) <span style="color: #7a7a7a; font-style: italic;">; #xfc000000 = #b11111100000000000000000000000000</span>
+<span class="linenr">2: </span>      <span style="color: #7a7a7a; font-style: italic;">; Error</span>
+<span class="linenr">3: </span>  <span style="color: #7a7a7a; font-style: italic;">; ... </span>
 </pre>
 </div>
 <p class="footpara">
 As opposed to:
 </p>
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="linenr">0: </span>(let ((playback-id (snd:play-file-async "some-sound.mp3")))
-<span class="linenr">1: </span>  (when (= (logand #x3f playback-id) #x3f)
-<span class="linenr">2: </span>      ; Error
-<span class="linenr">3: </span>  ; ... 
+<pre class="src src-lisp"><span class="linenr">0: </span>(<span style="color: #000000; font-weight: bold; font-style: italic;">let</span> ((playback-id (snd:play-file-async <span style="color: #006400; font-style: italic;">"some-sound.mp3"</span>)))
+<span class="linenr">1: </span>  (<span style="color: #000000; font-weight: bold; font-style: italic;">when</span> (= (logand #x3f playback-id) #x3f)
+<span class="linenr">2: </span>      <span style="color: #7a7a7a; font-style: italic;">; Error</span>
+<span class="linenr">3: </span>  <span style="color: #7a7a7a; font-style: italic;">; ... </span>
 </pre>
 </div></div></div>
 
@@ -621,8 +621,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orgbf3c8c6" class="outline-2">
-<h2 id="orgbf3c8c6"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgc860c84" class="outline-2">
+<h2 id="orgc860c84"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -633,8 +633,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-org757a702" class="outline-2">
-<h2 id="org757a702"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-org0f37800" class="outline-2">
+<h2 id="org0f37800"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -649,8 +649,8 @@ an error code will result in:
 Every function call in <code>sound.c</code> will begin with code similar to:
 </p>
 <div class="org-src-container">
-<pre class="src src-C">if (atomic_load(&amp;g_something_failed))
-  return /* some error code */
+<pre class="src src-C"><span style="color: #000000; font-weight: bold; font-style: italic;">if</span> (atomic_load(&amp;g_something_failed))
+  <span style="color: #000000; font-weight: bold; font-style: italic;">return</span> <span style="color: #7a7a7a; font-style: italic;">/* </span><span style="color: #7a7a7a; font-style: italic;">some error code</span><span style="color: #7a7a7a; font-style: italic;"> */</span>
 </pre>
 </div>
 <p>
@@ -660,24 +660,24 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org193dd5d" class="outline-2">
-<h2 id="org193dd5d"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-orgc09b87f" class="outline-2">
+<h2 id="orgc09b87f"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
 </p>
 <div class="org-src-container">
-<pre class="src src-C">void __attribute__((destructor)) snd_shared_object_uninit(void)
+<pre class="src src-C"><span style="color: #000000;">void</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((destructor)) <span style="color: #000000;">snd_shared_object_uninit</span>(<span style="color: #000000;">void</span>)
 </pre>
 </div>
 <p>
 Should terminate <code>snd_cancel_thread()</code> with:
 </p>
 <div class="org-src-container">
-<pre class="src src-C">atomic_store(&amp;g_stop_cancel_thread, true);  // stop snd_cancel_thread() if it's awake and running.
+<pre class="src src-C">atomic_store(&amp;g_stop_cancel_thread, <span style="color: #a9a9a9; font-style: italic;">true</span>);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">stop snd_cancel_thread() if it's awake and running.</span>
 pthread_mutex_lock(&amp;g_mtx_sound_list);
-pthread_cond_signal(&amp;g_cnd_cancel);  // get snd_cancel_thread() ready to wake
-pthread_mutex_unlock(&amp;g_mtx_sound_list);  // wake snd_cancel_thread().
+pthread_cond_signal(&amp;g_cnd_cancel);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">get snd_cancel_thread() ready to wake</span>
+pthread_mutex_unlock(&amp;g_mtx_sound_list);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">wake snd_cancel_thread().</span>
 </pre>
 </div>
 <p>
@@ -771,8 +771,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-orgd4f54e8" class="outline-2">
-<h2 id="orgd4f54e8"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org6df20ba" class="outline-2">
+<h2 id="org6df20ba"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -788,8 +788,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org41e035b" class="outline-2">
-<h2 id="org41e035b"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgcf3f372" class="outline-2">
+<h2 id="orgcf3f372"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -797,7 +797,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org049f5c9">
+<figure id="orge6c554a">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -813,7 +813,7 @@ For example, the C function declaration:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C">void ui_set_kbd_repeat(uint32_t timeout_ms, uint32_t delay_ms)  // EXPORT
+<pre class="src src-C"><span style="color: #000000;">void</span> <span style="color: #000000;">ui_set_kbd_repeat</span>(<span style="color: #000000;">uint32_t</span> <span style="color: #000000;">timeout_ms</span>, <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">delay_ms</span>)  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">EXPORT</span>
 </pre>
 </div>
 
@@ -822,9 +822,9 @@ Produces:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><span class="linenr">0: </span>(cffi:defcfun ("ui_set_kbd_repeat" set-kbd-repeat) :void
-<span class="linenr">1: </span>              (timeout-ms :uint32)
-<span class="linenr">2: </span>              (delay-ms :uint32))
+<pre class="src src-lisp"><span class="linenr">0: </span>(cffi:defcfun (<span style="color: #006400; font-style: italic;">"ui_set_kbd_repeat"</span> set-kbd-repeat) <span style="color: #000000; font-weight: bold;">:void</span>
+<span class="linenr">1: </span>              (timeout-ms <span style="color: #000000; font-weight: bold;">:uint32</span>)
+<span class="linenr">2: </span>              (delay-ms <span style="color: #000000; font-weight: bold;">:uint32</span>))
 <span class="linenr">3: </span>(export 'set-kbd-repeat)
 </pre>
 </div>
@@ -863,8 +863,8 @@ when run through <code>cffi-gen.lisp</code>.
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org2719b56" class="outline-2">
-<h2 id="org2719b56"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org94e7492" class="outline-2">
+<h2 id="org94e7492"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -891,8 +891,8 @@ End of playback is detected in our data callback:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-C">if (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL))
-  // ...
+<pre class="src src-C"><span style="color: #000000; font-weight: bold; font-style: italic;">if</span> (MA_AT_END == ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, <span style="color: #a9a9a9; font-style: italic;">NULL</span>))
+  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">...</span>
 </pre>
 </div>
 
@@ -911,25 +911,25 @@ flag:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Data structures for storing sounds during playback.</i></label><pre class="src src-C"><span class="linenr"> 0: </span>typedef struct
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Data structures for storing sounds during playback.</i></label><pre class="src src-C"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span>
 <span class="linenr"> 1: </span>{
-<span class="linenr"> 2: </span>  ma_device        s_device;
-<span class="linenr"> 3: </span>  ma_device_config s_device_config;
-<span class="linenr"> 4: </span>  ma_decoder       s_decoder;
-<span class="linenr"> 5: </span>  atomic_bool      s_cancel_sent;
-<span class="linenr"> 6: </span>  atomic_bool      s_is_available;
-<span class="linenr"> 7: </span>  int              s_idx_sound_list;
-<span class="linenr"> 8: </span>} sound_t;
+<span class="linenr"> 2: </span>  <span style="color: #000000;">ma_device</span>        <span style="color: #000000;">s_device</span>;
+<span class="linenr"> 3: </span>  <span style="color: #000000;">ma_device_config</span> <span style="color: #000000;">s_device_config</span>;
+<span class="linenr"> 4: </span>  <span style="color: #000000;">ma_decoder</span>       <span style="color: #000000;">s_decoder</span>;
+<span class="linenr"> 5: </span>  <span style="color: #000000;">atomic_bool</span>      <span style="color: #000000;">s_cancel_sent</span>;
+<span class="linenr"> 6: </span>  <span style="color: #000000;">atomic_bool</span>      <span style="color: #000000;">s_is_available</span>;
+<span class="linenr"> 7: </span>  <span style="color: #000000;">int</span>              <span style="color: #000000;">s_idx_sound_list</span>;
+<span class="linenr"> 8: </span>} <span style="color: #000000;">sound_t</span>;
 <span class="linenr"> 9: </span>
-<span class="linenr">10: </span>// Array of sound resources.
-<span class="linenr">11: </span>// IF g_sound_list[i].s_is_available &amp;&amp; !g_sound_list[i].s_cancel_sent THEN:
-<span class="linenr">12: </span>//
-<span class="linenr">13: </span>//   slot i may be used as a decoder and device to play a sound.
-<span class="linenr">14: </span>//
-<span class="linenr">15: </span>// NOTE that there is no free list of available slots.  The list must be scanned to find
-<span class="linenr">16: </span>// a free slot i.
-<span class="linenr">17: </span>#define MAX_SOUNDS 25
-<span class="linenr">18: </span>sound_t g_sound_list[MAX_SOUNDS];
+<span class="linenr">10: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Array of sound resources.</span>
+<span class="linenr">11: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">IF g_sound_list[i].s_is_available &amp;&amp; !g_sound_list[i].s_cancel_sent THEN:</span>
+<span class="linenr">12: </span><span style="color: #7a7a7a; font-style: italic;">//</span>
+<span class="linenr">13: </span><span style="color: #7a7a7a; font-style: italic;">//   </span><span style="color: #7a7a7a; font-style: italic;">slot i may be used as a decoder and device to play a sound.</span>
+<span class="linenr">14: </span><span style="color: #7a7a7a; font-style: italic;">//</span>
+<span class="linenr">15: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">NOTE that there is no free list of available slots.  The list must be scanned to find</span>
+<span class="linenr">16: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">a free slot i.</span>
+<span class="linenr">17: </span><span style="color: #000000;">#define</span> <span style="color: #000000;">MAX_SOUNDS</span> 25
+<span class="linenr">18: </span><span style="color: #000000;">sound_t</span> <span style="color: #000000;">g_sound_list</span>[MAX_SOUNDS];
 </pre>
 </div>
 
@@ -947,14 +947,14 @@ A mutex, <code>g_mtx_sound_list</code>, is used to synchronize access to <code>g
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Array storing indices (into <code>g_sound_list[]</code>) of <code>Miniaudio</code> resources to release.</i></label><pre class="src src-C"><span class="linenr">0: </span>// Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.
-<span class="linenr">1: </span>// Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]
-<span class="linenr">2: </span>// are valid.
-<span class="linenr">3: </span>int g_cancel_list_end = 0;
-<span class="linenr">4: </span>int g_cancel_list[MAX_SOUNDS];
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Array storing indices (into <code>g_sound_list[]</code>) of <code>Miniaudio</code> resources to release.</i></label><pre class="src src-C"><span class="linenr">0: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Indices into g_sound_list[] of sounds/resources to be cancelled &amp; freed.</span>
+<span class="linenr">1: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Only indices stored in g_cancel_list[0] .. g_cancel_list[g_cancel_list_end - 1]</span>
+<span class="linenr">2: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">are valid.</span>
+<span class="linenr">3: </span><span style="color: #000000;">int</span> <span style="color: #000000;">g_cancel_list_end</span> = 0;
+<span class="linenr">4: </span><span style="color: #000000;">int</span> <span style="color: #000000;">g_cancel_list</span>[MAX_SOUNDS];
 <span class="linenr">5: </span>
-<span class="linenr">6: </span>// Synchronize access to g_sound_list[] and g_cancel_list[].
-<span class="linenr">7: </span>pthread_mutex_t g_mtx_sound_list = PTHREAD_MUTEX_INITIALIZER;
+<span class="linenr">6: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Synchronize access to g_sound_list[] and g_cancel_list[].</span>
+<span class="linenr">7: </span><span style="color: #000000;">pthread_mutex_t</span> <span style="color: #000000;">g_mtx_sound_list</span> = PTHREAD_MUTEX_INITIALIZER;
 </pre>
 </div>
 
@@ -964,8 +964,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-orgf7c4452" class="outline-2">
-<h2 id="orgf7c4452"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org7dea153" class="outline-2">
+<h2 id="org7dea153"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -980,8 +980,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-org90632d6" class="outline-2">
-<h2 id="org90632d6"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-org1c336c6" class="outline-2">
+<h2 id="org1c336c6"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -1021,8 +1021,8 @@ Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> wil
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-orgb3824fb" class="outline-2">
-<h2 id="orgb3824fb"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org37c9fa6" class="outline-2">
+<h2 id="org37c9fa6"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -1037,11 +1037,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-orgca68792" class="outline-2">
-<h2 id="orgca68792"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-orgf668606" class="outline-2">
+<h2 id="orgf668606"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orgb5a0a0f">
+<figure id="org4283907">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -1049,8 +1049,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org56ab80b" class="outline-2">
-<h2 id="org56ab80b"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org4dc7dc5" class="outline-2">
+<h2 id="org4dc7dc5"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.

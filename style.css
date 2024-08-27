@@ -1,0 +1,64 @@
+pre {
+    font-size: 80%;
+    margin-left: 5%;
+}
+
+body {
+    margin-right: 10%;
+    margin-left: 10%;
+       font-size: 18px;
+}
+
+img {
+    border-style: solid;
+    border-color: grey; 
+    border-width: 1px;
+    filter: drop-shadow(5px 5px 5px gray);
+}
+
+li { width: 65%; }
+
+p { width: 65%; }
+
+h1 { color: RebeccaPurple; }
+
+blockquote { font-style: italic; }
+
+code { font-weight: lighter; }
+
+.linenr { background-color: Lavender; }
+
+.listing-number {
+    font-slant: italic;
+    font-weight: bold
+}
+
+.figure-number {
+    font-slant: italic;
+    font-weight: bold
+}
+
+table, th, td {
+    border: 2px solid lightgrey;
+    border-collapse: collapse;
+}
+
+table { text-align: right; }
+
+th { 
+    padding: 15px;
+    font-size: 105%;
+    border-bottom: 1px solid grey;
+}
+
+td { 
+    font-family : monospace;
+    font-size: 100%;
+}
+
+.post-date {
+    font-weight: bold;
+    font-size: 110%;
+    color: RebeccaPurple;
+}
+

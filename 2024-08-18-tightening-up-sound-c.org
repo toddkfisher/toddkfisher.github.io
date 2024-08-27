@@ -54,7 +54,7 @@ Since we must also signal error conditions to a caller and since we're returning
 [[./bit-layout-error.png]]
 
 
-As it stands today, listing [[lst:sound_t]] is the ~struct~ used in Miniaudio resource management:
+As it stands today, listing [[lst:sound_t]] is the ~struct~ I'm using for Miniaudio resource management:
 
 #+caption: /C struct for Miniaudio resource management./
 #+name: lst:sound_t

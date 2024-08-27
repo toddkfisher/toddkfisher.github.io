@@ -7,58 +7,11 @@
       href="./rss.xml"
       title="RSS feed for ./">
 <title>Error Handling in the sound.c Module</title>
-</head>
+<link rel="stylesheet" href="./style.css"/></head>
 <body>
 <div id="preamble" class="status"><img src="blogheader.png">
 <h1><i>Notes to accompany livestreams.</i></h1>
 <hr>
-<style>
-body {
-       margin-right: 10%;
-       margin-left: 10%;
-}
-img {
-      border-style: solid;
-      border-color: grey; 
-      border-width: 1px;
-      filter: drop-shadow(5px 5px 5px gray);
-}
-li {
-     width: 65%;
-}
-p { 
-    width: 65%;
-}
-h1 { color: RebeccaPurple; }
-blockquote { font-style: italic; }
-pre {
-      font-size: 80%;
-      margin-left: 5%;
-}
-code { font-weight: lighter; }
-.linenr { background-color: Lavender; }
-.listing-number { font-slant: italic; font-weight: bold}
-.figure-number { font-slant: italic; font-weight: bold}
-table, th, td {
-        border: 2px solid lightgrey;
-        border-collapse: collapse;
-}
-table { text-align: right; }
-th { 
-     padding: 15px;
-     font-size: 105%;
-     border-bottom: 1px solid grey;
-}
-td { 
-     font-family : monospace;
-     font-size: 100%;
-}
-.post-date {
-             font-weight: bold;
-             font-size: 110%;
-             color: RebeccaPurple;
-}
-</style>
 <script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
 </script></div>
 <div id="content">
@@ -75,8 +28,8 @@ td {
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orgbf3c8c6" class="outline-2">
-<h2 id="orgbf3c8c6"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-orgc860c84" class="outline-2">
+<h2 id="orgc860c84"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -87,8 +40,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-org757a702" class="outline-2">
-<h2 id="org757a702"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-org0f37800" class="outline-2">
+<h2 id="org0f37800"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -103,8 +56,8 @@ an error code will result in:
 Every function call in <code>sound.c</code> will begin with code similar to:
 </p>
 <div class="org-src-container">
-<pre class="src src-C">if (atomic_load(&amp;g_something_failed))
-  return /* some error code */
+<pre class="src src-C"><span style="color: #000000; font-weight: bold; font-style: italic;">if</span> (atomic_load(&amp;g_something_failed))
+  <span style="color: #000000; font-weight: bold; font-style: italic;">return</span> <span style="color: #7a7a7a; font-style: italic;">/* </span><span style="color: #7a7a7a; font-style: italic;">some error code</span><span style="color: #7a7a7a; font-style: italic;"> */</span>
 </pre>
 </div>
 <p>
@@ -114,24 +67,24 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org193dd5d" class="outline-2">
-<h2 id="org193dd5d"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-orgc09b87f" class="outline-2">
+<h2 id="orgc09b87f"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
 </p>
 <div class="org-src-container">
-<pre class="src src-C">void __attribute__((destructor)) snd_shared_object_uninit(void)
+<pre class="src src-C"><span style="color: #000000;">void</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((destructor)) <span style="color: #000000;">snd_shared_object_uninit</span>(<span style="color: #000000;">void</span>)
 </pre>
 </div>
 <p>
 Should terminate <code>snd_cancel_thread()</code> with:
 </p>
 <div class="org-src-container">
-<pre class="src src-C">atomic_store(&amp;g_stop_cancel_thread, true);  // stop snd_cancel_thread() if it's awake and running.
+<pre class="src src-C">atomic_store(&amp;g_stop_cancel_thread, <span style="color: #a9a9a9; font-style: italic;">true</span>);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">stop snd_cancel_thread() if it's awake and running.</span>
 pthread_mutex_lock(&amp;g_mtx_sound_list);
-pthread_cond_signal(&amp;g_cnd_cancel);  // get snd_cancel_thread() ready to wake
-pthread_mutex_unlock(&amp;g_mtx_sound_list);  // wake snd_cancel_thread().
+pthread_cond_signal(&amp;g_cnd_cancel);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">get snd_cancel_thread() ready to wake</span>
+pthread_mutex_unlock(&amp;g_mtx_sound_list);  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">wake snd_cancel_thread().</span>
 </pre>
 </div>
 <p>
