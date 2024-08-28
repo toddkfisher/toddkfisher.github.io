@@ -64,16 +64,17 @@ has a 41 row table comparison.
   Github has a website [fn:comparelic] which compares eight popular FOSS licenses.  None of these
   seems to satisfy criteral No. 1 above.
 
-  | Name                       | Type       | Criteria Satisfied | Notes                                         |
-  |----------------------------+------------+--------------------+-----------------------------------------------+
-  | GNU AGPLv3                 | copyleft   | 2 & 3              | Same as GPLv3 but network use is distribution |
-  | GNU GPLv3                  | copyleft   | 2 & 3              |                                               |
-  | GNU LGPLv3                 | copyleft   | 2 & 3              | (see below)                                   |
-  | Mozilla Public License 2.0 | ?          | none               |                                               |
-  | Apache License 2.0         | permissive | none               |                                               |
-  | MIT License                | permissive | none               |                                               |
-  | Boost Software License 1.0 | permissive | none               |                                               |
-  | The Unlicense              | ?          | none               | No conditions                                 |
+  | Name                       | Type       | Criteria Satisfied | Notes                                         |    test |
+  |----------------------------+------------+--------------------+-----------------------------------------------+---------|
+  | <l>                        | <l>        |        <c>         | <l>                                           |     <r> |
+  | GNU AGPLv3                 | copyleft   |       2 & 3        | Same as GPLv3 but network use is distribution | 500.600 |
+  | GNU GPLv3                  | copyleft   |       2 & 3        |                                               |  10.900 |
+  | GNU LGPLv3                 | copyleft   |       2 & 3        | (see below)                                   |   0.777 |
+  | Mozilla Public License 2.0 | ?          |        none        |                                               |         |
+  | Apache License 2.0         | permissive |        none        |                                               |         |
+  | MIT License                | permissive |        none        |                                               |         |
+  | Boost Software License 1.0 | permissive |        none        |                                               |         |
+  | The Unlicense              | ?          |        none        | No conditions                                 |         |
 
   LGPLv3 allows close-source software to include your work as long as:
   - Your source code is published and

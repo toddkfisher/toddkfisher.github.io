@@ -77,7 +77,7 @@ typedef struct
   //          - bits [0:5] Index of sound resource in 'g_sound_list[]'
   //                       If = 0x3f (= 0b111111), then this id is an error code.
   //          - bits [8:32] Serial # uniquely identifying playback request.
-  //                       If bits [0:5] = 0b111111, then bits[8:32] are identify the
+  //                       If bits [0:5] = 0b111111, then bits[8:32]  identify the
   //                       specific error code.
   //          NOTE: Encoding index/serial#/error code into a single uint32_t means that
   //          we can pass around and return these as a single number.
