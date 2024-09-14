@@ -10,7 +10,7 @@
 <title>Dimetric Transformation of 2d Images</title>
 <link rel=stylesheet href="./style.css">
 <script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <script type="text/javascript">
   window.MathJax = {
@@ -59,13 +59,13 @@ We will need to apply textures to surfaces
 in 3d isometric which is discussed here.
 </p>
 
-<div id="outline-container-org2fb15cc" class="outline-2">
-<h2 id="org2fb15cc"><span class="section-number-2">1.</span> 3d Projections</h2>
+<div id="outline-container-orgfc862f8" class="outline-2">
+<h2 id="orgfc862f8"><span class="section-number-2">1.</span> 3d Projections</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Figure <a href="#orgac1ed35">1</a> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> classifies different types of graphical
+Figure <a href="#org96c403f">1</a> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> classifies different types of graphical
 projections <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.  Our game will use a dimetric projection
-where the angles between the horizontal axis have a slope of 1:2 (see figure <a href="#org733a4e4">2</a>).
+where the angles between the horizontal axis have a slope of 1:2 (see figure <a href="#org47757be">2</a>).
 This closely approximates an isometric projection where skewed lines have a slope of With a paint program a horizontal line can be drawn in 1:2 format as:
 </p>
 
@@ -81,7 +81,7 @@ as projected to the screen, and the X-axis is approximately 1159/2500 radians.
 </p>
 
 
-<figure id="orgac1ed35">
+<figure id="org96c403f">
 <img src="./projection-taxonomy.PNG" alt="projection-taxonomy.PNG" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Comparison of 3d projection types.</i></figcaption>
@@ -89,15 +89,15 @@ as projected to the screen, and the X-axis is approximately 1159/2500 radians.
 </div>
 </div>
 
-<div id="outline-container-orgf2aaa33" class="outline-2">
-<h2 id="orgf2aaa33"><span class="section-number-2">2.</span> Simple Texture-Mapping</h2>
+<div id="outline-container-org96fd40e" class="outline-2">
+<h2 id="org96fd40e"><span class="section-number-2">2.</span> Simple Texture-Mapping</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Two approches we can take are:
 </p>
 
 <ol class="org-ol">
-<li>Draw textures directly in 1:2 format.  Figure <a href="#org733a4e4">2</a> below
+<li>Draw textures directly in 1:2 format.  Figure <a href="#org47757be">2</a> below
 shows an example green outlined square with yellow fill. The surrounding
 blue is either transparent or a color key representing transparency
 (think of bluescreen used in film). The main drawback of this approch is
@@ -105,27 +105,27 @@ that freely-available 2d textures are more plentiful than 1:2 dimetric textures.
 
 <li>Another approch is to use the built-in <code>cairo_set_matrix()</code> feature of
 the <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> Cairo graphics library to <i>transform</i> two-dimensional
-textures to isometric format as in figure <a href="#org1ce43a4">3</a> <sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> below.  We will
+textures to isometric format as in figure <a href="#orge3b416f">3</a> <sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> below.  We will
 take this approch when possible.</li>
 </ol>
 
 
-<figure id="org733a4e4">
+<figure id="org47757be">
 <img src="./iso-square.PNG" alt="iso-square.PNG" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Square drawn in 1:2 format.</i></figcaption>
 </figure>
 
 
-<figure id="org1ce43a4">
+<figure id="orge3b416f">
 <img src="./dimetric.png" alt="dimetric.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 3: </span><i>2d &rArr; 1:2 dimetric transformtion geometry.</i></figcaption>
 </figure>
 </div>
 
-<div id="outline-container-org1cf3e5b" class="outline-3">
-<h3 id="org1cf3e5b"><span class="section-number-3">2.1.</span> Transformation Matrix.</h3>
+<div id="outline-container-orgb36512d" class="outline-3">
+<h3 id="orgb36512d"><span class="section-number-3">2.1.</span> Transformation Matrix.</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 To determine the transformation matrix from flat 2d, to dimetric format we can solve
@@ -256,11 +256,11 @@ For a 1:2 dimetric projection, set \(\alpha=\) 1159.0/2500.0.
 </div>
 </div>
 
-<div id="outline-container-orge2d02e6" class="outline-2">
-<h2 id="orge2d02e6"><span class="section-number-2">3.</span> Test code.</h2>
+<div id="outline-container-org77b4cdb" class="outline-2">
+<h2 id="org77b4cdb"><span class="section-number-2">3.</span> Test code.</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>GTK 3.0 paint callback to test transform matrix.</i></label><pre class="src src-C" id="org79e8c4f"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">static</span> <span style="color: #000000;">void</span> <span style="color: #000000;">do_drawing</span>(<span style="color: #000000;">cairo_t</span> *<span style="color: #000000;">cr</span>, <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">widget</span>)
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>GTK 3.0 paint callback to test transform matrix.</i></label><pre class="src src-C" id="org50a2e69"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">static</span> <span style="color: #000000;">void</span> <span style="color: #000000;">do_drawing</span>(<span style="color: #000000;">cairo_t</span> *<span style="color: #000000;">cr</span>, <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">widget</span>)
 <span class="linenr"> 1: </span>{
 <span class="linenr"> 2: </span>  <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">win</span> = gtk_widget_get_toplevel(widget);
 <span class="linenr"> 3: </span>  <span style="color: #000000;">int</span> <span style="color: #000000;">width</span>, <span style="color: #000000;">height</span>;
@@ -288,7 +288,7 @@ For a 1:2 dimetric projection, set \(\alpha=\) 1159.0/2500.0.
 </div>
 
 <p>
-In listing <a href="#org79e8c4f">1</a>, lines 14 and 15, paint a background image which is loaded at startup.  Lines 7-12 and 16 set the cairo transform,
+In listing <a href="#org50a2e69">1</a>, lines 14 and 15, paint a background image which is loaded at startup.  Lines 7-12 and 16 set the cairo transform,
 which, must be transposed from what one would expect.  The additional elements
 <code>x0</code>, and <code>y0</code> allow for translation.  The transformed texture image is drawn on line 17.  To clip out regions
 of the transformed image which may not lie in the diamond shape, we create a path (again transformed) around
@@ -341,11 +341,11 @@ Our axis convention will be:
 </p>
 
 <p class="footpara">
-This is as it should be. See figure <a href="#org39b63b8">4</a> below.
+This is as it should be. See figure <a href="#org3cdcc3b">4</a> below.
 </p>
 
 
-<figure id="org39b63b8">
+<figure id="org3cdcc3b">
 <img src="./Gods-choosen-coordinate-system.png" alt="Gods-choosen-coordinate-system.png" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 4: </span><i>"World-space" coordinate axes in relation to "screen-space" axes.  Image created with <a href="http://draw.io">http://draw.io</a> .</i></figcaption>

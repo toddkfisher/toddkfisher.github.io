@@ -9,7 +9,7 @@
 <title>Sound Playback Identifiers: Using Bitfields, Structs and Unions Instead of Handwritten Shifting, Masking and Or-ing</title>
 <link rel=stylesheet href="./style.css">
 <script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <script type="text/javascript">
   window.MathJax = {
@@ -45,8 +45,8 @@
 <div class="post-date">26 Aug 2024</div><h1 class="post-title"><a href="./2024-08-26-bitfields-structs-and-unions-in-c.html">Sound Playback Identifiers: Using Bitfields, Structs and Unions Instead of Handwritten Shifting, Masking and Or-ing</a></h1>
 
 
-<div id="outline-container-org6c7ce57" class="outline-2">
-<h2 id="org6c7ce57"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
+<div id="outline-container-org44e2210" class="outline-2">
+<h2 id="org44e2210"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my last programming-related post <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I described how sound playback resources in
@@ -80,15 +80,15 @@ shifting, masking, and or-ing.
 </div>
 </div>
 
-<div id="outline-container-orgc0c73e6" class="outline-2">
-<h2 id="orgc0c73e6"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
+<div id="outline-container-org19f8c56" class="outline-2">
+<h2 id="org19f8c56"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 My first attempt at using bitfields:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org0a47380"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org387bf4e"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr"> 1: </span>{
 <span class="linenr"> 2: </span>  <span style="color: #000000; font-weight: bold; font-style: italic;">union</span> 
 <span class="linenr"> 3: </span>  {
@@ -110,7 +110,7 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="org90a74a2"><span class="linenr">0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="orge84415c"><span class="linenr">0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr">1: </span>{
 <span class="linenr">2: </span>  <span style="color: #000000;">int8_t</span>   <span style="color: #000000;">id_idx_or_error_flag</span> : 6;
 <span class="linenr">3: </span>  <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">id_serial_or_error_code</span> : 26;
@@ -119,13 +119,13 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </div>
 <p>
 So my compiler doesn't seem to be as smart as I'd hoped.
-I'm happy with <code>typedef</code> <a href="#org90a74a2">2</a> and I'll use that.
+I'm happy with <code>typedef</code> <a href="#orge84415c">2</a> and I'll use that.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8f5bcec" class="outline-2">
-<h2 id="org8f5bcec"><span class="section-number-2">3.</span> Warning</h2>
+<div id="outline-container-orge49dec8" class="outline-2">
+<h2 id="orge49dec8"><span class="section-number-2">3.</span> Warning</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The C standard makes no guarantees about the ordering of bitfields.  In my initial
@@ -147,12 +147,12 @@ We'll have to do some testing and see what happens when we use bitfields.
 </div>
 </div>
 
-<div id="outline-container-org116c55c" class="outline-2">
-<h2 id="org116c55c"><span class="section-number-2">4.</span> Today's Agenda</h2>
+<div id="outline-container-org0bdc7e5" class="outline-2">
+<h2 id="org0bdc7e5"><span class="section-number-2">4.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#org90a74a2">2</a>.</li>
-<li>Add definition <a href="#org90a74a2">2</a> to <code>sound.c</code>.</li>
+<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#orge84415c">2</a>.</li>
+<li>Add definition <a href="#orge84415c">2</a> to <code>sound.c</code>.</li>
 <li>Replace shift/mask/&#x2026; function calls on <code>playback_id</code> values with ordinary
 field references.</li>
 </ol>

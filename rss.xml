@@ -4,7 +4,7 @@
 <title><![CDATA[]]></title>
 <description><![CDATA[]]></description>
 <link>./</link>
-<lastBuildDate>Fri, 13 Sep 2024 18:20:11 -0700</lastBuildDate>
+<lastBuildDate>Fri, 13 Sep 2024 18:32:06 -0700</lastBuildDate>
 <item>
   <title><![CDATA[Dimetric Transformation of 2d Images]]></title>
   <description><![CDATA[
@@ -23,13 +23,13 @@ We will need to apply textures to surfaces
 in 3d isometric which is discussed here.
 </p>
 
-<div id="outline-container-org2fb15cc" class="outline-2">
-<h2 id="org2fb15cc"><span class="section-number-2">1.</span> 3d Projections</h2>
+<div id="outline-container-orgfc862f8" class="outline-2">
+<h2 id="orgfc862f8"><span class="section-number-2">1.</span> 3d Projections</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Figure <a href="#orgac1ed35">1</a> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> classifies different types of graphical
+Figure <a href="#org96c403f">1</a> <sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> classifies different types of graphical
 projections <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>.  Our game will use a dimetric projection
-where the angles between the horizontal axis have a slope of 1:2 (see figure <a href="#org733a4e4">2</a>).
+where the angles between the horizontal axis have a slope of 1:2 (see figure <a href="#org47757be">2</a>).
 This closely approximates an isometric projection where skewed lines have a slope of With a paint program a horizontal line can be drawn in 1:2 format as:
 </p>
 
@@ -45,7 +45,7 @@ as projected to the screen, and the X-axis is approximately 1159/2500 radians.
 </p>
 
 
-<figure id="orgac1ed35">
+<figure id="org96c403f">
 <img src="./projection-taxonomy.PNG" alt="projection-taxonomy.PNG" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Comparison of 3d projection types.</i></figcaption>
@@ -53,15 +53,15 @@ as projected to the screen, and the X-axis is approximately 1159/2500 radians.
 </div>
 </div>
 
-<div id="outline-container-orgf2aaa33" class="outline-2">
-<h2 id="orgf2aaa33"><span class="section-number-2">2.</span> Simple Texture-Mapping</h2>
+<div id="outline-container-org96fd40e" class="outline-2">
+<h2 id="org96fd40e"><span class="section-number-2">2.</span> Simple Texture-Mapping</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Two approches we can take are:
 </p>
 
 <ol class="org-ol">
-<li>Draw textures directly in 1:2 format.  Figure <a href="#org733a4e4">2</a> below
+<li>Draw textures directly in 1:2 format.  Figure <a href="#org47757be">2</a> below
 shows an example green outlined square with yellow fill. The surrounding
 blue is either transparent or a color key representing transparency
 (think of bluescreen used in film). The main drawback of this approch is
@@ -69,27 +69,27 @@ that freely-available 2d textures are more plentiful than 1:2 dimetric textures.
 
 <li>Another approch is to use the built-in <code>cairo_set_matrix()</code> feature of
 the <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> Cairo graphics library to <i>transform</i> two-dimensional
-textures to isometric format as in figure <a href="#org1ce43a4">3</a> <sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> below.  We will
+textures to isometric format as in figure <a href="#orge3b416f">3</a> <sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup> below.  We will
 take this approch when possible.</li>
 </ol>
 
 
-<figure id="org733a4e4">
+<figure id="org47757be">
 <img src="./iso-square.PNG" alt="iso-square.PNG" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Square drawn in 1:2 format.</i></figcaption>
 </figure>
 
 
-<figure id="org1ce43a4">
+<figure id="orge3b416f">
 <img src="./dimetric.png" alt="dimetric.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 3: </span><i>2d &rArr; 1:2 dimetric transformtion geometry.</i></figcaption>
 </figure>
 </div>
 
-<div id="outline-container-org1cf3e5b" class="outline-3">
-<h3 id="org1cf3e5b"><span class="section-number-3">2.1.</span> Transformation Matrix.</h3>
+<div id="outline-container-orgb36512d" class="outline-3">
+<h3 id="orgb36512d"><span class="section-number-3">2.1.</span> Transformation Matrix.</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 To determine the transformation matrix from flat 2d, to dimetric format we can solve
@@ -220,11 +220,11 @@ For a 1:2 dimetric projection, set \(\alpha=\) 1159.0/2500.0.
 </div>
 </div>
 
-<div id="outline-container-orge2d02e6" class="outline-2">
-<h2 id="orge2d02e6"><span class="section-number-2">3.</span> Test code.</h2>
+<div id="outline-container-org77b4cdb" class="outline-2">
+<h2 id="org77b4cdb"><span class="section-number-2">3.</span> Test code.</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>GTK 3.0 paint callback to test transform matrix.</i></label><pre class="src src-C" id="org79e8c4f"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">static</span> <span style="color: #000000;">void</span> <span style="color: #000000;">do_drawing</span>(<span style="color: #000000;">cairo_t</span> *<span style="color: #000000;">cr</span>, <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">widget</span>)
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>GTK 3.0 paint callback to test transform matrix.</i></label><pre class="src src-C" id="org50a2e69"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">static</span> <span style="color: #000000;">void</span> <span style="color: #000000;">do_drawing</span>(<span style="color: #000000;">cairo_t</span> *<span style="color: #000000;">cr</span>, <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">widget</span>)
 <span class="linenr"> 1: </span>{
 <span class="linenr"> 2: </span>  <span style="color: #000000;">GtkWidget</span> *<span style="color: #000000;">win</span> = gtk_widget_get_toplevel(widget);
 <span class="linenr"> 3: </span>  <span style="color: #000000;">int</span> <span style="color: #000000;">width</span>, <span style="color: #000000;">height</span>;
@@ -252,7 +252,7 @@ For a 1:2 dimetric projection, set \(\alpha=\) 1159.0/2500.0.
 </div>
 
 <p>
-In listing <a href="#org79e8c4f">1</a>, lines 14 and 15, paint a background image which is loaded at startup.  Lines 7-12 and 16 set the cairo transform,
+In listing <a href="#org50a2e69">1</a>, lines 14 and 15, paint a background image which is loaded at startup.  Lines 7-12 and 16 set the cairo transform,
 which, must be transposed from what one would expect.  The additional elements
 <code>x0</code>, and <code>y0</code> allow for translation.  The transformed texture image is drawn on line 17.  To clip out regions
 of the transformed image which may not lie in the diamond shape, we create a path (again transformed) around
@@ -305,11 +305,11 @@ Our axis convention will be:
 </p>
 
 <p class="footpara">
-This is as it should be. See figure <a href="#org39b63b8">4</a> below.
+This is as it should be. See figure <a href="#org3cdcc3b">4</a> below.
 </p>
 
 
-<figure id="org39b63b8">
+<figure id="org3cdcc3b">
 <img src="./Gods-choosen-coordinate-system.png" alt="Gods-choosen-coordinate-system.png" width="30%" height="30%">
 
 <figcaption><span class="figure-number">Figure 4: </span><i>"World-space" coordinate axes in relation to "screen-space" axes.  Image created with <a href="http://draw.io">http://draw.io</a> .</i></figcaption>
@@ -341,8 +341,8 @@ Image created with <a href="http://draw.io">http://draw.io</a>
   <description><![CDATA[
 
 
-<div id="outline-container-org6c7ce57" class="outline-2">
-<h2 id="org6c7ce57"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
+<div id="outline-container-org44e2210" class="outline-2">
+<h2 id="org44e2210"><span class="section-number-2">1.</span> Motivation for Using Bitfields.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my last programming-related post <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I described how sound playback resources in
@@ -376,15 +376,15 @@ shifting, masking, and or-ing.
 </div>
 </div>
 
-<div id="outline-container-orgc0c73e6" class="outline-2">
-<h2 id="orgc0c73e6"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
+<div id="outline-container-org19f8c56" class="outline-2">
+<h2 id="org19f8c56"><span class="section-number-2">2.</span> Two Different Definitions.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 My first attempt at using bitfields:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org0a47380"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>Playback ID structure using unions and bitfields</i>.</label><pre class="src src-C" id="org387bf4e"><span class="linenr"> 0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr"> 1: </span>{
 <span class="linenr"> 2: </span>  <span style="color: #000000; font-weight: bold; font-style: italic;">union</span> 
 <span class="linenr"> 3: </span>  {
@@ -406,7 +406,7 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="org90a74a2"><span class="linenr">0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
+<label class="org-src-name"><span class="listing-number">Listing 2: </span><i>Second attempt at defining playback ID structure.</i></label><pre class="src src-C" id="orge84415c"><span class="linenr">0: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span> <span style="color: #000000; font-weight: bold; font-style: italic;">__attribute__</span>((packed))
 <span class="linenr">1: </span>{
 <span class="linenr">2: </span>  <span style="color: #000000;">int8_t</span>   <span style="color: #000000;">id_idx_or_error_flag</span> : 6;
 <span class="linenr">3: </span>  <span style="color: #000000;">uint32_t</span> <span style="color: #000000;">id_serial_or_error_code</span> : 26;
@@ -415,13 +415,13 @@ the idea for a while.  Another definition does yield <code>sizeof(playback_id_t)
 </div>
 <p>
 So my compiler doesn't seem to be as smart as I'd hoped.
-I'm happy with <code>typedef</code> <a href="#org90a74a2">2</a> and I'll use that.
+I'm happy with <code>typedef</code> <a href="#orge84415c">2</a> and I'll use that.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8f5bcec" class="outline-2">
-<h2 id="org8f5bcec"><span class="section-number-2">3.</span> Warning</h2>
+<div id="outline-container-orge49dec8" class="outline-2">
+<h2 id="orge49dec8"><span class="section-number-2">3.</span> Warning</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The C standard makes no guarantees about the ordering of bitfields.  In my initial
@@ -443,12 +443,12 @@ We'll have to do some testing and see what happens when we use bitfields.
 </div>
 </div>
 
-<div id="outline-container-org116c55c" class="outline-2">
-<h2 id="org116c55c"><span class="section-number-2">4.</span> Today's Agenda</h2>
+<div id="outline-container-org0bdc7e5" class="outline-2">
+<h2 id="org0bdc7e5"><span class="section-number-2">4.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
-<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#org90a74a2">2</a>.</li>
-<li>Add definition <a href="#org90a74a2">2</a> to <code>sound.c</code>.</li>
+<li>Fidget around and test bit ordering in <code>typedef</code> <a href="#orge84415c">2</a>.</li>
+<li>Add definition <a href="#orge84415c">2</a> to <code>sound.c</code>.</li>
 <li>Replace shift/mask/&#x2026; function calls on <code>playback_id</code> values with ordinary
 field references.</li>
 </ol>
@@ -489,8 +489,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/live/DmznJlAIwsE">https://www.youtube.com/live/DmznJlAIwsE</a>
 </p>
 
-<div id="outline-container-org8780c54" class="outline-2">
-<h2 id="org8780c54"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
+<div id="outline-container-org26b4599" class="outline-2">
+<h2 id="org26b4599"><span class="section-number-2">1.</span> The Source Code for These Streams Should be Available on Github.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I believe that it's time to put the source code for my game project up on a Github repo.
@@ -505,8 +505,8 @@ This should include instructions on how to build and run.  At a minimum, you wil
 </div>
 </div>
 
-<div id="outline-container-org4462e39" class="outline-2">
-<h2 id="org4462e39"><span class="section-number-2">2.</span> Two Major Categories of Licenses.</h2>
+<div id="outline-container-orga8d95bd" class="outline-2">
+<h2 id="orga8d95bd"><span class="section-number-2">2.</span> Two Major Categories of Licenses.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 Unfortunately I must release the code under some sort of open source license.
@@ -555,8 +555,8 @@ I'm going to select a copyleft license.
 </div>
 </div>
 
-<div id="outline-container-org4f18caf" class="outline-2">
-<h2 id="org4f18caf"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
+<div id="outline-container-org4e4d5c7" class="outline-2">
+<h2 id="org4e4d5c7"><span class="section-number-2">3.</span> How Many Licenses Are Out There?</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Wikipedia's <i>Comparison of free and open-source software licenses</i> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>
@@ -565,8 +565,8 @@ has a 41 row table comparison.
 </div>
 </div>
 
-<div id="outline-container-org26c99b3" class="outline-2">
-<h2 id="org26c99b3"><span class="section-number-2">4.</span> What I Want From a License.</h2>
+<div id="outline-container-org74c5f05" class="outline-2">
+<h2 id="org74c5f05"><span class="section-number-2">4.</span> What I Want From a License.</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 It is very unlikely that anyone will "steal" the code for this tiny
@@ -588,8 +588,8 @@ be available in source form.</li>
 </div>
 </div>
 
-<div id="outline-container-orgc467272" class="outline-2">
-<h2 id="orgc467272"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
+<div id="outline-container-org86d454d" class="outline-2">
+<h2 id="org86d454d"><span class="section-number-2">5.</span> How Do the Major FOSS Licenses Stack Up?</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Github has a website <sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup> which compares eight popular FOSS licenses.  None of these
@@ -686,8 +686,8 @@ LGPLv3 allows close-source software to include your work as long as:
 </div>
 </div>
 
-<div id="outline-container-org2d1cf5a" class="outline-2">
-<h2 id="org2d1cf5a"><span class="section-number-2">6.</span> Conclusion</h2>
+<div id="outline-container-org23f5c54" class="outline-2">
+<h2 id="org23f5c54"><span class="section-number-2">6.</span> Conclusion</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Any project that uses an AGPLv3 or GPLv3 licensed source-code is bound to the same terms.
@@ -747,8 +747,8 @@ Github: <a href="https://choosealicense.com/">Choose an open source license</a> 
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-org4b71f8b" class="outline-2">
-<h2 id="org4b71f8b"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
+<div id="outline-container-org0b934c7" class="outline-2">
+<h2 id="org0b934c7"><span class="section-number-2">1.</span> Playback Serial Numbers.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 In my first draft of <code>sound.c</code>, a typical use might be:
@@ -788,18 +788,18 @@ client attempts to stop playback with a serial number that has "expired".
 </div>
 </div>
 
-<div id="outline-container-org36c8a35" class="outline-2">
-<h2 id="org36c8a35"><span class="section-number-2">2.</span> Playback ID format.</h2>
+<div id="outline-container-org4e2418f" class="outline-2">
+<h2 id="org4e2418f"><span class="section-number-2">2.</span> Playback ID format.</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-Figure <a href="#orgd223738">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
+Figure <a href="#org7bc6a6f">1</a> <sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> below shows how the <code>serial_number</code> and <code>resource_index</code> bits are
 smashed together into a single <code>uint32_t</code>  Note that serial numbers are 26 bits
 wide and "wrap around" after approximately 67.1 million plays - an acceptable number
 (for me at least) <sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
 </p>
 
 
-<figure id="orgd223738">
+<figure id="org7bc6a6f">
 <img src="./playback-id-bit-layout.png" alt="playback-id-bit-layout.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Playback ID bit layout.</i></figcaption>
@@ -808,11 +808,11 @@ wide and "wrap around" after approximately 67.1 million plays - an acceptable nu
 <p>
 Since we must also signal error conditions to a caller and since we're returning a single
 <code>uint32_t</code>, some range of possible values must represent an error condition.  See figure
-<a href="#orga2e1055">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
+<a href="#orgc5d65e4">2</a> <sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> <sup>, </sup><sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>.
 </p>
 
 
-<figure id="orga2e1055">
+<figure id="orgc5d65e4">
 <img src="./bit-layout-error.png" alt="bit-layout-error.png" width="65%">
 
 <figcaption><span class="figure-number">Figure 2: </span><i>Bit layout for error condition.</i></figcaption>
@@ -820,11 +820,11 @@ Since we must also signal error conditions to a caller and since we're returning
 
 
 <p>
-As it stands today, listing <a href="#org56e8343">1</a> is the <code>struct</code> I'm using for Miniaudio resource management:
+As it stands today, listing <a href="#org8cbf343">1</a> is the <code>struct</code> I'm using for Miniaudio resource management:
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org56e8343"><span class="linenr"> 0: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Member prefix "s_" == "sound"</span>
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><i>C struct for Miniaudio resource management.</i></label><pre class="src src-C" id="org8cbf343"><span class="linenr"> 0: </span><span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Member prefix "s_" == "sound"</span>
 <span class="linenr"> 1: </span><span style="color: #000000; font-weight: bold; font-style: italic;">typedef</span> <span style="color: #000000; font-weight: bold; font-style: italic;">struct</span>
 <span class="linenr"> 2: </span>{
 <span class="linenr"> 3: </span>  <span style="color: #7a7a7a; font-style: italic;">// </span><span style="color: #7a7a7a; font-style: italic;">Miniaudio resource.  Created/destroyed each time a sound is played/stopped.</span>
@@ -865,8 +865,8 @@ As it stands today, listing <a href="#org56e8343">1</a> is the <code>struct</cod
 </div>
 </div>
 
-<div id="outline-container-org2c2ef86" class="outline-2">
-<h2 id="org2c2ef86"><span class="section-number-2">3.</span> Today's Agenda</h2>
+<div id="outline-container-orgb50e703" class="outline-2">
+<h2 id="orgb50e703"><span class="section-number-2">3.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>The code to create/extract (<code>serial_number</code>, <code>resource_index</code>) pairs from <code>uint32_t</code>'s has been written
@@ -953,8 +953,8 @@ As opposed to:
 <a href="https://www.youtube.com/watch?v=L-ri_PFpmcA">https://www.youtube.com/watch?v=L-ri_PFpmcA</a>
 </p>
 
-<div id="outline-container-orgd078705" class="outline-2">
-<h2 id="orgd078705"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org1ac9cd6" class="outline-2">
+<h2 id="org1ac9cd6"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The wrapper code for Miniaudio <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> low-level playback has been added to
@@ -965,8 +965,8 @@ and error-cleanup code as described below.
 </div>
 </div>
 
-<div id="outline-container-org6f5e9ee" class="outline-2">
-<h2 id="org6f5e9ee"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
+<div id="outline-container-org94f2274" class="outline-2">
+<h2 id="org94f2274"><span class="section-number-2">2.</span> Error-Handling and Cleanup</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I'm going to call this a "crabs in a bucket" strategy: "If I couldn't do something
@@ -992,8 +992,8 @@ appropriate.
 </p>
 </div>
 </div>
-<div id="outline-container-org4fd4087" class="outline-2">
-<h2 id="org4fd4087"><span class="section-number-2">3.</span> Error Cleanup</h2>
+<div id="outline-container-org4141473" class="outline-2">
+<h2 id="org4141473"><span class="section-number-2">3.</span> Error Cleanup</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The destructor function in <code>sound.c</code> :
@@ -1103,8 +1103,8 @@ See <a href="https://miniaud.io/">https://miniaud.io/</a>
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org49903ed" class="outline-2">
-<h2 id="org49903ed"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org08727f0" class="outline-2">
+<h2 id="org08727f0"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -1120,8 +1120,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org69a78a1" class="outline-2">
-<h2 id="org69a78a1"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-orgb5e5db0" class="outline-2">
+<h2 id="orgb5e5db0"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -1129,7 +1129,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="orgff326d0">
+<figure id="org55016e0">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
@@ -1195,8 +1195,8 @@ when run through <code>cffi-gen.lisp</code>.
 sound files residing in memory.
 </p>
 
-<div id="outline-container-org2cce556" class="outline-2">
-<h2 id="org2cce556"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
+<div id="outline-container-org7c1b946" class="outline-2">
+<h2 id="org7c1b946"><span class="section-number-2">1.</span> SOUND PLAYBACK AND RESOURCE MANAGEMENT.</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 <code>Miniaudio</code> has a simple way of playing a sound file:
@@ -1296,8 +1296,8 @@ All of this functionality will eventually be used in LISP through <code>CFFI</co
 </div>
 </div>
 
-<div id="outline-container-org7ac2308" class="outline-2">
-<h2 id="org7ac2308"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
+<div id="outline-container-org8697938" class="outline-2">
+<h2 id="org8697938"><span class="section-number-2">2.</span> REGION-BASED MEMORY MANAGEMENT</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We would prefer that our LISP code not call <code>malloc()</code> and <code>free()</code>.  It is expected that
@@ -1312,8 +1312,8 @@ to <code>p</code> and so everything allocated after <code>p</code> is released a
 </div>
 </div>
 
-<div id="outline-container-org865cf9a" class="outline-2">
-<h2 id="org865cf9a"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
+<div id="outline-container-orgbcc54bc" class="outline-2">
+<h2 id="orgbcc54bc"><span class="section-number-2">3.</span> PLAYING SOUNDS PRELOADED IN MEMORY</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 So far all of the code for sound playback lives in a test program, <code>simple-playback.c</code>.
@@ -1353,8 +1353,8 @@ Calling <code>ma_device_uninit()</code> and <code>ma_decoder_uninit()</code> wil
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-orgcaa083a" class="outline-2">
-<h2 id="orgcaa083a"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-org0d6ca9d" class="outline-2">
+<h2 id="org0d6ca9d"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -1369,11 +1369,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-orgbf5b635" class="outline-2">
-<h2 id="orgbf5b635"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-orgb6596c7" class="outline-2">
+<h2 id="orgb6596c7"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orga9b8bc3">
+<figure id="org25f8fee">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -1381,8 +1381,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org2cdc36d" class="outline-2">
-<h2 id="org2cdc36d"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-orgbefa10b" class="outline-2">
+<h2 id="orgbefa10b"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.
