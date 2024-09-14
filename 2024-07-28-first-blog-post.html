@@ -7,13 +7,40 @@
       href="./rss.xml"
       title="RSS feed for ./">
 <title>First Blog Post</title>
-<link rel="stylesheet" href="./style.css"/></head>
+<link rel=stylesheet href="./style.css">
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/javascript">
+  window.MathJax = {
+      loader: {
+          load: ['[tex]/boldsymbol']
+      },
+      tex: {
+          tags: 'ams',
+          {packages: {'[+]': ['boldsymbol']}}
+      }
+  };
+</script>
+                                                   
+</head>
 <body>
-<div id="preamble" class="status"><img src="blogheader.png">
-<h1><i>Notes to accompany livestreams.</i></h1>
+<div id="preamble" class="status"><br>
+<pre style="font-size: 40px; font-style: italic; color: Grey">
+;; Creating a game in Common Lisp & C.
+;; (notes to accompany livestreams)
+</pre>
+<pre style="font-size: 40px; font-weight: bold; color: RebeccaPurple">
+(create
+  :type 'game 
+  :languages '("Common Lisp" "C")
+</pre>
+<figure>
+<img src="blog-header.jpg" width="25%"><br><br><br>
+<figcaption><i>Actual game may differ in appearance.</i></figcaption>
+</figure>
 <hr>
-<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script></div>
+</div>
 <div id="content">
 <div class="post-date">28 Jul 2024</div><h1 class="post-title"><a href="./2024-07-28-first-blog-post.html">First Blog Post</a></h1>
 <p>
@@ -21,8 +48,8 @@
 will have a companion blog post here.
 </p>
 
-<div id="outline-container-org676f24e" class="outline-2">
-<h2 id="org676f24e"><span class="section-number-2">1.</span> THE PROJECT</h2>
+<div id="outline-container-orgcaa083a" class="outline-2">
+<h2 id="orgcaa083a"><span class="section-number-2">1.</span> THE PROJECT</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I'm writing a game in Common Lisp and C (using CFFI).
@@ -37,11 +64,11 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org8c1e235" class="outline-2">
-<h2 id="org8c1e235"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
+<div id="outline-container-orgbf5b635" class="outline-2">
+<h2 id="orgbf5b635"><span class="section-number-2">2.</span> MODULE (OR PACKAGE) DEPENDENCIES.</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orgb97010c">
+<figure id="orga9b8bc3">
 <img src="modules.jpg" alt="modules.jpg">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>This diagram shows the approximate structure of the program.</i></figcaption>
@@ -49,8 +76,8 @@ So far I have:
 </div>
 </div>
 
-<div id="outline-container-org673e2ce" class="outline-2">
-<h2 id="org673e2ce"><span class="section-number-2">3.</span> SOURCE CODE</h2>
+<div id="outline-container-org2cdc36d" class="outline-2">
+<h2 id="org2cdc36d"><span class="section-number-2">3.</span> SOURCE CODE</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Github repository forthcoming.

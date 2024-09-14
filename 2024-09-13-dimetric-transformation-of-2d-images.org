@@ -1,0 +1,235 @@
+#+title: Dimetric Transformation of 2d Images
+#+date: <2024-09-13 15:18>
+#+description: test description
+#+filetags: 
+
+*Project Summary and TL;DR*
+
+Our end goal is an isometric game "engine" written in Common Lisp with some C
+code where required.  The parts of the game written in Common Lisp  will use code
+written in C using CFFI [fn:cffi].
+
+We will need to apply textures to surfaces
+in 3d isometric which is discussed here.
+
+* 3d Projections
+Figure [[fig:projtypes]] [fn:cmglee] classifies different types of graphical
+projections [fn:perspective].  Our game will use a dimetric projection
+where the angles between the horizontal axis have a slope of 1:2 (see figure [[fig:isosquare]]).
+This closely approximates an isometric projection where skewed lines have a slope of With a paint program a horizontal line can be drawn in 1:2 format as:
+
+1. Two pixels along the screen X-axis.
+2. Move up or down one pixel along the screen Y-axis.
+3. Repeat at step 1.
+
+In 0.5 slope format, the angle [fn:angles] between a line which lies along the Y-axis [fn:axes],
+as projected to the screen, and the X-axis is approximately 1159/2500 radians.
+
+#+caption: /Comparison of 3d projection types./
+#+name: fig:projtypes
+#+attr_html: :width 30% :height 30%
+[[./projection-taxonomy.PNG]]
+
+* Simple Texture-Mapping
+Two approches we can take are:
+
+  1. Draw textures directly in 1:2 format.  Figure [[fig:isosquare]] below
+     shows an example green outlined square with yellow fill. The surrounding
+     blue is either transparent or a color key representing transparency
+     (think of bluescreen used in film). The main drawback of this approch is
+     that freely-available 2d textures are more plentiful than 1:2 dimetric textures.
+
+  2. Another approch is to use the built-in ~cairo_set_matrix()~ feature of
+     the [fn:cairo] Cairo graphics library to /transform/ two-dimensional
+     textures to isometric format as in figure [[fig:dmgeom]] [fn:drawio] below.  We will
+     take this approch when possible.
+     
+#+CAPTION: /Square drawn in 1:2 format./
+#+name: fig:isosquare
+#+attr_html: :width 30% :height 30%
+[[./iso-square.PNG]]
+
+#+caption: /2d \Rightarrow 1:2 dimetric transformtion geometry./
+#+name: fig:dmgeom
+#+attr_html: :width 65%
+[[./dimetric.png]]
+
+** Transformation Matrix.
+  To determine the transformation matrix from flat 2d, to dimetric format we can solve
+  the two matrix equations (5) and (6) below.  Assume that $P, Q, R, S$ is a square with
+  sides of length 1. Also, let $C = cos(\alpha)$ and $S = sin(\alpha)$.
+
+  Taking point $\boldsymbol{P}$ as $(0, 0)$:
+  
+\begin{equation}
+  \boldsymbol{P}: (0, 0) \Rightarrow (0,0) \tag{1}
+\end{equation}
+
+  and
+  
+\begin{equation}
+  \boldsymbol{Q}: (1, 0) \Rightarrow (C, -S) \tag{2}
+\end{equation}
+
+\begin{equation}
+  \boldsymbol{R}: (1, 1) \Rightarrow (2C, 0) \tag{3}
+\end{equation}
+
+\begin{equation}
+  \boldsymbol{S}: (0, 1) \Rightarrow (C, S) \tag{4}
+\end{equation}
+
+  Let our unknowns be $I$, $J$, $K$, and $M$.
+  Applying our unknown matrix to point $\boldsymbol{Q}$ from (2):
+  
+\begin{equation}
+  \begin{bmatrix}
+  I & J \\
+  K & M 
+  \end{bmatrix}
+  \begin{bmatrix}
+  1 \\
+  0 
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      C \\
+      -S
+  \end{bmatrix} 
+  \Rightarrow
+  \begin{array}{l}
+  I = C \\
+  K = -S
+  \end{array}
+  \tag{5}
+\end{equation}
+
+ and applying the matrix to point $\boldsymbol{R}$ from (2):
+
+\begin{equation}
+  \begin{bmatrix}
+  C  & J \\
+  -S & M 
+  \end{bmatrix}
+  \begin{bmatrix}
+  1 \\
+  1 
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      2C \\
+      0
+  \end{bmatrix} 
+  \Rightarrow
+  \begin{array}{l}
+  C+J=2C \\
+  -S+M=0
+  \end{array}
+  \Rightarrow
+  \begin{array}{l}
+  J=C \\
+  M=S
+  \end{array}
+  \tag{6}
+\end{equation}
+
+which gives $I=J=cos(\alpha)$, $K=-sin(\alpha)$, and $M=sin(\alpha)$.
+
+As a check we can apply the transform to point $\boldsymbol{S}$ from (4).
+
+\begin{equation}
+  \begin{bmatrix}
+  C  & C \\
+  -S & S 
+  \end{bmatrix}
+  \begin{bmatrix}
+  0 \\
+  1 
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+      C \\
+      S
+  \end{bmatrix} 
+  \Rightarrow
+  \begin{array}{l}
+  0C+C=C \\
+  0(-S)+S = S
+  \end{array}
+  \tag{7}
+\end{equation}
+
+And it checks out.
+
+For a 1:2 dimetric projection, set $\alpha=$ 1159.0/2500.0.
+
+* Test code.
+
+#+caption: /GTK 3.0 paint callback to test transform matrix./
+#+name: lst:do_drawing
+#+begin_src C -n 0
+static void do_drawing(cairo_t *cr, GtkWidget *widget)
+{
+  GtkWidget *win = gtk_widget_get_toplevel(widget);
+  int width, height;
+  double alpha = atan(0.5);
+  double C = cos(alpha);
+  double S = sin(alpha);
+  cairo_matrix_t M =
+  {
+    .xx = C,   .yx = -S,
+    .xy = C,   .yy =  S,
+    .x0 = pos_x, .y0 = pos_y
+  };
+  gtk_window_get_size(GTK_WINDOW(win), &width, &height);
+  cairo_set_source_surface(cr, background_image, 0, 0);
+  cairo_paint(cr);
+  cairo_set_matrix(cr, &M);
+  cairo_set_source_surface(cr, glob.image, 0, 0);
+  int w = cairo_image_surface_get_width(image);
+  int h = cairo_image_surface_get_height(image);
+  cairo_rectangle(cr, 0, 0, w, h);
+  cairo_clip(cr);
+  cairo_paint(cr);
+}
+#+end_src
+
+In listing [[lst:do_drawing]], lines 14 and 15, paint a background image which is loaded at startup.  Lines 7-12 and 16 set the cairo transform,
+which, must be transposed from what one would expect.  The additional elements
+~x0~, and ~y0~ allow for translation.  The transformed texture image is drawn on line 17.  To clip out regions
+of the transformed image which may not lie in the diamond shape, we create a path (again transformed) around
+the the diamond-shaped texture and clip anything exterior to it.
+
+[fn:cffi] https://cffi.common-lisp.dev/
+
+[fn:perspective] One, two, and three point persepectives apply when:
+                 1. Displaying three orthogonal surfaces each with sets of parallel edges
+                    intersecting at $\pi/2$ angles.
+                 2. Each plane is orthogonal to the others.
+    
+                In general though, an infinite number of vanishing points are possible.
+
+[fn:angles] Angular units of measure are /RADIANS/ here.  Degree, minutes, seconds or decimal degrees are
+            a relic from the Bablylonian era and have no place in the modern world.
+
+[fn:axes] Our axis convention will be:
+          1. X-axis direction, $\boldsymbol{\hat{e}_x}$, is horizontal and positive to the right with respect to the viewer.
+          2. Z-axis direction, $\boldsymbol{\hat{e}_z}$, is vertical and positive /UP/ with respect to the viewer.
+          3. Y-axis direction is $\boldsymbol{\hat{e}_y} = \boldsymbol{\hat{e}_z} \times  \boldsymbol{\hat{e}_x}$ or
+             $\boldsymbol{\hat{e}_z} = \boldsymbol{\hat{e}_x} \times  \boldsymbol{\hat{e}_y}$
+
+         (Note $\boldsymbol{\hat{e}}$ means "unit vector")
+
+         This is as it should be. See figure [[fig:coord-axes]] below.
+
+#+CAPTION: /"World-space" coordinate axes in relation to "screen-space" axes.  Image created with http://draw.io ./
+#+name: fig:coord-axes
+#+attr_html: :width 30% :height 30%
+[[./Gods-choosen-coordinate-system.png]]
+
+[fn:cmglee] By Cmglee, Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=83384053
+
+[fn:cairo] All of our graphics are drawn using Gtk 3.0 (https://www.gtk.org)and Cairo graphics (https://www.cairographics.org).
+           An xlib (https://en.wikipedia.org/wiki/Xlib) version is forthcoming.
+
+[fn:drawio] Image created with [[http://draw.io]]

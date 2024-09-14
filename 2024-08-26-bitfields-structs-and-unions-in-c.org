@@ -4,6 +4,7 @@
 #+description: 
 #+filetags: bitfields, structs, unions, Clang
 
+
 * Motivation for Using Bitfields.
   In my last programming-related post [fn:tighteningup], I described how sound playback resources in
   Miniaudio [fn:ma] are referenced with a single ~uint32_t~:

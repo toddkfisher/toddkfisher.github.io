@@ -7,13 +7,40 @@
       href="./rss.xml"
       title="RSS feed for ./">
 <title>Testing Sound Playback</title>
-<link rel="stylesheet" href="./style.css"/></head>
+<link rel=stylesheet href="./style.css">
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/javascript">
+  window.MathJax = {
+      loader: {
+          load: ['[tex]/boldsymbol']
+      },
+      tex: {
+          tags: 'ams',
+          {packages: {'[+]': ['boldsymbol']}}
+      }
+  };
+</script>
+                                                   
+</head>
 <body>
-<div id="preamble" class="status"><img src="blogheader.png">
-<h1><i>Notes to accompany livestreams.</i></h1>
+<div id="preamble" class="status"><br>
+<pre style="font-size: 40px; font-style: italic; color: Grey">
+;; Creating a game in Common Lisp & C.
+;; (notes to accompany livestreams)
+</pre>
+<pre style="font-size: 40px; font-weight: bold; color: RebeccaPurple">
+(create
+  :type 'game 
+  :languages '("Common Lisp" "C")
+</pre>
+<figure>
+<img src="blog-header.jpg" width="25%"><br><br><br>
+<figcaption><i>Actual game may differ in appearance.</i></figcaption>
+</figure>
 <hr>
-<script type="text/javascript" id="MathJax-script" async  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script></div>
+</div>
 <div id="content">
 <div class="post-date">30 Jul 2024</div><h1 class="post-title"><a href="./2024-07-30-testing-sound-playback.html">Testing Sound Playback</a></h1>
 <p>
@@ -28,8 +55,8 @@
 <a href="https://www.youtube.com/watch?v=8zS1ABTCTmos">https://www.youtube.com/watch?v=8zS1ABTCTmos</a>
 </p>
 
-<div id="outline-container-org4138a37" class="outline-2">
-<h2 id="org4138a37"><span class="section-number-2">1.</span> Today's Agenda</h2>
+<div id="outline-container-org49903ed" class="outline-2">
+<h2 id="org49903ed"><span class="section-number-2">1.</span> Today's Agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I  have  a  small  test   program,  <code>simple-playback.c</code>,  which  uses  Miniaudio
@@ -45,8 +72,8 @@ Lisp REPL.
 </div>
 </div>
 
-<div id="outline-container-org64294a9" class="outline-2">
-<h2 id="org64294a9"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
+<div id="outline-container-org69a78a1" class="outline-2">
+<h2 id="org69a78a1"><span class="section-number-2">2.</span> Exporting C Functions to Lisp</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 A note about what  I mean by "exporting functions to Lisp/CFFI".   I have a Lisp
@@ -54,7 +81,7 @@ program <code>cffi-gen.lisp</code> which parses a limited form of C function dec
 </p>
 
 
-<figure id="org267fe24">
+<figure id="orgff326d0">
 <img src="./CFFI-line-syntax.PNG" alt="CFFI-line-syntax.PNG" width="65%">
 
 <figcaption><span class="figure-number">Figure 1: </span><i>Syntax for C functions exported to Lisp/CFFI. (using: <a href="https://www.bottlecaps.de/rr/ui">https://www.bottlecaps.de/rr/ui</a>)</i></figcaption>
